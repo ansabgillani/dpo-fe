@@ -1,0 +1,13 @@
+<article class="kpi-card" [attr.data-cy]="'kpi-card-' + label.toLowerCase().replaceAll(' ', '-')">
+  <div class="header">
+    <dpo-icon [name]="iconName" [size]="16" [dataCy]="'kpi-card-icon-' + label.toLowerCase().replaceAll(' ', '-')"></dpo-icon>
+    <h3 class="label">{{ label }}</h3>
+  </div>
+
+  <p class="value">{{ value }}</p>
+
+  <div class="trend" [ngClass]="tierClass">
+    <dpo-icon [name]="trendIconName" [size]="14" [dataCy]="'kpi-card-trend-' + label.toLowerCase().replaceAll(' ', '-')"></dpo-icon>
+    <span>{{ trend.deltaPercent }}%</span>
+  </div>
+</article>

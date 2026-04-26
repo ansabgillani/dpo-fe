@@ -1,0 +1,79 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: var(--color-bg-card);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+}
+
+.avatar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.title-edit-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.name,
+.row,
+.empty {
+  margin: 0;
+}
+
+.row,
+.empty {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.psp-title,
+.psp-item {
+  margin: 0;
+}
+
+.psp {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.psp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.psp-row,
+.psp-new {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.psp-row dpo-inline-edit-field {
+  flex: 1;
+}
+
+.psp-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.psp-title {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+}

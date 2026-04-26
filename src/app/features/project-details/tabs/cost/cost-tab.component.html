@@ -1,0 +1,131 @@
+<section class="cost-tab" data-cy="cost-tab">
+  <ng-container *ngIf="loading; else costState">
+    <div data-cy="skeleton-cost">
+      <dpo-skeleton-cost></dpo-skeleton-cost>
+    </div>
+  </ng-container>
+
+  <ng-template #costState>
+    <div class="header" [class.header-project]="breakdownMode === 'project'" [class.header-product]="breakdownMode === 'product'">
+      <div class="header-top">
+        <div data-cy="kpi-card-project-cost">
+          <dpo-kpi-card
+            [label]="topCostCardTitle"
+            [value]="topCostLabel"
+            [trend]="topCostTrend"
+            iconName="clock"
+          ></dpo-kpi-card>
+        </div>
+
+        <div class="mode-filter" data-cy="cost-breakdown-mode-select">
+          <span class="mode-filter-label">View Mode</span>
+          <dpo-select
+            [options]="breakdownModeOptions"
+            [value]="breakdownMode"
+            (valueChange)="onBreakdownModeChange($event)"
+          ></dpo-select>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="content" [class.content-product]="breakdownMode === 'product'" *ngIf="costData as data">
+      <ng-container *ngIf="breakdownMode === 'project'; else productModeState">
+        <section class="project-context" data-cy="cost-project-context">
+          <div class="project-context-left">
+            <nav class="sub-nav" data-cy="cost-sub-nav">
+              <div data-cy="cost-sub-nav-overview" (click)="onSubViewChange('overview')">
+                <dpo-button
+                  [variant]="activeSubView === 'overview' ? 'nav-active' : 'nav-item'"
+                >Overview</dpo-button>
+              </div>
+              <div data-cy="cost-sub-nav-monthly" (click)="onSubViewChange('monthly')">
+                <dpo-button
+                  [variant]="activeSubView === 'monthly' ? 'nav-active' : 'nav-item'"
+                >Monthly</dpo-button>
+              </div>
+              <div data-cy="cost-sub-nav-breakdown" (click)="onSubViewChange('breakdown')">
+                <dpo-button
+                  [variant]="activeSubView === 'breakdown' ? 'nav-active' : 'nav-item'"
+                >Breakdown</dpo-button>
+              </div>
+            </nav>
+
+            <div class="period project-period" data-cy="cost-reporting-period">
+              <strong>{{ reportingPeriod }}</strong>
+              <span>Latest Reporting Period</span>
+            </div>
+          </div>
+
+          <div class="project-filters" data-cy="cost-project-filters">
+            <div data-cy="cost-filter-fy">
+              <dpo-select
+                [options]="fyOptions"
+                [value]="fyFilter"
+                variant="filled"
+                (valueChange)="onFyFilterChange($event)"
+              ></dpo-select>
+            </div>
+            <div data-cy="cost-filter-psp-project">
+              <dpo-select
+                [options]="pspProjectOptions"
+                [value]="pspProjectFilter"
+                variant="filled"
+                (valueChange)="onPspProjectFilterChange($event)"
+              ></dpo-select>
+            </div>
+          </div>
+        </section>
+
+        <section class="overview" data-cy="cost-overview" *ngIf="activeSubView === 'overview'">
+          <div class="overview-cards">
+            <dpo-cost-overview-card title="Actuals" [section]="data.overview.actuals"></dpo-cost-overview-card>
+            <dpo-cost-overview-card title="Budget" [section]="data.overview.budget"></dpo-cost-overview-card>
+            <dpo-cost-overview-card title="Forecasts" [section]="data.overview.forecasts"></dpo-cost-overview-card>
+            <dpo-cost-overview-card title="FC+Actuals" [section]="data.overview.forecastsPlusActuals"></dpo-cost-overview-card>
+          </div>
+
+          <dpo-cost-bar-chart [groups]="data.overview.barChart.groups" [datasets]="data.overview.barChart.datasets"></dpo-cost-bar-chart>
+        </section>
+
+        <section data-cy="cost-monthly-view" *ngIf="activeSubView === 'monthly'">
+          <dpo-cost-table
+            [rows]="monthlyRows"
+            [dataType]="monthlyDataType"
+            (dataTypeChange)="onMonthlyDataTypeChange($event)"
+          ></dpo-cost-table>
+        </section>
+
+        <section class="breakdown-project" data-cy="cost-breakdown-project" *ngIf="activeSubView === 'breakdown'">
+          <dpo-budget-chart [datasets]="breakdownLineDatasets"></dpo-budget-chart>
+          <dpo-cost-detail-table [rows]="data.breakdown.periodDetail"></dpo-cost-detail-table>
+        </section>
+      </ng-container>
+
+      <ng-template #productModeState>
+        <section class="breakdown product-mode" data-cy="cost-breakdown-product-mode">
+          <header class="product-mode-header" data-cy="cost-breakdown-product-summary">
+            <h3 class="product-mode-title">Product Cost Breakdown</h3>
+            <span class="product-mode-count">{{ productRows.length }} Products</span>
+          </header>
+
+          <header class="breakdown-list-head" data-cy="cost-breakdown-product-head">
+            <span class="head-name">Product</span>
+            <span class="head-cell">Target</span>
+            <span class="head-cell">Actual</span>
+            <span class="head-cell">Calculation Date</span>
+            <span class="head-cell">Trend</span>
+          </header>
+
+          <div class="breakdown-rows" data-cy="cost-breakdown-product">
+            <dpo-cost-breakdown-row
+              *ngFor="let product of productRows"
+              [product]="product"
+              (saveChange)="onBreakdownRowSave($event)"
+            ></dpo-cost-breakdown-row>
+          </div>
+        </section>
+      </ng-template>
+    </div>
+  </ng-template>
+</section>

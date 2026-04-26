@@ -1,0 +1,10 @@
+<nav class="tab-nav" data-cy="tab-nav">
+  <div *ngFor="let tab of tabs; let i = index" class="tab-row" [class.active]="i === activeTabIndex">
+    <dpo-button
+      [label]="tab"
+      [variant]="i === activeTabIndex ? 'nav-active' : 'nav-item'"
+      [dataCy]="'tab-nav-' + tab.toLowerCase()"
+      (clicked)="onSelect(i)"
+    ></dpo-button>
+  </div>
+</nav>

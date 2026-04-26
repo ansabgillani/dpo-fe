@@ -1,0 +1,77 @@
+:root {
+  --color-primary-teal: #00A0AF;
+  --color-primary-orange: #E87722;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B6B6B;
+  --color-bg-page: #F0F0F0;
+  --color-bg-card: #FFFFFF;
+  --color-bg-input: #F0F0F0;
+  --color-border: #E0E0E0;
+  --color-success-green: #00B050;
+  --color-warning-yellow: #F5A623;
+  --color-danger-red: #CC0000;
+  --color-selected-blue: #0070C0;
+  --color-risk-high: #CC0000;
+  --color-risk-medium-high: #FF4444;
+  --color-risk-orange: #FFA500;
+  --color-risk-yellow: #FFD700;
+  --color-risk-block: #D0D0D0;
+  --color-row-tint: rgba(204, 0, 0, 0.04);
+  --color-table-header-bg: #F5F5F5;
+  --color-skeleton-base: #E0E0E0;
+  --color-skeleton-highlight: #F5F5F5;
+
+  --font-family: "Segoe UI", Arial, sans-serif;
+  --font-size-xs: 10px;
+  --font-size-sm: 11px;
+  --font-size-base: 12px;
+  --font-size-md: 13px;
+  --font-size-lg: 15px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 28px;
+  --font-size-hero-title: 36px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+
+  --size-logo-width: 220px;
+  --size-logo-height: 52px;
+  --size-control-height: 36px;
+  --size-avatar-sm: 24px;
+  --size-avatar-md: 40px;
+  --size-avatar-lg: 72px;
+  --size-avatar-xl: 88px;
+  --size-skeleton-name-width: 180px;
+  --size-skeleton-line-height: 14px;
+  --size-meta-key-width: 110px;
+  --size-list-max-height: 100%;
+  --size-milestone-date-col-width: 260px;
+  --size-milestone-trend-col-width: 92px;
+
+  --layout-left-width: 23%;
+  --layout-center-width: 1fr;
+  --layout-right-width: 23%;
+  --layout-panel-min-height: calc(100vh - 250px);
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-pill: 20px;
+
+  --border-width-thin: 1px;
+  --modal-max-width: 480px;
+  --modal-fluid-width: 90vw;
+
+  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  --anim-skeleton: 1.5s;
+  --anim-fade-in: 150ms;
+  --anim-modal-in: 200ms;
+  --viewport-min-width: 1280px;
+}

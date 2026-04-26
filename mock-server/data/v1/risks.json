@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "project": 1,
+    "project_title": "Imaging Platform Modernization",
+    "title": "Resource bottleneck",
+    "type": "resource",
+    "state": "open",
+    "probability": "high",
+    "severity": "critical",
+    "loss_valuation": "120000.00",
+    "description": "Staffing constraints may delay delivery.",
+    "action": "Backfill contract roles.",
+    "action_state": "in-progress",
+    "due_date": "2025-06-01",
+    "severity_after_action": null,
+    "probability_after_action": null,
+    "loss_after_action": "80000.00",
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "project": 1,
+    "project_title": "Imaging Platform Modernization",
+    "title": "Vendor delay",
+    "type": "schedule",
+    "state": "in-progress",
+    "probability": "medium",
+    "severity": "high",
+    "loss_valuation": "90000.00",
+    "description": "Supplier delivery may slip.",
+    "action": "Confirm alternate vendors.",
+    "action_state": "mitigated",
+    "due_date": "2025-07-15",
+    "severity_after_action": null,
+    "probability_after_action": null,
+    "loss_after_action": "60000.00",
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  }
+]

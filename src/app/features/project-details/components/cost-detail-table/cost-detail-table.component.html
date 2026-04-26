@@ -1,0 +1,26 @@
+<table class="table" data-cy="cost-detail-table">
+  <thead>
+    <tr>
+      <th>PERIOD</th>
+      <th>GROSS</th>
+      <th>CHARGING TO INTERNAL</th>
+      <th>CT COSTS</th>
+      <th>EXTERNAL MATERIAL</th>
+      <th>INTERNAL MATERIAL</th>
+      <th>CHARGING TO BL</th>
+      <th>NET</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of rows" [attr.data-cy]="'cost-detail-row-' + row.period.toLowerCase()">
+      <td>{{ row.period }}</td>
+      <td>{{ row.gross }}k€</td>
+      <td>{{ row.chargingToInternal }}k€</td>
+      <td>{{ row.ctCosts }}k€</td>
+      <td>{{ row.externalMaterial }}k€</td>
+      <td>{{ row.internalMaterial }}k€</td>
+      <td>{{ row.chargingToBL }}k€</td>
+      <td>{{ row.net }}k€</td>
+    </tr>
+  </tbody>
+</table>

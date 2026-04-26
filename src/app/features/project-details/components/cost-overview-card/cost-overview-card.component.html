@@ -1,0 +1,16 @@
+<article class="card" [attr.data-cy]="'cost-overview-card-' + dataCyId">
+  <h4 class="title">{{ title }}</h4>
+
+  <div class="row">
+    <span>Gross</span>
+    <strong>{{ toKiloEuro(section.gross) }}</strong>
+  </div>
+  <div class="row">
+    <span>Charging to BL</span>
+    <strong>{{ toKiloEuro(section.chargingToBL) }}</strong>
+  </div>
+  <div class="row">
+    <span>NET</span>
+    <strong>{{ toKiloEuro(section.net) }}</strong>
+  </div>
+</article>

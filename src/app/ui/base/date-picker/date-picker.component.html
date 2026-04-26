@@ -1,0 +1,9 @@
+<label class="date-picker" [attr.data-cy]="dataCy">
+	<input
+		type="date"
+		[value]="value"
+		[disabled]="disabled"
+		(change)="onChange($event)"
+	/>
+	<dpo-icon name="calendar" [size]="14" dataCy="date-picker-icon"></dpo-icon>
+</label>

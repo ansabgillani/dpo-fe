@@ -1,0 +1,19 @@
+<section class="list" data-cy="project-list">
+  <ng-container *ngIf="loading">
+    <dpo-skeleton-card *ngFor="let item of [1, 2, 3, 4, 5]"></dpo-skeleton-card>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && projects.length > 0">
+    <dpo-project-card
+      *ngFor="let project of projects"
+      [project]="project"
+      [selected]="selectedProjectId === project.id"
+      (select)="onSelectProject($event)"
+      (open)="onOpenProject($event)"
+    ></dpo-project-card>
+  </ng-container>
+
+  <p *ngIf="!loading && projects.length === 0" class="empty" data-cy="project-list-empty">
+    No projects found.
+  </p>
+</section>

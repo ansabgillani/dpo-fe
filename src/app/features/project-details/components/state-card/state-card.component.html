@@ -1,0 +1,42 @@
+<article class="card" [ngClass]="tierClass" [attr.data-cy]="'state-card-' + card.key">
+  <header class="header">
+    <div class="metric">
+      <dpo-icon [name]="metricIconName" [size]="16" [dataCy]="'state-card-icon-' + card.key"></dpo-icon>
+      <h3 class="label">{{ card.label }}</h3>
+    </div>
+
+    <div class="value-group">
+      <p class="value">{{ statusLabel }}</p>
+      <div class="trend" [ngClass]="tierClass" [attr.data-cy]="'state-card-trend-' + card.key">
+        <dpo-icon [name]="trendIconName" [size]="14" [dataCy]="'state-card-trend-icon-' + card.key"></dpo-icon>
+        <span>{{ trend.deltaPercent }}%</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="narrative" [attr.data-cy]="'state-card-narrative-section-' + card.key">
+    <p *ngIf="!isEditing" class="copy" [attr.data-cy]="'state-card-narrative-' + card.key">{{ card.narrative }}</p>
+
+    <div *ngIf="isEditing" class="editor" [attr.data-cy]="'state-card-editor-' + card.key">
+      <dpo-input
+        type="textarea"
+        [value]="draftNarrative"
+        [dataCy]="'state-card-input-' + card.key"
+        (valueChange)="onNarrativeChange($event)"
+      ></dpo-input>
+      <div class="actions">
+        <dpo-button variant="primary" [dataCy]="'state-card-confirm-' + card.key" (clicked)="onConfirmNarrative()">✓</dpo-button>
+        <dpo-button variant="secondary" [dataCy]="'state-card-cancel-' + card.key" (clicked)="onCancelNarrative()">✗</dpo-button>
+      </div>
+    </div>
+
+    <dpo-button
+      *ngIf="canEdit && !isEditing"
+      variant="icon"
+      [dataCy]="'state-card-edit-' + card.key"
+      (clicked)="onStartEdit()"
+    >
+      <dpo-icon name="pencil" [size]="14" [dataCy]="'state-card-edit-icon-' + card.key"></dpo-icon>
+    </dpo-button>
+  </section>
+</article>

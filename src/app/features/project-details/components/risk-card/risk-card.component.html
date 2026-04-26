@@ -1,0 +1,381 @@
+<article class="risk-card" [attr.data-cy]="'risk-card-' + risk.id">
+  <header class="header">
+    <h4 class="title">Risk Title</h4>
+    <div class="field-control" data-cy="risk-title-field">
+      <dpo-input
+        type="text"
+        [value]="draft.title"
+        [disabled]="disabled || !isEditing('title')"
+        [dataCy]="'risk-title-input-' + risk.id"
+        (valueChange)="onValueChange('title', $event)"
+      ></dpo-input>
+      <dpo-button
+        *ngIf="!isEditing('title')"
+        variant="icon"
+        [disabled]="disabled"
+        [dataCy]="'risk-title-edit-' + risk.id"
+        (clicked)="onStartEdit('title')"
+      >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+      <dpo-button
+        *ngIf="isEditing('title')"
+        variant="primary"
+        [disabled]="disabled"
+        [dataCy]="'risk-title-save-' + risk.id"
+        (clicked)="onSave('title')"
+      >✓</dpo-button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="field">
+      <label class="label">Potential Financial Loss</label>
+      <div class="field-control">
+        <dpo-input
+          type="text"
+          [value]="draft.potentialFinancialLoss"
+          [disabled]="disabled || !isEditing('potentialFinancialLoss')"
+          [dataCy]="'risk-pfl-input-' + risk.id"
+          (valueChange)="onValueChange('potentialFinancialLoss', $event)"
+        ></dpo-input>
+        <dpo-button
+          *ngIf="!isEditing('potentialFinancialLoss')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-pfl-edit-' + risk.id"
+          (clicked)="onStartEdit('potentialFinancialLoss')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('potentialFinancialLoss')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-pfl-save-' + risk.id"
+          (clicked)="onSave('potentialFinancialLoss')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Risk Type</label>
+      <div class="field-control">
+        <dpo-select
+          [options]="riskTypeOptions"
+          [value]="draft.riskType"
+          [disabled]="disabled || !isEditing('riskType')"
+          [dataCy]="'risk-type-select-' + risk.id"
+          (valueChange)="onValueChange('riskType', $event)"
+        ></dpo-select>
+        <dpo-button
+          *ngIf="!isEditing('riskType')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-type-edit-' + risk.id"
+          (clicked)="onStartEdit('riskType')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('riskType')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-type-save-' + risk.id"
+          (clicked)="onSave('riskType')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Action Due Date</label>
+      <div class="field-control">
+        <dpo-date-picker
+          [value]="draft.actionDueDate"
+          [disabled]="disabled || !isEditing('actionDueDate')"
+          [dataCy]="'risk-action-due-' + risk.id"
+          (dateSelected)="onValueChange('actionDueDate', $event)"
+        ></dpo-date-picker>
+        <dpo-button
+          *ngIf="!isEditing('actionDueDate')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-action-due-edit-' + risk.id"
+          (clicked)="onStartEdit('actionDueDate')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('actionDueDate')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-action-due-save-' + risk.id"
+          (clicked)="onSave('actionDueDate')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Probability</label>
+      <div class="field-control">
+        <dpo-select
+          [options]="probabilityOptions"
+          [value]="draft.probability"
+          [disabled]="disabled || !isEditing('probability')"
+          [dataCy]="'risk-probability-select-' + risk.id"
+          (valueChange)="onValueChange('probability', $event)"
+        ></dpo-select>
+        <dpo-button
+          *ngIf="!isEditing('probability')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-probability-edit-' + risk.id"
+          (clicked)="onStartEdit('probability')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('probability')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-probability-save-' + risk.id"
+          (clicked)="onSave('probability')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Severity</label>
+      <div class="field-control">
+        <dpo-select
+          [options]="severityOptions"
+          [value]="draft.severity"
+          [disabled]="disabled || !isEditing('severity')"
+          [dataCy]="'risk-severity-select-' + risk.id"
+          (valueChange)="onValueChange('severity', $event)"
+        ></dpo-select>
+        <dpo-button
+          *ngIf="!isEditing('severity')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-severity-edit-' + risk.id"
+          (clicked)="onStartEdit('severity')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('severity')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-severity-save-' + risk.id"
+          (clicked)="onSave('severity')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Status</label>
+      <div class="field-control">
+        <dpo-select
+          [options]="statusOptions"
+          [value]="draft.status"
+          [disabled]="disabled || !isEditing('status')"
+          [dataCy]="'risk-status-select-' + risk.id"
+          (valueChange)="onValueChange('status', $event)"
+        ></dpo-select>
+        <dpo-button
+          *ngIf="!isEditing('status')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-status-edit-' + risk.id"
+          (clicked)="onStartEdit('status')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('status')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-status-save-' + risk.id"
+          (clicked)="onSave('status')"
+        >✓</dpo-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="field full">
+    <label class="label">Risk Description</label>
+    <div class="field-control">
+      <dpo-input
+        type="textarea"
+        [value]="draft.riskDescription"
+        [disabled]="disabled || !isEditing('riskDescription')"
+        [dataCy]="'risk-description-input-' + risk.id"
+        (valueChange)="onValueChange('riskDescription', $event)"
+      ></dpo-input>
+      <dpo-button
+        *ngIf="!isEditing('riskDescription')"
+        variant="icon"
+        [disabled]="disabled"
+        [dataCy]="'risk-description-edit-' + risk.id"
+        (clicked)="onStartEdit('riskDescription')"
+      >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+      <dpo-button
+        *ngIf="isEditing('riskDescription')"
+        variant="primary"
+        [disabled]="disabled"
+        [dataCy]="'risk-description-save-' + risk.id"
+        (clicked)="onSave('riskDescription')"
+      >✓</dpo-button>
+    </div>
+  </div>
+
+  <div class="after-grid">
+    <div class="field">
+      <label class="label">PFL After Action</label>
+      <div class="field-control">
+        <dpo-input
+          type="text"
+          [value]="draft.potentialFinancialLossAfter"
+          [disabled]="disabled || !isEditing('potentialFinancialLossAfter')"
+          [dataCy]="'risk-pfl-after-input-' + risk.id"
+          (valueChange)="onValueChange('potentialFinancialLossAfter', $event)"
+        ></dpo-input>
+        <dpo-button
+          *ngIf="!isEditing('potentialFinancialLossAfter')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-pfl-after-edit-' + risk.id"
+          (clicked)="onStartEdit('potentialFinancialLossAfter')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('potentialFinancialLossAfter')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-pfl-after-save-' + risk.id"
+          (clicked)="onSave('potentialFinancialLossAfter')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Probability After Action</label>
+      <div class="field-control">
+        <dpo-select
+          [options]="probabilityOptions"
+          [value]="draft.probabilityAfter"
+          [disabled]="disabled || !isEditing('probabilityAfter')"
+          [dataCy]="'risk-probability-after-select-' + risk.id"
+          (valueChange)="onValueChange('probabilityAfter', $event)"
+        ></dpo-select>
+        <dpo-button
+          *ngIf="!isEditing('probabilityAfter')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-probability-after-edit-' + risk.id"
+          (clicked)="onStartEdit('probabilityAfter')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('probabilityAfter')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-probability-after-save-' + risk.id"
+          (clicked)="onSave('probabilityAfter')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Severity After Action</label>
+      <div class="field-control">
+        <dpo-select
+          [options]="severityOptions"
+          [value]="draft.severityAfter"
+          [disabled]="disabled || !isEditing('severityAfter')"
+          [dataCy]="'risk-severity-after-select-' + risk.id"
+          (valueChange)="onValueChange('severityAfter', $event)"
+        ></dpo-select>
+        <dpo-button
+          *ngIf="!isEditing('severityAfter')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-severity-after-edit-' + risk.id"
+          (clicked)="onStartEdit('severityAfter')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('severityAfter')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-severity-after-save-' + risk.id"
+          (clicked)="onSave('severityAfter')"
+        >✓</dpo-button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Status After Action</label>
+      <div class="field-control">
+        <dpo-select
+          [options]="statusOptions"
+          [value]="draft.statusAfter"
+          [disabled]="disabled || !isEditing('statusAfter')"
+          [dataCy]="'risk-status-after-select-' + risk.id"
+          (valueChange)="onValueChange('statusAfter', $event)"
+        ></dpo-select>
+        <dpo-button
+          *ngIf="!isEditing('statusAfter')"
+          variant="icon"
+          [disabled]="disabled"
+          [dataCy]="'risk-status-after-edit-' + risk.id"
+          (clicked)="onStartEdit('statusAfter')"
+        >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+        <dpo-button
+          *ngIf="isEditing('statusAfter')"
+          variant="primary"
+          [disabled]="disabled"
+          [dataCy]="'risk-status-after-save-' + risk.id"
+          (clicked)="onSave('statusAfter')"
+        >✓</dpo-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="field full">
+    <label class="label">Action</label>
+    <div class="field-control">
+      <dpo-input
+        type="textarea"
+        [value]="draft.action"
+        [disabled]="disabled || !isEditing('action')"
+        [dataCy]="'risk-action-input-' + risk.id"
+        (valueChange)="onValueChange('action', $event)"
+      ></dpo-input>
+      <dpo-button
+        *ngIf="!isEditing('action')"
+        variant="icon"
+        [disabled]="disabled"
+        [dataCy]="'risk-action-edit-' + risk.id"
+        (clicked)="onStartEdit('action')"
+      >
+        <dpo-icon name="pencil" [size]="14"></dpo-icon>
+      </dpo-button>
+      <dpo-button
+        *ngIf="isEditing('action')"
+        variant="primary"
+        [disabled]="disabled"
+        [dataCy]="'risk-action-save-' + risk.id"
+        (clicked)="onSave('action')"
+      >✓</dpo-button>
+    </div>
+  </div>
+</article>

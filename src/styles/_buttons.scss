@@ -1,0 +1,47 @@
+.dpo-button-primary {
+  background: var(--color-primary-orange);
+  color: var(--color-bg-card);
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-lg);
+}
+
+.dpo-button-secondary {
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  border: var(--border-width-thin) solid var(--color-text-primary);
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-lg);
+}
+
+.dpo-button-icon {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs);
+}
+
+.dpo-button-nav-item {
+  width: 100%;
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  border: var(--border-width-thin) solid var(--color-text-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-md);
+  text-align: center;
+}
+
+.dpo-button-nav-active {
+  width: 100%;
+  background: var(--color-primary-orange);
+  color: var(--color-bg-card);
+  border: var(--border-width-thin) solid var(--color-selected-blue);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-md);
+  text-align: center;
+}
+
+.dpo-button-stretch {
+  width: 100%;
+}

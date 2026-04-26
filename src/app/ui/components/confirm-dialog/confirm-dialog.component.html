@@ -1,0 +1,22 @@
+<ng-container *ngIf="dialog$ | async as dialog">
+	<div class="dpo-modal-backdrop" data-cy="confirm-dialog-overlay">
+		<article class="dpo-modal-card" data-cy="confirm-dialog-card">
+			<h2>{{ dialog.config.title }}</h2>
+			<p>{{ dialog.config.message }}</p>
+			<div class="actions">
+				<dpo-button
+					variant="secondary"
+					dataCy="confirm-dialog-cancel"
+					[label]="dialog.config.cancelLabel || 'Cancel'"
+					(clicked)="onCancel()"
+				></dpo-button>
+				<dpo-button
+					variant="primary"
+					dataCy="confirm-dialog-confirm"
+					[label]="dialog.config.confirmLabel || 'Confirm'"
+					(clicked)="onConfirm()"
+				></dpo-button>
+			</div>
+		</article>
+	</div>
+</ng-container>

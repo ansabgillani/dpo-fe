@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1,
+    "name": "Imaging Platform Modernization",
+    "department": "DIC",
+    "businessLine": "XP",
+    "type": "SSP",
+    "startDate": "2025-01-10",
+    "endDate": "2025-11-30",
+    "statusProject": "Active",
+    "pspProjects": [
+      { "id": 101, "name": "PSP-1" },
+      { "id": 102, "name": "PSP-2" }
+    ],
+    "stateCards": [
+      { "id": "quality", "key": "quality", "label": "Quality", "value": 84, "previousValue": 79, "narrative": "Quality trend remains stable." },
+      { "id": "budget", "key": "budget", "label": "Budget", "value": 98, "previousValue": 95, "narrative": "Spend is within plan." },
+      { "id": "targetCost", "key": "target-cost", "label": "Target Cost", "value": 102, "previousValue": 100, "narrative": "Slightly above target." },
+      { "id": "resources", "key": "resources", "label": "Resources", "value": 91, "previousValue": 88, "narrative": "Staffing is healthy." },
+      { "id": "timeline", "key": "timeline", "label": "Timeline", "value": 4, "previousValue": 2, "narrative": "Minor delay in integration phase." },
+      { "id": "customerSatisfaction", "key": "customer-satisfaction", "label": "Customer Satisfaction", "value": 76, "previousValue": 74, "narrative": "Customer feedback is improving." }
+    ],
+    "milestones": [
+      { "id": 1, "milestoneSet": "MS-2025-A", "name": "Architecture Complete", "startDate": "2025-02-01", "endDate": "2025-02-18" },
+      { "id": 2, "milestoneSet": "MS-2025-A", "name": "Pilot Release", "startDate": "2025-04-01", "endDate": "2025-04-26" },
+      { "id": 3, "milestoneSet": "MS-2025-B", "name": "Production Rollout", "startDate": "2025-08-15", "endDate": "2025-09-20" }
+    ],
+    "cost": {
+      "projectCost": 420000,
+      "latestReportingPeriod": "P04",
+      "project": "Imaging Platform Modernization",
+      "fy": "FY25",
+      "pspProject": "PSP-1",
+      "breakdownMode": "project"
+    },
+    "risks": {
+      "heatmap": {
+        "before": { "high": 3, "medium": 5, "low": 4 },
+        "after": { "high": 1, "medium": 4, "low": 7 }
+      },
+      "entries": [
+        {
+          "id": 1,
+          "title": "Resource bottleneck",
+          "riskType": "resource",
+          "potentialFinancialLoss": "120000",
+          "actionDueDate": "2025-06-01",
+          "probability": "high",
+          "severity": "critical",
+          "status": "open",
+          "riskDescription": "Staffing constraints may delay delivery.",
+          "action": "Backfill contract roles.",
+          "potentialFinancialLossAfter": "80000",
+          "probabilityAfter": "medium",
+          "severityAfter": "high",
+          "statusAfter": "in-progress"
+        },
+        {
+          "id": 2,
+          "title": "Vendor delay",
+          "riskType": "schedule",
+          "potentialFinancialLoss": "90000",
+          "actionDueDate": "2025-07-15",
+          "probability": "medium",
+          "severity": "high",
+          "status": "in-progress",
+          "riskDescription": "Supplier delivery may slip.",
+          "action": "Confirm alternate vendors.",
+          "potentialFinancialLossAfter": "60000",
+          "probabilityAfter": "low",
+          "severityAfter": "medium",
+          "statusAfter": "mitigated"
+        }
+      ]
+    },
+    "files": [
+      { "id": 1, "title": "Kickoff Deck.pdf", "status": "Active" }
+    ],
+    "overviewChart": {
+      "datasets": [
+        {
+          "label": "Budget",
+          "color": "rgb(0, 160, 175)",
+          "data": [30, 15, 25, 45, 42, 35, 100, 88, 79, 63, 80, 120]
+        },
+        {
+          "label": "Actuals+Forecasts",
+          "color": "rgb(232, 119, 34)",
+          "data": [0, 10, 15, 43, 41, 50, 96, 84, 70, 60, 70, 125]
+        },
+        {
+          "label": "Charging Actuals+Forecasts",
+          "color": "rgb(0, 112, 192)",
+          "data": [35, 18, 27, 44, 41, 35, 96, 85, 79, 62, 79, 118]
+        }
+      ]
+    }
+  },
+  { "id": 2, "name": "Cloud PACS Migration", "department": "DAS", "businessLine": "CT", "type": "Platform", "startDate": "2025-01-20", "endDate": "2025-12-15", "statusProject": "Active", "pspProjects": [{ "id": 201, "name": "PSP-11" }], "stateCards": [], "milestones": [], "cost": { "projectCost": 300000, "latestReportingPeriod": "P03" }, "risks": { "heatmap": { "before": { "high": 2, "medium": 3, "low": 2 }, "after": { "high": 1, "medium": 2, "low": 4 } }, "entries": [] }, "files": [], "overviewChart": { "datasets": [{ "label": "Budget", "color": "rgb(0, 160, 175)", "data": [28, 14, 22, 40, 38, 34, 92, 84, 76, 60, 72, 110] }, { "label": "Actuals+Forecasts", "color": "rgb(232, 119, 34)", "data": [4, 11, 15, 41, 39, 46, 90, 81, 68, 57, 67, 120] }, { "label": "Charging Actuals+Forecasts", "color": "rgb(0, 112, 192)", "data": [32, 18, 26, 43, 41, 36, 92, 84, 76, 60, 72, 114] }] } },
+  { "id": 3, "name": "Remote Workflow Assistant", "department": "DIC", "businessLine": "MR", "type": "SSP", "startDate": "2025-02-10", "endDate": "2025-10-01", "statusProject": "Planning", "pspProjects": [], "stateCards": [], "milestones": [], "cost": { "projectCost": 210000, "latestReportingPeriod": "P02" }, "risks": { "heatmap": { "before": { "high": 1, "medium": 2, "low": 3 }, "after": { "high": 1, "medium": 1, "low": 4 } }, "entries": [] }, "files": [], "overviewChart": { "datasets": [{ "label": "Budget", "color": "rgb(0, 160, 175)", "data": [31, 17, 25, 43, 41, 37, 95, 87, 79, 63, 75, 113] }, { "label": "Actuals+Forecasts", "color": "rgb(232, 119, 34)", "data": [6, 12, 16, 42, 40, 47, 91, 82, 69, 58, 68, 121] }, { "label": "Charging Actuals+Forecasts", "color": "rgb(0, 112, 192)", "data": [33, 19, 27, 44, 42, 37, 93, 85, 77, 61, 73, 115] }] } },
+  { "id": 4, "name": "AI Triage Expansion", "department": "LMS", "businessLine": "XR", "type": "Program", "startDate": "2025-03-05", "endDate": "2025-11-20", "statusProject": "Active", "pspProjects": [], "stateCards": [], "milestones": [], "cost": { "projectCost": 510000, "latestReportingPeriod": "P05" }, "risks": { "heatmap": { "before": { "high": 4, "medium": 3, "low": 2 }, "after": { "high": 2, "medium": 3, "low": 4 } }, "entries": [] }, "files": [], "overviewChart": { "datasets": [{ "label": "Budget", "color": "rgb(0, 160, 175)", "data": [34, 20, 28, 46, 44, 40, 98, 90, 82, 66, 78, 116] }, { "label": "Actuals+Forecasts", "color": "rgb(232, 119, 34)", "data": [8, 13, 17, 43, 41, 48, 92, 83, 70, 59, 69, 122] }, { "label": "Charging Actuals+Forecasts", "color": "rgb(0, 112, 192)", "data": [34, 20, 28, 45, 43, 38, 94, 86, 78, 62, 74, 116] }] } },
+  { "id": 5, "name": "Inventory Visibility Hub", "department": "DAS", "businessLine": "US", "type": "SSP", "startDate": "2025-01-18", "endDate": "2025-09-30", "statusProject": "On Track", "pspProjects": [], "stateCards": [], "milestones": [], "cost": { "projectCost": 180000, "latestReportingPeriod": "P04" }, "risks": { "heatmap": { "before": { "high": 1, "medium": 2, "low": 2 }, "after": { "high": 1, "medium": 1, "low": 3 } }, "entries": [] }, "files": [], "overviewChart": { "datasets": [{ "label": "Budget", "color": "rgb(0, 160, 175)", "data": [36, 22, 30, 48, 46, 42, 100, 92, 84, 68, 80, 118] }, { "label": "Actuals+Forecasts", "color": "rgb(232, 119, 34)", "data": [10, 14, 18, 44, 42, 49, 93, 84, 71, 60, 70, 123] }, { "label": "Charging Actuals+Forecasts", "color": "rgb(0, 112, 192)", "data": [35, 21, 29, 46, 44, 39, 95, 87, 79, 63, 75, 117] }] } },
+  { "id": 6, "name": "Dose Optimization Service", "department": "DIC", "businessLine": "MI", "type": "Platform", "startDate": "2025-02-01", "endDate": "2025-12-05", "statusProject": "At Risk", "pspProjects": [], "stateCards": [], "milestones": [], "cost": { "projectCost": 390000, "latestReportingPeriod": "P05" }, "risks": { "heatmap": { "before": { "high": 3, "medium": 4, "low": 1 }, "after": { "high": 2, "medium": 3, "low": 3 } }, "entries": [] }, "files": [], "overviewChart": { "datasets": [{ "label": "Budget", "color": "rgb(0, 160, 175)", "data": [38, 24, 32, 50, 48, 44, 102, 94, 86, 70, 82, 120] }, { "label": "Actuals+Forecasts", "color": "rgb(232, 119, 34)", "data": [12, 15, 19, 45, 43, 50, 94, 85, 72, 61, 71, 124] }, { "label": "Charging Actuals+Forecasts", "color": "rgb(0, 112, 192)", "data": [36, 22, 30, 47, 45, 40, 96, 88, 80, 64, 76, 118] }] } },
+  { "id": 7, "name": "Procurement Automation", "department": "LMS", "businessLine": "LAB", "type": "Program", "startDate": "2025-03-10", "endDate": "2025-12-01", "statusProject": "Planning", "pspProjects": [], "stateCards": [], "milestones": [], "cost": { "projectCost": 260000, "latestReportingPeriod": "P03" }, "risks": { "heatmap": { "before": { "high": 2, "medium": 2, "low": 3 }, "after": { "high": 1, "medium": 2, "low": 4 } }, "entries": [] }, "files": [], "overviewChart": { "datasets": [{ "label": "Budget", "color": "rgb(0, 160, 175)", "data": [40, 26, 34, 52, 50, 46, 104, 96, 88, 72, 84, 122] }, { "label": "Actuals+Forecasts", "color": "rgb(232, 119, 34)", "data": [14, 16, 20, 46, 44, 51, 95, 86, 73, 62, 72, 125] }, { "label": "Charging Actuals+Forecasts", "color": "rgb(0, 112, 192)", "data": [37, 23, 31, 48, 46, 41, 97, 89, 81, 65, 77, 119] }] } },
+  { "id": 8, "name": "Interoperability Gateway", "department": "DAS", "businessLine": "DX", "type": "SSP", "startDate": "2025-01-12", "endDate": "2025-11-10", "statusProject": "Active", "pspProjects": [], "stateCards": [], "milestones": [], "cost": { "projectCost": 340000, "latestReportingPeriod": "P04" }, "risks": { "heatmap": { "before": { "high": 2, "medium": 3, "low": 2 }, "after": { "high": 1, "medium": 3, "low": 3 } }, "entries": [] }, "files": [], "overviewChart": { "datasets": [{ "label": "Budget", "color": "rgb(0, 160, 175)", "data": [42, 28, 36, 54, 52, 48, 106, 98, 90, 74, 86, 124] }, { "label": "Actuals+Forecasts", "color": "rgb(232, 119, 34)", "data": [16, 17, 21, 47, 45, 52, 96, 87, 74, 63, 73, 126] }, { "label": "Charging Actuals+Forecasts", "color": "rgb(0, 112, 192)", "data": [38, 24, 32, 49, 47, 42, 98, 90, 82, 66, 78, 120] }] } }
+]

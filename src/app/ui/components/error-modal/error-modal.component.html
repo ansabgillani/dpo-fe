@@ -1,0 +1,17 @@
+<ng-container *ngIf="error$ | async as error">
+	<div class="dpo-modal-backdrop" data-cy="error-modal-overlay">
+		<article class="dpo-modal-card" data-cy="error-modal-card">
+			<header class="header">
+				<dpo-icon [name]="error.redirectUrl ? 'lock' : 'alert-triangle'" [size]="20"></dpo-icon>
+				<h2>{{ error.title }}</h2>
+			</header>
+			<p>{{ error.message }}</p>
+			<dpo-button
+				variant="primary"
+				dataCy="error-modal-primary"
+				[label]="error.redirectUrl ? 'Go to Login' : 'Retry'"
+				(clicked)="onPrimaryAction(error.redirectUrl, error.retryFn)"
+			></dpo-button>
+		</article>
+	</div>
+</ng-container>

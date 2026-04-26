@@ -1,0 +1,71 @@
+<section
+  class="field"
+  [class.field-inline]="layout === 'inline'"
+  [class.no-label]="!label"
+  [attr.data-cy]="'inline-edit-' + fieldKey"
+>
+  <label *ngIf="layout === 'stacked' && label" class="label">{{ label }}</label>
+
+  <ng-container [ngSwitch]="state">
+    <div *ngSwitchCase="'display'" class="display-row">
+      <span *ngIf="layout === 'inline' && label" class="label">{{ label }}</span>
+      <span class="value" [attr.data-cy]="'inline-edit-value-' + fieldKey">{{ value }}</span>
+      <dpo-button
+        variant="icon"
+        [dataCy]="'inline-edit-start-' + fieldKey"
+        (clicked)="onEditStart()"
+      >
+        <dpo-icon name="pencil" [size]="14" [dataCy]="'inline-edit-pencil-' + fieldKey"></dpo-icon>
+      </dpo-button>
+    </div>
+
+    <div *ngSwitchCase="'editing'" class="editing-row">
+      <span *ngIf="layout === 'inline' && label" class="label">{{ label }}</span>
+      <dpo-input
+        [type]="inputType"
+        [value]="draftValue"
+        [dataCy]="'inline-edit-input-' + fieldKey"
+        (valueChange)="onDraftChange($event)"
+      ></dpo-input>
+      <div class="actions">
+        <dpo-button
+          variant="primary"
+          [dataCy]="'inline-edit-confirm-' + fieldKey"
+          (clicked)="onConfirm()"
+        >✓</dpo-button>
+        <dpo-button
+          variant="secondary"
+          [dataCy]="'inline-edit-cancel-' + fieldKey"
+          (clicked)="onCancel()"
+        >✗</dpo-button>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'saving'" class="editing-row">
+      <span *ngIf="layout === 'inline' && label" class="label">{{ label }}</span>
+      <dpo-input
+        [type]="inputType"
+        [value]="draftValue"
+        [disabled]="true"
+        [dataCy]="'inline-edit-input-' + fieldKey"
+      ></dpo-input>
+      <div class="actions">
+        <dpo-button
+          variant="primary"
+          [loading]="true"
+          [dataCy]="'inline-edit-saving-' + fieldKey"
+        ></dpo-button>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'error'" class="error-row" [attr.data-cy]="'inline-edit-error-' + fieldKey">
+      <span *ngIf="layout === 'inline' && label" class="label">{{ label }}</span>
+      <span>Save failed. Value reverted.</span>
+      <dpo-button
+        variant="secondary"
+        [dataCy]="'inline-edit-error-dismiss-' + fieldKey"
+        (clicked)="onDismissError()"
+      >Back</dpo-button>
+    </div>
+  </ng-container>
+</section>

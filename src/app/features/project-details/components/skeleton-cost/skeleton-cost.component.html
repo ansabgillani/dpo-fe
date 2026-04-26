@@ -1,0 +1,14 @@
+<section class="skeleton" data-cy="skeleton-cost">
+  <div class="header">
+    <dpo-skeleton-block width="160px" height="60px" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+    <dpo-skeleton-block width="120px" height="var(--size-control-height)" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+    <dpo-skeleton-block width="120px" height="var(--size-control-height)" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+    <dpo-skeleton-block width="120px" height="var(--size-control-height)" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+  </div>
+
+  <div class="cards">
+    <dpo-skeleton-block *ngFor="let _ of cardItems" width="100%" height="100px" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+  </div>
+
+  <dpo-skeleton-block width="100%" height="240px" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+</section>

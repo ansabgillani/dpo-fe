@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "mid": "M001",
+    "project": 1,
+    "project_title": "Imaging Platform Modernization",
+    "name": "Architecture Complete",
+    "type": "MP",
+    "description": "Complete system architecture design and documentation.",
+    "start_date": "2025-02-01",
+    "end_date": "2025-02-18",
+    "proposed_end_date": null,
+    "status": "Completed",
+    "is_completed": true,
+    "duration_days": 17,
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-02-18T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "mid": "M002",
+    "project": 1,
+    "project_title": "Imaging Platform Modernization",
+    "name": "Pilot Release",
+    "type": "BL",
+    "description": "Deploy pilot release to staging environment.",
+    "start_date": "2025-04-01",
+    "end_date": "2025-04-26",
+    "proposed_end_date": "2025-04-30",
+    "status": "Completed",
+    "is_completed": true,
+    "duration_days": 25,
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-04-26T08:00:00Z"
+  },
+  {
+    "id": 3,
+    "mid": "M003",
+    "project": 1,
+    "project_title": "Imaging Platform Modernization",
+    "name": "Production Rollout",
+    "type": "MP",
+    "description": "Full production deployment and go-live.",
+    "start_date": "2025-08-15",
+    "end_date": "2025-09-20",
+    "proposed_end_date": null,
+    "status": "In Progress",
+    "is_completed": false,
+    "duration_days": 36,
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-08-15T08:00:00Z"
+  }
+]

@@ -1,0 +1,61 @@
+<aside class="preview" data-cy="project-preview">
+  <ng-container *ngIf="loading">
+    <dpo-skeleton-block height="var(--size-avatar-lg)" width="var(--size-avatar-lg)" borderRadius="var(--radius-pill)"></dpo-skeleton-block>
+    <dpo-skeleton-block height="var(--size-skeleton-line-height)"></dpo-skeleton-block>
+    <dpo-skeleton-block height="var(--size-skeleton-line-height)"></dpo-skeleton-block>
+    <dpo-skeleton-block height="var(--size-skeleton-line-height)"></dpo-skeleton-block>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && project">
+    <div class="header">
+      <dpo-avatar
+        [avatarUrl]="project.avatarUrl || ''"
+        [initials]="getInitials()"
+        size="xl"
+        dataCy="project-preview-avatar"
+      ></dpo-avatar>
+      <h3 class="name">{{ project.name }}</h3>
+    </div>
+
+    <dl class="meta">
+      <div class="meta-row">
+        <dt>Department</dt>
+        <dd>{{ project.department }}</dd>
+      </div>
+      <div class="meta-row">
+        <dt>Business Line</dt>
+        <dd>{{ project.businessLine }}</dd>
+      </div>
+      <div class="meta-row">
+        <dt>Type</dt>
+        <dd>{{ project.type }}</dd>
+      </div>
+      <div class="meta-row">
+        <dt>Start Date</dt>
+        <dd>{{ project.startDate }}</dd>
+      </div>
+      <div class="meta-row">
+        <dt>End Date</dt>
+        <dd>{{ project.endDate }}</dd>
+      </div>
+      <div class="meta-row">
+        <dt>Status</dt>
+        <dd>{{ project.statusProject }}</dd>
+      </div>
+    </dl>
+
+    <div class="psp" data-cy="project-preview-psp">
+      <h4 class="psp-title">PSP Projects</h4>
+      <ul *ngIf="project.pspProjects.length > 0" class="psp-list">
+        <li *ngFor="let psp of project.pspProjects" class="psp-item">{{ psp.name }}</li>
+      </ul>
+      <p *ngIf="project.pspProjects.length === 0" class="psp-item">No PSP projects</p>
+    </div>
+
+    <dpo-button dataCy="project-preview-open" (clicked)="onOpenProject()">Open</dpo-button>
+  </ng-container>
+
+  <p *ngIf="!loading && !project" class="empty" data-cy="project-preview-empty">
+    Select a project to see details.
+  </p>
+</aside>

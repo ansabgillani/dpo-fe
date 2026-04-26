@@ -1,0 +1,8 @@
+<nav class="sub-nav" data-cy="cost-sub-nav">
+  <dpo-button
+    *ngFor="let view of views"
+    [variant]="activeView === view.key ? 'primary' : 'secondary'"
+    [dataCy]="'cost-sub-nav-' + view.key"
+    (clicked)="onSelect(view.key)"
+  >{{ view.label }}</dpo-button>
+</nav>

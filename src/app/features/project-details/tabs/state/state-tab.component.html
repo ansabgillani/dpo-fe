@@ -1,0 +1,31 @@
+<section class="state-tab" data-cy="state-tab">
+  <header class="header">
+    <h3 class="title">Project State</h3>
+    <dpo-button
+      *ngIf="canEdit"
+      variant="primary"
+      [loading]="saving"
+      dataCy="state-tab-save"
+      (clicked)="onSaveState()"
+    >
+      <dpo-icon name="save" [size]="14" dataCy="state-tab-save-icon"></dpo-icon>
+      Save
+    </dpo-button>
+  </header>
+
+  <ng-container *ngIf="loading; else cardState">
+    <dpo-skeleton-state-grid></dpo-skeleton-state-grid>
+  </ng-container>
+
+  <ng-template #cardState>
+    <div class="grid" data-cy="state-tab-grid">
+      <dpo-state-card
+        *ngFor="let card of cards"
+        [card]="card"
+        [trend]="getTrend(card)"
+        [canEdit]="canEdit"
+        (narrativeSaved)="onNarrativeSaved($event)"
+      ></dpo-state-card>
+    </div>
+  </ng-template>
+</section>

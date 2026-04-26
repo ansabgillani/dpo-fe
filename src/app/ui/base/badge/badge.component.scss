@@ -1,0 +1,24 @@
+.badge {
+	display: inline-flex;
+	align-items: center;
+	border-radius: var(--radius-pill);
+	padding: var(--space-xs) var(--space-sm);
+	font-size: var(--font-size-sm);
+	background: var(--color-border);
+	color: var(--color-text-secondary);
+}
+
+.success {
+	background: var(--color-success-green);
+	color: var(--color-bg-card);
+}
+
+.warning {
+	background: var(--color-warning-yellow);
+	color: var(--color-text-primary);
+}
+
+.danger {
+	background: var(--color-danger-red);
+	color: var(--color-bg-card);
+}

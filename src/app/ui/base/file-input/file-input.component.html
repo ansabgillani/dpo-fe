@@ -1,0 +1,8 @@
+<input
+  #fileInput
+  class="file-input"
+  type="file"
+  [disabled]="disabled"
+  [attr.data-cy]="dataCy"
+  (change)="onFileChange($event)"
+/>

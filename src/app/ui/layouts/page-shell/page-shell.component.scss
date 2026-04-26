@@ -1,0 +1,16 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-bg-page);
+}
+
+.content {
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 0 var(--space-lg) var(--space-lg);
+}
+
+.content > * {
+  width: 100%;
+}

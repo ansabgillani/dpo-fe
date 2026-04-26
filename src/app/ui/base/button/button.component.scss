@@ -1,0 +1,10 @@
+button {
+	font-size: var(--font-size-md);
+	font-family: var(--font-family);
+	cursor: pointer;
+}
+
+button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

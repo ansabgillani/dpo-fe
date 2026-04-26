@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-height: var(--layout-panel-min-height);
+}
+
+.left-create-project {
+  width: 100%;
+}
+
+.left-create-project dpo-button {
+  display: block;
+  width: 100%;
+}
+
+.center-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-height: var(--layout-panel-min-height);
+}
+
+.center-panel dpo-project-list {
+  flex: 1 1 auto;
+  min-height: 0;
+}

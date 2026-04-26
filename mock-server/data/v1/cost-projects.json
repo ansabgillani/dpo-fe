@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "fiscal_year": "FY25",
+    "psp_element": "PSP-1",
+    "psp_description": "Core platform development PSP",
+    "stand_reporting_period": "2025-04",
+    "period_index": 4,
+    "bs_rnd_dcc": "R&D",
+    "project_ram_status": "Active",
+    "classification": "Strategic",
+    "category": "Development",
+    "status": "Active",
+    "project_title": "Imaging Platform Modernization",
+    "customer": "Internal",
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "fiscal_year": "FY25",
+    "psp_element": "PSP-2",
+    "psp_description": "Integration layer PSP",
+    "stand_reporting_period": "2025-04",
+    "period_index": 4,
+    "bs_rnd_dcc": "R&D",
+    "project_ram_status": "Active",
+    "classification": "Strategic",
+    "category": "Development",
+    "status": "Active",
+    "project_title": "Imaging Platform Modernization",
+    "customer": "Internal",
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  },
+  {
+    "id": 3,
+    "fiscal_year": "FY25",
+    "psp_element": "PSP-11",
+    "psp_description": "Cloud migration PSP",
+    "stand_reporting_period": "2025-03",
+    "period_index": 3,
+    "bs_rnd_dcc": "R&D",
+    "project_ram_status": "Active",
+    "classification": "Strategic",
+    "category": "Migration",
+    "status": "Active",
+    "project_title": "Cloud PACS Migration",
+    "customer": "External",
+    "created": "2025-01-20T08:00:00Z",
+    "last_modified": "2025-03-01T08:00:00Z"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "project": 1,
+    "project_title": "Imaging Platform Modernization",
+    "name": "Core Platform Module",
+    "business_line": "XP",
+    "department": "DIC",
+    "market": "Global",
+    "global_product": false,
+    "start_date": "2025-01-10",
+    "end_date": "2025-11-30",
+    "duration_days": 324,
+    "display_image": null,
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "project": 1,
+    "project_title": "Imaging Platform Modernization",
+    "name": "Integration Layer",
+    "business_line": "XP",
+    "department": "DIC",
+    "market": "Global",
+    "global_product": false,
+    "start_date": "2025-03-01",
+    "end_date": "2025-11-30",
+    "duration_days": 275,
+    "display_image": null,
+    "created": "2025-01-10T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  },
+  {
+    "id": 3,
+    "project": 2,
+    "project_title": "Cloud PACS Migration",
+    "name": "PACS Cloud Gateway",
+    "business_line": "CT",
+    "department": "DAS",
+    "market": "EMEA",
+    "global_product": false,
+    "start_date": "2025-01-20",
+    "end_date": "2025-12-15",
+    "duration_days": 329,
+    "display_image": null,
+    "created": "2025-01-20T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  }
+]

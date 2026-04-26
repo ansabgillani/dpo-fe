@@ -14,16 +14,18 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'digital-project-office' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('digital-project-office');
-  });
-
-  it('should render title', () => {
+  it('should render router outlet host', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, digital-project-office');
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
+  });
+
+  it('should mount global modal components', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('dpo-error-modal')).toBeTruthy();
+    expect(compiled.querySelector('dpo-confirm-dialog')).toBeTruthy();
   });
 });

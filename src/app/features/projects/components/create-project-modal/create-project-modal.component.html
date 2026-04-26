@@ -1,0 +1,183 @@
+<ng-container *ngIf="open">
+  <div class="dpo-modal-backdrop" data-cy="create-project-modal-overlay">
+    <article class="dpo-modal-card modal-card" data-cy="create-project-modal-card">
+      <h2 class="title">Create New Project</h2>
+      <p class="subtitle">Add project details to create a new entry in the project list.</p>
+
+      <div class="form-grid">
+        <div class="field field-full">
+          <label class="field-label" for="create-project-title">Title</label>
+          <dpo-input
+            dataCy="create-project-title"
+            [value]="form.title"
+            placeholder="Enter project title"
+            (valueChange)="onTitleChange($event)"
+          ></dpo-input>
+          <p
+            *ngIf="shouldShowError(form.title)"
+            class="field-error"
+            data-cy="create-project-title-error"
+          >
+            Title is required.
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="create-project-department">Department</label>
+          <dpo-select
+            dataCy="create-project-department"
+            [options]="departmentOptions"
+            [value]="form.department"
+            (valueChange)="onDepartmentChange($event)"
+          ></dpo-select>
+          <p
+            *ngIf="shouldShowError(form.department)"
+            class="field-error"
+            data-cy="create-project-department-error"
+          >
+            Department is required.
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="create-project-business-line">Business Line</label>
+          <dpo-select
+            dataCy="create-project-business-line"
+            [options]="businessLineOptions"
+            [value]="form.businessLine"
+            (valueChange)="onBusinessLineChange($event)"
+          ></dpo-select>
+          <p
+            *ngIf="shouldShowError(form.businessLine)"
+            class="field-error"
+            data-cy="create-project-business-line-error"
+          >
+            Business line is required.
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="create-project-type">Type</label>
+          <dpo-select
+            dataCy="create-project-type"
+            [options]="typeOptions"
+            [value]="form.type"
+            (valueChange)="onTypeChange($event)"
+          ></dpo-select>
+          <p
+            *ngIf="shouldShowError(form.type)"
+            class="field-error"
+            data-cy="create-project-type-error"
+          >
+            Type is required.
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Start Date</label>
+          <dpo-date-picker
+            dataCy="create-project-start-date"
+            [value]="form.startDate"
+            (dateSelected)="onStartDateChange($event)"
+          ></dpo-date-picker>
+          <p
+            *ngIf="shouldShowError(form.startDate)"
+            class="field-error"
+            data-cy="create-project-start-date-error"
+          >
+            Start date is required.
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="field-label">End Date</label>
+          <dpo-date-picker
+            dataCy="create-project-end-date"
+            [value]="form.endDate"
+            (dateSelected)="onEndDateChange($event)"
+          ></dpo-date-picker>
+          <p
+            *ngIf="shouldShowError(form.endDate)"
+            class="field-error"
+            data-cy="create-project-end-date-error"
+          >
+            End date is required.
+          </p>
+        </div>
+
+        <div class="field field-full">
+          <label class="field-label">Image (Optional)</label>
+          <dpo-file-input
+            dataCy="create-project-image-input"
+            (fileSelected)="onImageSelected($event)"
+          ></dpo-file-input>
+
+          <div class="inline-row">
+            <dpo-button
+              variant="secondary"
+              label="Select Image"
+              dataCy="create-project-select-image"
+              (clicked)="onPickImageClick()"
+            ></dpo-button>
+            <span class="inline-copy" data-cy="create-project-selected-image">
+              {{ imageName || 'No image selected' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label class="field-label">PSP Elements (Optional)</label>
+
+          <div class="inline-row">
+            <dpo-input
+              dataCy="create-project-psp-input"
+              [value]="pspDraft"
+              placeholder="Add PSP element"
+              (valueChange)="onPspDraftChange($event)"
+            ></dpo-input>
+            <dpo-button
+              variant="secondary"
+              label="Add"
+              dataCy="create-project-psp-add"
+              (clicked)="onAddPspElement()"
+            ></dpo-button>
+          </div>
+
+          <div class="psp-list" *ngIf="pspElements.length > 0" data-cy="create-project-psp-list">
+            <div
+              class="psp-item"
+              *ngFor="let psp of pspElements; let index = index"
+              [attr.data-cy]="'create-project-psp-item-' + index"
+            >
+              <span>{{ psp }}</span>
+              <dpo-button
+                variant="icon"
+                [dataCy]="'create-project-psp-remove-' + index"
+                (clicked)="onRemovePspElement(index)"
+              >
+                <dpo-icon name="trash-2" [size]="14" [dataCy]="'create-project-psp-remove-icon-' + index"></dpo-icon>
+              </dpo-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <dpo-button
+          variant="secondary"
+          label="Cancel"
+          dataCy="create-project-cancel"
+          [disabled]="saving"
+          (clicked)="onCancelClick()"
+        ></dpo-button>
+        <dpo-button
+          variant="primary"
+          [label]="saving ? 'Creating...' : 'Create Project'"
+          dataCy="create-project-submit"
+          [disabled]="isCreateDisabled"
+          (clicked)="onCreateClick()"
+        ></dpo-button>
+      </div>
+    </article>
+  </div>
+</ng-container>

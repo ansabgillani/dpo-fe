@@ -1,0 +1,68 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.field-inline {
+  gap: 0;
+}
+
+.label,
+.value {
+  font-size: var(--font-size-base);
+}
+
+.label {
+  color: var(--color-text-secondary);
+}
+
+.value {
+  color: var(--color-text-primary);
+}
+
+.display-row,
+.editing-row,
+.error-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.field-inline .display-row,
+.field-inline .editing-row,
+.field-inline .error-row {
+  display: grid;
+  grid-template-columns: var(--size-meta-key-width) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.field-inline.no-label .display-row,
+.field-inline.no-label .editing-row,
+.field-inline.no-label .error-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.editing-row,
+.error-row {
+  align-items: flex-start;
+}
+
+.field-inline .editing-row,
+.field-inline .error-row {
+  align-items: center;
+}
+
+.field-inline dpo-input {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.error-row {
+  color: var(--color-danger-red);
+}

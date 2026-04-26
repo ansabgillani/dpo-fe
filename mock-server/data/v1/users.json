@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "admin123",
+    "email": "admin@dpo.local",
+    "first_name": "Admin",
+    "last_name": "User",
+    "full_name": "Admin User",
+    "is_active": true,
+    "is_staff": true,
+    "is_superuser": true,
+    "roles": "Admin",
+    "date_joined": "2025-01-01T00:00:00Z",
+    "last_login": "2026-04-26T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "username": "testuser",
+    "password": "dpobackenduser",
+    "email": "testuser@dpo.local",
+    "first_name": "Test",
+    "last_name": "User",
+    "full_name": "Test User",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "roles": "Manager",
+    "date_joined": "2025-01-01T00:00:00Z",
+    "last_login": "2026-04-26T08:00:00Z"
+  }
+]

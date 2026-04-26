@@ -1,0 +1,22 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: var(--size-list-max-height);
+  min-height: var(--layout-panel-min-height);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: auto;
+}
+
+.empty {
+  margin: 0;
+  padding: var(--space-md);
+  background: var(--color-bg-card);
+  border: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  color: var(--color-text-secondary);
+}

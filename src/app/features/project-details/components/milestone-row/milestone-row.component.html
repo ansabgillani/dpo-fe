@@ -1,0 +1,24 @@
+<article class="row" [attr.data-cy]="'milestone-row-' + milestone.id">
+  <h4 class="name">{{ milestone.name }}</h4>
+
+  <div class="date-cell">
+    <dpo-date-picker
+      [value]="milestone.startDate"
+      [dataCy]="'milestone-start-date-' + milestone.id"
+      (dateSelected)="onStartDateSelected($event)"
+    ></dpo-date-picker>
+  </div>
+
+  <div class="date-cell">
+    <dpo-date-picker
+      [value]="milestone.endDate"
+      [dataCy]="'milestone-end-date-' + milestone.id"
+      (dateSelected)="onEndDateSelected($event)"
+    ></dpo-date-picker>
+  </div>
+
+  <div class="trend" [ngClass]="trendClass" [attr.data-cy]="'milestone-trend-' + milestone.id">
+    <dpo-icon [name]="trendIconName" [size]="14" [dataCy]="'milestone-trend-icon-' + milestone.id"></dpo-icon>
+    <span class="trend-value">{{ trendPercent }}%</span>
+  </div>
+</article>

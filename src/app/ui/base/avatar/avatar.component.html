@@ -1,0 +1,10 @@
+<img
+	*ngIf="avatarUrl && !hasImageError"
+	class="avatar avatar-image"
+	[ngClass]="sizeClass"
+	[src]="avatarUrl"
+	alt="avatar"
+	[attr.data-cy]="dataCy"
+	(error)="onImageError()"
+/>
+<span *ngIf="!avatarUrl || hasImageError" class="avatar" [ngClass]="sizeClass" [attr.data-cy]="dataCy">{{ initials }}</span>

@@ -1,0 +1,39 @@
+<section class="risk-heatmap" data-cy="risk-heatmap">
+  <div class="matrix" data-cy="risk-heatmap-before">
+    <div class="corner"></div>
+    <div class="col-label" *ngFor="let column of columns">{{ column.label }}</div>
+
+    <ng-container *ngFor="let row of rows">
+      <div class="row-label">{{ row.label }}</div>
+      <div
+        class="cell"
+        *ngFor="let column of columns"
+        [ngClass]="getCellClass(column.key)"
+        [attr.data-cy]="'risk-heatmap-before-' + row.key + '-' + column.key"
+      >
+        {{ getCellValue('before', row.key, column.key) }}
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="arrow" data-cy="risk-heatmap-arrow">
+    <dpo-icon name="arrow-right" [size]="18" dataCy="risk-heatmap-arrow-icon"></dpo-icon>
+  </div>
+
+  <div class="matrix" data-cy="risk-heatmap-after">
+    <div class="corner"></div>
+    <div class="col-label" *ngFor="let column of columns">{{ column.label }}</div>
+
+    <ng-container *ngFor="let row of rows">
+      <div class="row-label">{{ row.label }}</div>
+      <div
+        class="cell"
+        *ngFor="let column of columns"
+        [ngClass]="getCellClass(column.key)"
+        [attr.data-cy]="'risk-heatmap-after-' + row.key + '-' + column.key"
+      >
+        {{ getCellValue('after', row.key, column.key) }}
+      </div>
+    </ng-container>
+  </div>
+</section>

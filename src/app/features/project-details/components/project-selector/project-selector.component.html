@@ -1,0 +1,9 @@
+<section class="selector" data-cy="project-selector">
+  <label class="label">Project Name</label>
+  <dpo-select
+    [options]="options"
+    [value]="selectedValue"
+    dataCy="project-selector-select"
+    (valueChange)="onProjectChange($event)"
+  ></dpo-select>
+</section>

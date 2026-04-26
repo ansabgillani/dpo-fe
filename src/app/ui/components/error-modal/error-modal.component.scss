@@ -1,0 +1,10 @@
+.header {
+	display: flex;
+	align-items: center;
+	gap: var(--space-sm);
+}
+
+p {
+	margin: var(--space-md) 0;
+	color: var(--color-text-secondary);
+}

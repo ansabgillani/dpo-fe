@@ -1,0 +1,15 @@
+<button
+  type="button"
+  [disabled]="disabled || loading"
+  [attr.data-cy]="dataCy"
+  [class.dpo-button-primary]="variant === 'primary'"
+  [class.dpo-button-secondary]="variant === 'secondary'"
+  [class.dpo-button-icon]="variant === 'icon'"
+  [class.dpo-button-nav-item]="variant === 'nav-item'"
+  [class.dpo-button-nav-active]="variant === 'nav-active'"
+  [class.dpo-button-stretch]="stretch"
+  (click)="onClick()"
+>
+  <span>{{ loading ? 'Loading...' : label }}</span>
+  <ng-content></ng-content>
+</button>

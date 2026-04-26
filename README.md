@@ -7,10 +7,12 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 To start a local development server, run:
 
 ```bash
-ng serve
+npm start
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+The frontend runtime API URL is read from `.env` and injected into `public/env.js` before startup.
 
 ## Code scaffolding
 
@@ -44,13 +46,59 @@ To execute unit tests with the [Karma](https://karma-runner.github.io) test runn
 ng test
 ```
 
+## Mock API server
+
+This workspace includes a mock API server for local frontend development.
+
+Start the server:
+
+```bash
+npm run mock:server
+```
+
+For test environment mode:
+
+```bash
+npm run mock:server:test
+```
+
+The API runs at `http://localhost:3001` with these endpoints:
+
+- `GET /api/health`
+- `GET /api/projects`
+- `GET /api/projects/:id`
+- `POST /api/projects`
+- `PUT /api/projects/:id`
+- `DELETE /api/projects/:id`
+- `GET /api/tasks`
+- `GET /api/tasks?projectId=1`
+- `POST /api/tasks`
+- `PATCH /api/tasks/:id`
+- `DELETE /api/tasks/:id`
+
+Quick validation:
+
+```bash
+npm run mock:check
+```
+
+Tip: add `?delay=500` to any request for a 500ms response delay.
+
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:
 
 ```bash
-ng e2e
+npm run cypress:run
 ```
+
+`npm run cypress:run` always starts:
+
+- the mock server using `.env.test`
+- the frontend app using `.env.test`
+- Cypress against the running app
+
+Use `npm run cypress:run:raw` only when app and mock server are already running.
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 

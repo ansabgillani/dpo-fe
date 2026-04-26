@@ -1,0 +1,17 @@
+<input
+	*ngIf="type === 'text'"
+	[value]="value"
+	[disabled]="disabled"
+	[placeholder]="placeholder"
+	[attr.data-cy]="dataCy"
+	(input)="onValueChange(($any($event.target)).value)"
+/>
+
+<textarea
+	*ngIf="type === 'textarea'"
+	[value]="value"
+	[disabled]="disabled"
+	[placeholder]="placeholder"
+	[attr.data-cy]="dataCy"
+	(input)="onValueChange(($any($event.target)).value)"
+></textarea>

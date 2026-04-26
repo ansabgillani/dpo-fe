@@ -1,0 +1,12 @@
+<select
+  [ngModel]="selectedValue"
+  [disabled]="disabled"
+  [attr.data-cy]="dataCy"
+  [class.select-outlined]="variant === 'outlined'"
+  [class.select-filled]="variant === 'filled'"
+  (change)="onChange($event)"
+  [id]="dataCy"
+>
+  <option *ngIf="includeAllOption" value="">{{ allLabel }}</option>
+  <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+</select>

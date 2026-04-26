@@ -1,0 +1,37 @@
+<section class="files-tab" data-cy="files-tab">
+  <div class="hidden-upload" data-cy="files-upload-host">
+    <dpo-file-input
+      [disabled]="saving"
+      dataCy="files-upload-input"
+      (fileSelected)="onUploadSelected($event)"
+    ></dpo-file-input>
+  </div>
+
+  <header class="toolbar">
+    <h3 class="title">Files</h3>
+    <dpo-button variant="primary" dataCy="files-add-button" (clicked)="onAddFile()">
+      <dpo-icon name="plus" [size]="14" dataCy="files-add-icon"></dpo-icon>
+      Add
+    </dpo-button>
+  </header>
+
+  <ng-container *ngIf="loading; else filesState">
+    <dpo-skeleton-file-list></dpo-skeleton-file-list>
+  </ng-container>
+
+  <ng-template #filesState>
+    <div class="list" *ngIf="files.length > 0; else emptyState" data-cy="files-list">
+      <dpo-file-row
+        *ngFor="let file of files"
+        [file]="file"
+        [disabled]="saving"
+        (downloadRequested)="onDownloadRequested($event)"
+        (deleteRequested)="onDeleteRequested($event)"
+      ></dpo-file-row>
+    </div>
+
+    <ng-template #emptyState>
+      <p class="empty" data-cy="files-empty-state">No files attached</p>
+    </ng-template>
+  </ng-template>
+</section>

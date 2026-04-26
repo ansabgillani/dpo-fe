@@ -1,0 +1,59 @@
+<section class="panel" data-cy="filter-panel">
+  <div *ngIf="loading" class="skeletons" data-cy="filter-panel-loading">
+    <dpo-skeleton-block height="var(--size-control-height)"></dpo-skeleton-block>
+    <dpo-skeleton-block height="var(--size-control-height)"></dpo-skeleton-block>
+    <dpo-skeleton-block height="var(--size-control-height)"></dpo-skeleton-block>
+  </div>
+
+  <div *ngIf="!loading" class="fields">
+    <label class="label">Department</label>
+    <dpo-select
+      [options]="departmentOptions"
+      [value]="values.department"
+      variant="filled"
+      [includeAllOption]="true"
+      [disabled]="loading"
+      dataCy="filter-panel-department"
+      (valueChange)="onDepartmentChange($event)"
+    ></dpo-select>
+
+    <label class="label">Business Line</label>
+    <dpo-select
+      [options]="businessLineOptions"
+      [value]="values.businessLine"
+      variant="filled"
+      [includeAllOption]="true"
+      [disabled]="loading"
+      dataCy="filter-panel-business-line"
+      (valueChange)="onBusinessLineChange($event)"
+    ></dpo-select>
+
+    <label class="label">Type</label>
+    <dpo-select
+      [options]="typeOptions"
+      [value]="values.type"
+      variant="filled"
+      [includeAllOption]="true"
+      [disabled]="loading"
+      dataCy="filter-panel-type"
+      (valueChange)="onTypeChange($event)"
+    ></dpo-select>
+  </div>
+
+  <div class="actions">
+    <dpo-button
+      variant="primary"
+      [stretch]="true"
+      [disabled]="loading"
+      dataCy="filter-panel-search"
+      (clicked)="onSearch()"
+    >Search</dpo-button>
+    <dpo-button
+      variant="secondary"
+      [stretch]="true"
+      [disabled]="loading"
+      dataCy="filter-panel-reset"
+      (clicked)="onReset()"
+    >Reset</dpo-button>
+  </div>
+</section>

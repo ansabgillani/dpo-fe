@@ -1,0 +1,16 @@
+<section class="skeleton" data-cy="skeleton-risk">
+  <dpo-skeleton-block
+    width="100%"
+    height="calc(var(--size-control-height) * 4)"
+    borderRadius="var(--radius-md)"
+  ></dpo-skeleton-block>
+
+  <div class="cards">
+    <dpo-skeleton-block
+      *ngFor="let _ of cardItems"
+      width="100%"
+      height="calc(var(--size-control-height) * 5)"
+      borderRadius="var(--radius-md)"
+    ></dpo-skeleton-block>
+  </div>
+</section>

@@ -1,0 +1,45 @@
+<section class="risk-tab" data-cy="risk-tab">
+  <header class="toolbar">
+    <div class="filter" data-cy="risk-filter">
+      <label class="label">Risk Type</label>
+      <dpo-select
+        [options]="riskTypeOptions"
+        [value]="selectedRiskType"
+        [disabled]="loading"
+        dataCy="risk-filter-type"
+        (valueChange)="onRiskTypeChange($event)"
+      ></dpo-select>
+    </div>
+
+    <dpo-button
+      variant="primary"
+      [disabled]="saving"
+      dataCy="risk-add-button"
+      (clicked)="onAddRisk()"
+    >
+      <dpo-icon name="plus" [size]="14" dataCy="risk-add-icon"></dpo-icon>
+      Add
+    </dpo-button>
+  </header>
+
+  <ng-container *ngIf="loading; else riskState">
+    <dpo-skeleton-risk></dpo-skeleton-risk>
+  </ng-container>
+
+  <ng-template #riskState>
+    <dpo-risk-heatmap [heatmap]="riskData.heatmap"></dpo-risk-heatmap>
+
+    <div class="list" *ngIf="riskData.risks.length > 0; else emptyState" data-cy="risk-card-list">
+      <dpo-risk-card
+        *ngFor="let risk of riskData.risks"
+        [risk]="risk"
+        [disabled]="saving"
+        (fieldSaved)="onRiskFieldSaved($event)"
+      ></dpo-risk-card>
+    </div>
+
+    <ng-template #emptyState>
+      <p class="empty" data-cy="risk-empty-state">No risks found</p>
+    </ng-template>
+  </ng-template>
+</section>

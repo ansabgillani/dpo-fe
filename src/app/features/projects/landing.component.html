@@ -1,0 +1,50 @@
+<dpo-page-shell>
+  <dpo-three-column-layout>
+    <div left class="left-panel">
+      <dpo-filter-panel
+        [options]="filterOptions"
+        [values]="filterValues"
+        [loading]="filtersLoading"
+        (valuesChange)="onValuesChange($event)"
+        (search)="onSearch()"
+        (reset)="onReset()"
+      ></dpo-filter-panel>
+
+      <div class="left-create-project">
+        <dpo-button
+          variant="primary"
+          label="Create New Project"
+          dataCy="landing-create-project"
+          [stretch]="true"
+          (clicked)="onOpenCreateProjectModal()"
+        ></dpo-button>
+      </div>
+    </div>
+
+    <div center class="center-panel">
+      <dpo-project-list
+        [projects]="projects"
+        [loading]="projectsLoading"
+        [selectedProjectId]="selectedProject?.id ?? null"
+        (selectProject)="onSelectProject($event)"
+        (openProject)="onOpenProject($event)"
+      ></dpo-project-list>
+    </div>
+
+    <div right>
+      <dpo-project-preview
+        [project]="selectedProject"
+        [loading]="projectsLoading"
+        (openProject)="onOpenProject($event)"
+      ></dpo-project-preview>
+    </div>
+  </dpo-three-column-layout>
+
+  <dpo-create-project-modal
+    [open]="createProjectModalOpen"
+    [saving]="createProjectSaving"
+    [options]="filterOptions"
+    (cancel)="onCloseCreateProjectModal()"
+    (create)="onCreateProject($event)"
+  ></dpo-create-project-modal>
+</dpo-page-shell>

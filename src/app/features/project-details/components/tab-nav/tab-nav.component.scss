@@ -1,0 +1,14 @@
+.tab-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.tab-row {
+  display: block;
+}
+
+.tab-row dpo-button {
+  display: block;
+  width: 100%;
+}

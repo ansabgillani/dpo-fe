@@ -1,0 +1,75 @@
+.left-panel,
+.content-panel,
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.left-panel {
+  background: var(--color-bg-card);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  min-height: 100%;
+  gap: var(--space-lg);
+}
+
+.content-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.left-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+.left-actions dpo-button {
+  width: 100%;
+}
+
+.left-actions dpo-icon {
+  margin-left: var(--space-xs);
+}
+
+.tab-content {
+  background: var(--color-bg-card);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+}
+
+.tab-title,
+.copy,
+.empty {
+  margin: 0;
+}
+
+.tab-title {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.copy,
+.empty {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.empty {
+  background: var(--color-bg-card);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+}

@@ -1,0 +1,65 @@
+<section class="milestone-tab" data-cy="milestone-tab">
+  <header class="toolbar" data-cy="milestone-toolbar">
+    <section class="timeline-summary" data-cy="milestone-timeline-summary">
+      <div class="timeline-title-row">
+        <dpo-icon name="clock" [size]="14" dataCy="milestone-timeline-icon"></dpo-icon>
+        <span class="timeline-label">Timeline</span>
+      </div>
+
+      <div class="timeline-meta">
+        <span class="timeline-status" data-cy="milestone-timeline-status">{{ timelineStatus }}</span>
+        <span class="timeline-trend" [ngClass]="timelineTrendClass" data-cy="milestone-timeline-trend">
+          <dpo-icon [name]="timelineTrendIconName" [size]="14" dataCy="milestone-timeline-trend-icon"></dpo-icon>
+          <span>{{ timelineTrendPercent }}%</span>
+        </span>
+      </div>
+    </section>
+
+    <section class="set-filter" data-cy="milestone-set-filter">
+      <dpo-select
+        [options]="milestoneTypeOptions"
+        [value]="selectedMilestoneType"
+        variant="filled"
+        dataCy="milestone-type-select"
+        (valueChange)="onMilestoneTypeChange($event)"
+      ></dpo-select>
+
+      <dpo-select
+        [options]="milestoneSetOptions"
+        [value]="selectedMilestoneSet"
+        [includeAllOption]="true"
+        variant="filled"
+        dataCy="milestone-set-select"
+        (valueChange)="onMilestoneSetChange($event)"
+      ></dpo-select>
+    </section>
+  </header>
+
+  <ng-container *ngIf="loading; else milestoneState">
+    <div data-cy="skeleton-milestone-list">
+      <dpo-skeleton-milestone-list></dpo-skeleton-milestone-list>
+    </div>
+  </ng-container>
+
+  <ng-template #milestoneState>
+    <header class="list-head" *ngIf="milestones.length > 0" data-cy="milestone-list-head">
+      <span class="head-name">Deliverable</span>
+      <span class="head-date">Start Date</span>
+      <span class="head-date">End Date</span>
+      <span class="head-trend">Trend</span>
+    </header>
+
+    <div class="list" *ngIf="milestones.length > 0; else emptyState" data-cy="milestone-list">
+      <dpo-milestone-row
+        *ngFor="let milestone of milestones"
+        [milestone]="milestone"
+        (startDateChange)="onStartDateChange($event)"
+        (endDateChange)="onEndDateChange($event)"
+      ></dpo-milestone-row>
+    </div>
+
+    <ng-template #emptyState>
+      <p class="empty" data-cy="milestone-empty-state">No milestones found</p>
+    </ng-template>
+  </ng-template>
+</section>

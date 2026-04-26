@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "description": "Full access to all resources",
+    "is_active": true,
+    "permission_count": "48",
+    "user_count": "1",
+    "created": "2025-01-01T00:00:00Z",
+    "last_modified": "2025-01-01T00:00:00Z"
+  }
+]

@@ -1,0 +1,21 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: var(--border-width-thin) solid var(--color-border);
+  padding: var(--space-xs) var(--space-sm);
+  text-align: left;
+  font-size: var(--font-size-base);
+}
+
+.table th {
+  background: var(--color-table-header-bg);
+  color: var(--color-text-secondary);
+}
+
+.table td {
+  color: var(--color-text-primary);
+}

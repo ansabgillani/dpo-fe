@@ -1,0 +1,27 @@
+<article class="row" [attr.data-cy]="'file-row-' + file.id">
+  <div class="main">
+    <div class="title" data-cy="file-row-title">{{ file.name }}</div>
+    <div class="meta" data-cy="file-row-meta">{{ fileSizeLabel }} · {{ file.contentType }}</div>
+  </div>
+
+  <div class="actions">
+    <dpo-button
+      variant="icon"
+      [disabled]="disabled"
+      [dataCy]="'file-row-download-' + file.id"
+      (clicked)="onDownloadClick()"
+    >
+      <dpo-icon name="download" [size]="16" [dataCy]="'file-row-download-icon-' + file.id"></dpo-icon>
+    </dpo-button>
+
+    <dpo-button
+      variant="icon"
+      [disabled]="disabled"
+      [dataCy]="'file-row-delete-' + file.id"
+      (clicked)="onDeleteClick()"
+    >
+      <dpo-icon name="trash-2" [size]="16" [dataCy]="'file-row-delete-icon-' + file.id"></dpo-icon>
+    </dpo-button>
+  </div>
+</article>
+<dpo-divider></dpo-divider>

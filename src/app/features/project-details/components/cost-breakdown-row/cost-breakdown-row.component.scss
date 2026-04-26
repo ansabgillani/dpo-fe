@@ -1,0 +1,29 @@
+.row {
+  display: grid;
+  grid-template-columns: 1fr 170px 170px 210px 90px;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--color-row-tint);
+  border-radius: var(--radius-md);
+}
+
+.name {
+  margin: 0;
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-primary-orange);
+  font-size: var(--font-size-base);
+}

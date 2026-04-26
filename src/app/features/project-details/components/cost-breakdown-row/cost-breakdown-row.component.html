@@ -1,0 +1,40 @@
+<article class="row" [attr.data-cy]="'cost-breakdown-row-' + product.id">
+  <h4 class="name">{{ product.name }}</h4>
+
+  <div class="field" [attr.data-cy]="'cost-breakdown-target-input-' + product.id">
+    <dpo-input
+      type="text"
+      [value]="targetValue"
+      (valueChange)="targetValue = $event"
+    ></dpo-input>
+    <div [attr.data-cy]="'cost-breakdown-target-save-' + product.id" (click)="onSaveTarget()">
+      <dpo-button variant="primary">✓</dpo-button>
+    </div>
+  </div>
+
+  <div class="field" [attr.data-cy]="'cost-breakdown-actual-input-' + product.id">
+    <dpo-input
+      type="text"
+      [value]="actualValue"
+      (valueChange)="actualValue = $event"
+    ></dpo-input>
+    <div [attr.data-cy]="'cost-breakdown-actual-save-' + product.id" (click)="onSaveActual()">
+      <dpo-button variant="primary">✓</dpo-button>
+    </div>
+  </div>
+
+  <div class="field" [attr.data-cy]="'cost-breakdown-date-' + product.id">
+    <dpo-date-picker
+      [value]="calculationDate"
+      (dateSelected)="onDateSelected($event)"
+    ></dpo-date-picker>
+    <div [attr.data-cy]="'cost-breakdown-date-save-' + product.id" (click)="onSaveDate()">
+      <dpo-button variant="primary">✓</dpo-button>
+    </div>
+  </div>
+
+  <div class="trend" [attr.data-cy]="'cost-breakdown-trend-' + product.id">
+    <dpo-icon [name]="trendIconName" [size]="14" [dataCy]="'cost-breakdown-trend-icon-' + product.id"></dpo-icon>
+    <span>{{ product.trendPercent }}%</span>
+  </div>
+</article>

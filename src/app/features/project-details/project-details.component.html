@@ -1,0 +1,99 @@
+<dpo-page-shell>
+  <dpo-three-column-layout>
+    <section left class="left-panel" data-cy="project-details-left-panel">
+      <dpo-project-selector
+        [projects]="projects"
+        [selectedProjectId]="selectedProjectId"
+        (projectSelected)="onProjectSelected($event)"
+      ></dpo-project-selector>
+
+      <dpo-tab-nav
+        [tabs]="tabs"
+        [activeTabIndex]="activeTabIndex"
+        (tabSelected)="onTabSelected($event)"
+      ></dpo-tab-nav>
+
+      <div class="left-actions">
+        <dpo-button
+          variant="nav-item"
+          label="Projects"
+          dataCy="project-details-projects-button"
+          (clicked)="onNavigateToProjects()"
+        >
+          <dpo-icon name="users" [size]="14" dataCy="project-details-projects-icon"></dpo-icon>
+        </dpo-button>
+      </div>
+    </section>
+
+    <section center class="content-panel" data-cy="project-details-content-panel">
+      <ng-container *ngIf="detailLoading; else contentState">
+        <div class="content-skeleton" data-cy="project-details-content-skeleton">
+          <dpo-skeleton-block width="100%" height="60px" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+          <dpo-skeleton-block width="100%" height="220px" borderRadius="var(--radius-md)"></dpo-skeleton-block>
+        </div>
+      </ng-container>
+
+      <ng-template #contentState>
+        <ng-container *ngIf="project; else emptyState">
+          <section class="tab-content" data-cy="project-details-tab-content">
+            <h2 *ngIf="activeTabIndex !== 0" class="tab-title">{{ tabs[activeTabIndex] }}</h2>
+
+            <ng-container [ngSwitch]="activeTabIndex">
+              <ng-container *ngSwitchCase="0">
+                @defer (when activeTabIndex === 0) {
+                  <dpo-overview-tab [projectId]="selectedProjectId" [project]="project"></dpo-overview-tab>
+                } @loading {
+                  <dpo-skeleton-kpi-grid></dpo-skeleton-kpi-grid>
+                }
+              </ng-container>
+              <ng-container *ngSwitchCase="1">
+                @defer (when activeTabIndex === 1) {
+                  <dpo-state-tab [projectId]="selectedProjectId"></dpo-state-tab>
+                } @loading {
+                  <dpo-skeleton-state-grid></dpo-skeleton-state-grid>
+                }
+              </ng-container>
+              <ng-container *ngSwitchCase="2">
+                @defer (when activeTabIndex === 2) {
+                  <dpo-milestone-tab [projectId]="selectedProjectId"></dpo-milestone-tab>
+                }
+              </ng-container>
+              <ng-container *ngSwitchCase="3">
+                @defer (when activeTabIndex === 3) {
+                  <dpo-cost-tab [projectId]="selectedProjectId"></dpo-cost-tab>
+                }
+              </ng-container>
+              <ng-container *ngSwitchCase="4">
+                @defer (when activeTabIndex === 4) {
+                  <dpo-risk-tab [projectId]="selectedProjectId"></dpo-risk-tab>
+                }
+              </ng-container>
+              <ng-container *ngSwitchCase="5">
+                @defer (when activeTabIndex === 5) {
+                  <dpo-files-tab [projectId]="selectedProjectId"></dpo-files-tab>
+                }
+              </ng-container>
+              <div *ngSwitchDefault class="panel" data-cy="placeholder-tab-panel">
+                <p class="copy">This tab shell is ready and will be implemented in the upcoming phase steps.</p>
+              </div>
+            </ng-container>
+          </section>
+        </ng-container>
+      </ng-template>
+
+      <ng-template #emptyState>
+        <section class="empty" data-cy="project-details-empty-state">Project not found.</section>
+      </ng-template>
+    </section>
+
+    <section right class="right-panel" data-cy="project-details-right-panel">
+      <ng-container *ngIf="detailLoading; else sidebarState">
+        <dpo-skeleton-sidebar></dpo-skeleton-sidebar>
+      </ng-container>
+
+      <ng-template #sidebarState>
+        <dpo-project-sidebar [project]="project"></dpo-project-sidebar>
+      </ng-template>
+    </section>
+  </dpo-three-column-layout>
+</dpo-page-shell>

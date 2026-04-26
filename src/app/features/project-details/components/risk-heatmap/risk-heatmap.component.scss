@@ -1,0 +1,61 @@
+.risk-heatmap {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: var(--size-meta-key-width) repeat(4, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.corner {
+  height: var(--size-control-height);
+}
+
+.col-label,
+.row-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--size-control-height);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  border: var(--border-width-thin) solid var(--color-border);
+}
+
+.cell-low {
+  background: var(--color-bg-card);
+}
+
+.cell-medium {
+  background: var(--color-risk-orange);
+}
+
+.cell-high {
+  background: var(--color-risk-high);
+  color: var(--color-bg-card);
+}
+
+.cell-block {
+  background: var(--color-risk-block);
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

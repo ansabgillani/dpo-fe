@@ -1,0 +1,56 @@
+.row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    var(--size-milestone-date-col-width)
+    var(--size-milestone-date-col-width)
+    var(--size-milestone-trend-col-width);
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-bg-input);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.name {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.date-cell {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.date-cell dpo-date-picker {
+  width: 100%;
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.trend-value {
+  line-height: 1;
+}
+
+.tier-green {
+  color: var(--color-success-green);
+}
+
+.tier-yellow {
+  color: var(--color-warning-yellow);
+}
+
+.tier-red {
+  color: var(--color-danger-red);
+}

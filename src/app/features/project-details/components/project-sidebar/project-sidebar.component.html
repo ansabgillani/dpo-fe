@@ -1,0 +1,178 @@
+<aside class="sidebar" data-cy="project-sidebar">
+  <ng-container *ngIf="project; else emptyState">
+    <div class="avatar-row">
+      <dpo-avatar
+        [avatarUrl]="project.avatarUrl || ''"
+        [initials]="getInitials()"
+        size="lg"
+        dataCy="project-sidebar-avatar"
+      ></dpo-avatar>
+
+      <dpo-file-input
+        #avatarFileInput
+        [disabled]="avatarSaving"
+        dataCy="project-sidebar-avatar-input"
+        (fileSelected)="onAvatarFileSelected($event)"
+      ></dpo-file-input>
+
+      <dpo-button
+        variant="icon"
+        [disabled]="avatarSaving"
+        dataCy="project-sidebar-avatar-edit"
+        (clicked)="onAvatarEditClick()"
+      >
+        <dpo-icon name="pencil" [size]="14" dataCy="project-sidebar-avatar-edit-icon"></dpo-icon>
+      </dpo-button>
+    </div>
+
+    <div *ngIf="!isEditingTitle; else editTitleState" class="title-row" data-cy="project-sidebar-title-row">
+      <h3 class="name">{{ project.name }}</h3>
+      <dpo-button
+        variant="icon"
+        dataCy="project-sidebar-title-edit"
+        (clicked)="onStartEditTitle()"
+      >
+        <dpo-icon name="pencil" [size]="14" dataCy="project-sidebar-title-edit-icon"></dpo-icon>
+      </dpo-button>
+    </div>
+
+    <ng-template #editTitleState>
+      <div class="title-edit-row" data-cy="project-sidebar-title-edit-row">
+        <dpo-input
+          type="text"
+          [value]="titleDraft"
+          dataCy="project-sidebar-title-input"
+          (valueChange)="onTitleDraftChange($event)"
+        ></dpo-input>
+
+        <dpo-button
+          variant="primary"
+          dataCy="project-sidebar-title-save"
+          (clicked)="onSaveTitle()"
+        >✓</dpo-button>
+
+        <dpo-button
+          variant="secondary"
+          dataCy="project-sidebar-title-cancel"
+          (clicked)="onCancelEditTitle()"
+        >✗</dpo-button>
+      </div>
+    </ng-template>
+
+    <dpo-inline-edit-field
+      fieldKey="department"
+      label="Department"
+      [value]="project.department"
+      layout="inline"
+      [activeEditField]="activeEditField"
+      [saveFn]="saveDepartment"
+      (editStarted)="startEditing($event)"
+      (editCancelled)="stopEditing($event)"
+      data-cy="project-sidebar-department"
+    ></dpo-inline-edit-field>
+
+    <dpo-inline-edit-field
+      fieldKey="business-line"
+      label="Business Line"
+      [value]="project.businessLine"
+      layout="inline"
+      [activeEditField]="activeEditField"
+      [saveFn]="saveBusinessLine"
+      (editStarted)="startEditing($event)"
+      (editCancelled)="stopEditing($event)"
+      data-cy="project-sidebar-business-line"
+    ></dpo-inline-edit-field>
+
+    <dpo-inline-edit-field
+      fieldKey="type"
+      label="Type"
+      [value]="project.type"
+      layout="inline"
+      [activeEditField]="activeEditField"
+      [saveFn]="saveType"
+      (editStarted)="startEditing($event)"
+      (editCancelled)="stopEditing($event)"
+      data-cy="project-sidebar-type"
+    ></dpo-inline-edit-field>
+
+    <dpo-inline-edit-field
+      fieldKey="start-date"
+      label="Start Date"
+      [value]="project.startDate"
+      layout="inline"
+      [activeEditField]="activeEditField"
+      [saveFn]="saveStartDate"
+      (editStarted)="startEditing($event)"
+      (editCancelled)="stopEditing($event)"
+      data-cy="project-sidebar-start-date"
+    ></dpo-inline-edit-field>
+
+    <dpo-inline-edit-field
+      fieldKey="end-date"
+      label="End Date"
+      [value]="project.endDate"
+      layout="inline"
+      [activeEditField]="activeEditField"
+      [saveFn]="saveEndDate"
+      (editStarted)="startEditing($event)"
+      (editCancelled)="stopEditing($event)"
+      data-cy="project-sidebar-end-date"
+    ></dpo-inline-edit-field>
+
+    <dpo-inline-edit-field
+      fieldKey="status"
+      label="Status"
+      [value]="project.statusProject"
+      layout="inline"
+      [activeEditField]="activeEditField"
+      [saveFn]="saveStatus"
+      (editStarted)="startEditing($event)"
+      (editCancelled)="stopEditing($event)"
+      data-cy="project-sidebar-status"
+    ></dpo-inline-edit-field>
+
+    <section class="psp" data-cy="project-sidebar-psp-list">
+      <div class="psp-header">
+        <h4 class="psp-title">PSP Projects</h4>
+        <dpo-button variant="icon" dataCy="project-sidebar-psp-add" (clicked)="onStartAddPsp()">
+          <dpo-icon name="plus" [size]="14" dataCy="project-sidebar-psp-add-icon"></dpo-icon>
+        </dpo-button>
+      </div>
+
+      <div class="psp-new" *ngIf="isAddingPsp" data-cy="project-sidebar-psp-new-row">
+        <dpo-input
+          type="text"
+          [value]="newPspName"
+          dataCy="project-sidebar-psp-new-input"
+          (valueChange)="newPspName = $event"
+        ></dpo-input>
+        <div class="psp-actions">
+          <dpo-button variant="primary" dataCy="project-sidebar-psp-new-confirm" (clicked)="onConfirmAddPsp()">✓</dpo-button>
+          <dpo-button variant="secondary" dataCy="project-sidebar-psp-new-cancel" (clicked)="onCancelAddPsp()">✗</dpo-button>
+        </div>
+      </div>
+
+      <div class="psp-row" *ngFor="let item of project.pspProjects" [attr.data-cy]="'project-sidebar-psp-row-' + item.id">
+        <dpo-inline-edit-field
+          [fieldKey]="'psp-' + item.id"
+          label=""
+          [value]="item.name"
+          layout="inline"
+          [activeEditField]="activeEditField"
+          [saveFn]="getPspSaveFn(item.id)"
+          (editStarted)="startEditing($event)"
+          (editCancelled)="stopEditing($event)"
+        ></dpo-inline-edit-field>
+        <dpo-button variant="icon" [dataCy]="'project-sidebar-psp-delete-' + item.id" (clicked)="onDeletePspProject(item.id, item.name)">
+          <dpo-icon name="trash-2" [size]="14" [dataCy]="'project-sidebar-psp-delete-icon-' + item.id"></dpo-icon>
+        </dpo-button>
+      </div>
+
+      <p class="psp-item" *ngIf="project.pspProjects.length === 0 && !isAddingPsp">No PSP projects</p>
+    </section>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <p class="empty">No project selected</p>
+  </ng-template>
+</aside>

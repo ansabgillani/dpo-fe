@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "product": 1,
+    "target": "220000.00",
+    "actual": "198000.00",
+    "calculation_date": "2025-04-01",
+    "variance": "-22000.00",
+    "variance_percentage": "-10.00",
+    "created": "2025-04-01T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "product": 2,
+    "target": "200000.00",
+    "actual": "182000.00",
+    "calculation_date": "2025-04-01",
+    "variance": "-18000.00",
+    "variance_percentage": "-9.00",
+    "created": "2025-04-01T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  },
+  {
+    "id": 3,
+    "product": 3,
+    "target": "300000.00",
+    "actual": "265000.00",
+    "calculation_date": "2025-04-01",
+    "variance": "-35000.00",
+    "variance_percentage": "-11.67",
+    "created": "2025-04-01T08:00:00Z",
+    "last_modified": "2025-04-01T08:00:00Z"
+  }
+]

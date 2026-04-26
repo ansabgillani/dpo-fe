@@ -1,0 +1,7 @@
+{
+  "departments": ["DIC", "DAS", "LMS"],
+  "businessLines": ["XP", "CT", "MR", "XR", "US", "MI", "LAB", "DX"],
+  "types": ["SSP", "Platform", "Program"],
+  "milestoneSets": ["MS-2025-A", "MS-2025-B", "MS-2025-C"],
+  "riskTypes": ["scope", "schedule", "resource", "financial", "compliance"]
+}

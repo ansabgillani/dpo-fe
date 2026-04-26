@@ -1,0 +1,42 @@
+<article
+  class="card"
+  [class.card-selected]="selected"
+  [attr.data-cy]="'project-card-' + project.id"
+  (click)="onSelect()"
+  (keydown.enter)="onSelect()"
+  tabindex="0"
+>
+  <dpo-avatar
+    [avatarUrl]="project.avatarUrl || ''"
+    [initials]="getInitials()"
+    size="xl"
+    [dataCy]="'project-card-avatar-' + project.id"
+  ></dpo-avatar>
+
+  <div class="content">
+    <h3 class="name">{{ project.name }}</h3>
+
+    <dl class="meta">
+      <div class="meta-row">
+        <dt>Department</dt>
+        <dd>{{ project.department }}</dd>
+      </div>
+      <div class="meta-row">
+        <dt>Business Line</dt>
+        <dd>{{ project.businessLine }}</dd>
+      </div>
+      <div class="meta-row">
+        <dt>Type</dt>
+        <dd>{{ project.type }}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="open-action" (click)="$event.stopPropagation()">
+    <dpo-button
+      variant="primary"
+      [dataCy]="'project-card-open-' + project.id"
+      (clicked)="onOpen()"
+    >Open</dpo-button>
+  </div>
+</article>

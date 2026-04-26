@@ -1,0 +1,14 @@
+.layout {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: var(--layout-left-width) var(--layout-center-width) var(--layout-right-width);
+  align-items: stretch;
+  min-height: var(--layout-panel-min-height);
+  width: 100%;
+}
+
+.left,
+.center,
+.right {
+  min-height: var(--layout-panel-min-height);
+}
