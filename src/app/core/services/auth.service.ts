@@ -59,13 +59,23 @@ export class AuthService {
     return this.ensureAccessToken();
   }
 
-  getStoredAccessToken(): string | null {
-    return this.getAccessToken();
+  // FIXME: Temporary method called on /projects load to force re-authentication against
+  // the real backend. Stale tokens in localStorage would otherwise cause 401s.
+  // Remove this and replace with a proper login/session-refresh flow when login
+  // infrastructure is ready. See IMPLEMENTATION_NOTES.md for full context.
+  forceAuthenticate(): Observable<string> {
+    this.clearTokens();
+    return this.ensureAccessToken();
   }
 
   logout(): void {
+    this.clearTokens();
+  }
+
+  private clearTokens(): void {
     globalThis.localStorage?.removeItem(AuthService.ACCESS_TOKEN_KEY);
     globalThis.localStorage?.removeItem(AuthService.REFRESH_TOKEN_KEY);
+    this.loginRequest$ = undefined;
   }
 
   private ensureAccessToken(): Observable<string> {
@@ -78,14 +88,13 @@ export class AuthService {
       return this.loginRequest$;
     }
 
-    // FIXME: Temporary auto-authentication on app startup.
-    // Since no login UI exists yet, the app auto-authenticates with hardcoded
-    // testuser credentials. Remove this and implement proper login flow when
-    // login infrastructure is ready. See IMPLEMENTATION_NOTES.md for context.
+    // FIXME: Temporary auto-authentication using credentials from env config.
+    // Replace with a proper login flow when login infrastructure is ready.
+    // See IMPLEMENTATION_NOTES.md for context.
     this.loginRequest$ = this.http
       .post<TokenPair>(`${UI_CONFIG.api.baseUrl}/auth/token/`, {
-        username: 'testuser',
-        password: 'dpobackenduser'
+        username: UI_CONFIG.api.autoAuthUsername,
+        password: UI_CONFIG.api.autoAuthPassword
       })
       .pipe(
         tap((tokens) => {
@@ -116,12 +125,8 @@ export class AuthService {
 
   private mapBackendRole(rawRoles?: string): AuthUser['role'] {
     const value = (rawRoles || '').toLowerCase();
-    if (value.includes('admin')) {
-      return 'admin';
-    }
-    if (value.includes('viewer')) {
-      return 'viewer';
-    }
+    if (value.includes('admin')) return 'admin';
+    if (value.includes('viewer')) return 'viewer';
     return 'manager';
   }
 }

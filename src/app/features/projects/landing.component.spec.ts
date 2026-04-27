@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { of } from 'rxjs';
 
 import { CreateProjectPayload, DEFAULT_FILTER_VALUES } from '@core/models/project.model';
+import { AuthService } from '@core/services/auth.service';
 import { FilterStateService } from '@core/services/filter-state.service';
 import { ProjectService } from '@core/services/project.service';
 import { LandingComponent } from './landing.component';
@@ -61,12 +62,17 @@ describe('LandingComponent', () => {
     navigate: jest.fn(() => Promise.resolve(true))
   };
 
+  const authService = {
+    forceAuthenticate: jest.fn(() => of('mock-token'))
+  };
+
   beforeEach(async () => {
     jest.clearAllMocks();
 
     await TestBed.configureTestingModule({
       imports: [LandingComponent],
       providers: [
+        { provide: AuthService, useValue: authService },
         { provide: FilterStateService, useValue: filterStateService },
         { provide: ProjectService, useValue: projectService },
         { provide: Router, useValue: router }

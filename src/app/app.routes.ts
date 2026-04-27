@@ -1,33 +1,34 @@
 import { Routes } from '@angular/router';
 
-import { AuthGuard } from '@core/guards/auth.guard';
-import { LoginComponent } from './features/login/login.component';
-import { ProjectDetailsComponent } from './features/project-details/project-details.component';
+import { authGuard } from '@core/guards/auth.guard';
 
 export const routes: Routes = [
-	{
-		path: 'projects',
-		loadComponent: () =>
-			import('./features/projects/landing.component').then((module) => module.LandingComponent),
-		canActivate: [AuthGuard]
-	},
-	{
-		path: 'project/:id',
-		component: ProjectDetailsComponent,
-		canActivate: [AuthGuard]
-	},
-	{
-		path: 'login',
-		component: LoginComponent,
-		canActivate: [AuthGuard]
-	},
-	{
-		path: '',
-		pathMatch: 'full',
-		redirectTo: 'projects'
-	},
-	{
-		path: '**',
-		redirectTo: 'projects'
-	}
+  {
+    path: 'projects',
+    loadComponent: () =>
+      import('./features/projects/landing.component').then((m) => m.LandingComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'project/:id',
+    loadComponent: () =>
+      import('./features/project-details/project-details.component').then(
+        (m) => m.ProjectDetailsComponent
+      ),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./features/login/login.component').then((m) => m.LoginComponent)
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'projects'
+  },
+  {
+    path: '**',
+    redirectTo: 'projects'
+  }
 ];

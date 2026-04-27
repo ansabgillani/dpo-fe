@@ -38,11 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private isAuthRoute(url: string): boolean {
-    return (
-      url.includes('/auth/token/') ||
-      url.includes('/auth/token/refresh/') ||
-      url.includes('/auth/token/verify/') ||
-      url.includes('/logs')
-    );
+    // /auth/token/ also covers /auth/token/refresh/ and /auth/token/verify/ by substring match
+    return url.includes('/auth/token/') || url.includes('/logs');
   }
 }

@@ -1,46 +1,40 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Router, UrlTree } from '@angular/router';
-import { firstValueFrom, of } from 'rxjs';
+import { Observable, firstValueFrom, isObservable, of } from 'rxjs';
 
-import { AuthGuard } from './auth.guard';
+import { authGuard } from './auth.guard';
 import { AuthService } from '../services/auth.service';
 
-describe('AuthGuard', () => {
-  let guard: AuthGuard;
+describe('authGuard', () => {
   let authService: { isAuthenticated: jest.Mock };
   let router: { parseUrl: jest.Mock };
 
   beforeEach(() => {
-    authService = {
-      isAuthenticated: jest.fn()
-    };
-
-    router = {
-      parseUrl: jest.fn().mockReturnValue({} as UrlTree)
-    };
+    authService = { isAuthenticated: jest.fn() };
+    router = { parseUrl: jest.fn().mockReturnValue({} as UrlTree) };
 
     TestBed.configureTestingModule({
       providers: [
-        AuthGuard,
         { provide: AuthService, useValue: authService },
         { provide: Router, useValue: router }
       ]
     });
-
-    guard = TestBed.inject(AuthGuard);
   });
+
+  const runGuard = () => {
+    const result = TestBed.runInInjectionContext(() => authGuard({} as never, {} as never));
+    return isObservable(result) ? firstValueFrom(result as Observable<boolean | UrlTree>) : Promise.resolve(result);
+  };
 
   it('allows activation when authenticated', async () => {
     authService.isAuthenticated.mockReturnValue(of(true));
-    await expect(firstValueFrom(guard.canActivate())).resolves.toBe(true);
+    await expect(runGuard()).resolves.toBe(true);
   });
 
   it('redirects when not authenticated', async () => {
     authService.isAuthenticated.mockReturnValue(of(false));
-
-    await firstValueFrom(guard.canActivate());
-
+    await runGuard();
     expect(router.parseUrl).toHaveBeenCalledTimes(1);
   });
 });

@@ -223,13 +223,11 @@ export class ProjectService {
     return this.http
       .get<ApiProjectFilterOptions>(`${UI_CONFIG.api.baseUrl}/filters/projects`)
       .pipe(
-        map((response) => {
-          return {
-            departments: this.unique(response.department || []),
-            businessLines: this.unique(response.business_line || []),
-            types: this.unique(response.type || [])
-          };
-        }),
+        map((response) => ({
+          departments: this.unique(response.department || []),
+          businessLines: this.unique(response.business_line || []),
+          types: this.unique(response.type || [])
+        })),
         catchError((error: unknown) => {
           this.errorLogger.log('error', 'ERR_FETCH_FILTERS', 'Failed to fetch filter options', undefined, error);
           return throwError(() => error);

@@ -78,7 +78,9 @@ export const UI_CONFIG = {
   },
   api: {
     baseUrl: apiBaseUrl,
-    loginUrl: '/login'
+    loginUrl: '/login',
+    autoAuthUsername: runtimeEnv['DPO_AUTO_AUTH_USERNAME'] || '',
+    autoAuthPassword: runtimeEnv['DPO_AUTO_AUTH_PASSWORD'] || ''
   },
   animation: {
     skeletonDuration: '1.5s',

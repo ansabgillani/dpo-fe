@@ -9,6 +9,7 @@ import {
   FilterValues,
   ProjectSummary
 } from '@core/models/project.model';
+import { AuthService } from '@core/services/auth.service';
 import { FilterStateService } from '@core/services/filter-state.service';
 import { ProjectService } from '@core/services/project.service';
 import { ButtonComponent } from '../../ui/base/button/button.component';
@@ -36,6 +37,10 @@ import { ProjectPreviewComponent } from './components/project-preview/project-pr
 })
 export class LandingComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly authService = inject(AuthService);
+  private readonly filterStateService = inject(FilterStateService);
+  private readonly projectService = inject(ProjectService);
+  private readonly router = inject(Router);
 
   filterOptions: FilterOptions = {
     departments: [],
@@ -52,16 +57,25 @@ export class LandingComponent implements OnInit {
   selectedProject: ProjectSummary | null = null;
   createProjectModalOpen = false;
 
-  constructor(
-    private readonly filterStateService: FilterStateService,
-    private readonly projectService: ProjectService,
-    private readonly router: Router
-  ) {}
-
   ngOnInit(): void {
     this.filterValues = this.filterStateService.getFilterValues();
-    this.loadFilters();
-    this.loadProjects(this.filterValues);
+
+    // FIXME: Temporary auth on /projects load — clears stale tokens and re-authenticates
+    // against the real backend on every page visit. Replace with a proper login flow
+    // when login infrastructure is ready. See IMPLEMENTATION_NOTES.md for context.
+    this.authService
+      .forceAuthenticate()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.loadFilters();
+          this.loadProjects(this.filterValues);
+        },
+        error: () => {
+          this.filtersLoading = false;
+          this.projectsLoading = false;
+        }
+      });
   }
 
   onValuesChange(values: FilterValues): void {
