@@ -38,6 +38,9 @@ testem.log
 /typings
 /mock-server/logs/frontend.log
 
+# Generated at dev-server / test-runner startup from .env / .env.test — do not edit by hand
+/public/env.js
+
 
 # System files
 .DS_Store

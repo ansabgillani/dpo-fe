@@ -378,21 +378,7 @@ export class ProjectService {
   }
 
   getMilestoneSets(): Observable<string[]> {
-    return this.http
-      .get<string[]>(`${UI_CONFIG.api.baseUrl}/filters/milestone-sets`)
-      .pipe(
-        map((sets) => (sets.length ? sets : ['MP', 'BL'])),
-        catchError((error: unknown) => {
-          this.errorLogger.log(
-            'error',
-            'ERR_FETCH_MILESTONE_SETS',
-            'Failed to fetch milestone sets',
-            undefined,
-            error
-          );
-          return throwError(() => error);
-        })
-      );
+    return of(['MP', 'BL']);
   }
 
   getMilestones(id: number, milestoneSet?: string): Observable<MilestoneItem[]> {

@@ -345,14 +345,11 @@ describe('ProjectService', () => {
     getRequest.flush([]);
   });
 
-  it('fetches milestone sets from dedicated filter endpoint', () => {
+  it('returns hardcoded milestone sets MP and BL', (done) => {
     service.getMilestoneSets().subscribe((sets) => {
-      expect(sets).toEqual(['BL', 'MP']);
+      expect(sets).toEqual(['MP', 'BL']);
+      done();
     });
-
-    const request = httpMock.expectOne('http://localhost:3001/api/v1/filters/milestone-sets');
-    expect(request.request.method).toBe('GET');
-    request.flush(['BL', 'MP']);
   });
 
   it('uploadFile emits FILE_TOO_LARGE typed error on 400 with FILE_TOO_LARGE code', (done) => {

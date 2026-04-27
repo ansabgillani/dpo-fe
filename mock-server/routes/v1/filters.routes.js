@@ -16,16 +16,4 @@ router.get('/projects', (_req, res) => {
   });
 });
 
-router.get('/milestone-sets', (_req, res) => {
-  const sets = Array.from(
-    new Set(
-      store.milestones
-        .map((milestone) => milestone.milestone_set || milestone.type)
-        .filter(Boolean)
-    )
-  ).sort();
-
-  res.json(sets.length ? sets : ['MP', 'BL']);
-});
-
 module.exports = router;
