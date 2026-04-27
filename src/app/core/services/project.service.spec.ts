@@ -106,47 +106,28 @@ describe('ProjectService', () => {
     pspReq.flush({ count: 1, next: null, previous: null, results: [{ id: 401, project: 4, psp_element: 'PSP-401' }] });
   });
 
-  it('fetches state cards from status trends endpoint', () => {
+  it('fetches state cards from statuses endpoint', () => {
     service.getStateCards(2).subscribe((cards) => {
       expect(cards).toHaveLength(6);
       expect(cards.find((card) => card.key === 'quality')?.value).toBe(90);
       expect(cards.find((card) => card.key === 'budget')?.narrative).toBe('Spend is within plan.');
-      expect(cards.find((card) => card.key === 'target-cost')?.previousValue).toBe(35);
+      expect(cards.find((card) => card.key === 'target-cost')?.previousValue).toBe(65);
     });
 
-    const request = httpMock.expectOne('http://localhost:3001/api/v1/projects/2/status-trends');
-    request.flush([
-      {
-        name: 'Quality',
-        current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: 'Stable quality trend.' },
-        previous: { value: 'Yellow', changed_at: '2026-03-20T08:00:00Z' }
-      },
-      {
-        name: 'Budget',
-        current: { value: 'Yellow', changed_at: '2026-04-26T08:00:00Z', description: 'Spend is within plan.' },
-        previous: { value: 'Green', changed_at: '2026-03-20T08:00:00Z' }
-      },
-      {
-        name: 'TargetCost',
-        current: { value: 'Yellow', changed_at: '2026-04-26T08:00:00Z', description: '' },
-        previous: { value: 'Red', changed_at: '2026-03-20T08:00:00Z' }
-      },
-      {
-        name: 'Resources',
-        current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: '' },
-        previous: { value: 'Yellow', changed_at: '2026-03-20T08:00:00Z' }
-      },
-      {
-        name: 'Timeline',
-        current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: '' },
-        previous: { value: 'Yellow', changed_at: '2026-03-20T08:00:00Z' }
-      },
-      {
-        name: 'CustomerSatisfaction',
-        current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: '' },
-        previous: { value: 'Yellow', changed_at: '2026-03-20T08:00:00Z' }
-      }
-    ]);
+    const request = httpMock.expectOne('http://localhost:3001/api/v1/statuses/?project=2&page_size=200');
+    request.flush({
+      count: 6,
+      next: null,
+      previous: null,
+      results: [
+        { id: 1, project: 2, name: 'Quality', value: 'Green', description: 'Stable quality trend.' },
+        { id: 2, project: 2, name: 'Budget', value: 'Yellow', description: 'Spend is within plan.' },
+        { id: 3, project: 2, name: 'TargetCost', value: 'Yellow', description: '' },
+        { id: 4, project: 2, name: 'Resources', value: 'Green', description: '' },
+        { id: 5, project: 2, name: 'Timeline', value: 'Green', description: '' },
+        { id: 6, project: 2, name: 'CustomerSatisfaction', value: 'Green', description: '' }
+      ]
+    });
   });
 
   it('fetches overview chart data from overview-chart endpoint', () => {
@@ -193,15 +174,14 @@ describe('ProjectService', () => {
     expect(patchReq.request.body).toEqual({ name: 'Quality', value: 'Green', description: 'Updated narrative.' });
     patchReq.flush({});
 
-    // saveState refetches via getStateCards which calls GET /projects/:id/status-trends
-    const refetchReq = httpMock.expectOne('http://localhost:3001/api/v1/projects/1/status-trends');
-    refetchReq.flush([
-      {
-        name: 'Quality',
-        current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: 'Updated narrative.' },
-        previous: null
-      }
-    ]);
+    // saveState refetches via getStateCards which calls GET /statuses/?project=:id&page_size=200
+    const refetchReq = httpMock.expectOne('http://localhost:3001/api/v1/statuses/?project=1&page_size=200');
+    refetchReq.flush({
+      count: 1,
+      next: null,
+      previous: null,
+      results: [{ id: 1, project: 1, name: 'Quality', value: 'Green', description: 'Updated narrative.' }]
+    });
   });
 
   it('updates metadata via project patch and refetches details', () => {

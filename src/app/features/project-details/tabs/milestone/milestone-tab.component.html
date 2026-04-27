@@ -16,18 +16,10 @@
     </section>
 
     <section class="set-filter" data-cy="milestone-set-filter">
-      <dpo-select
-        [options]="milestoneTypeOptions"
-        [value]="selectedMilestoneType"
-        variant="filled"
-        dataCy="milestone-type-select"
-        (valueChange)="onMilestoneTypeChange($event)"
-      ></dpo-select>
 
       <dpo-select
         [options]="milestoneSetOptions"
         [value]="selectedMilestoneSet"
-        [includeAllOption]="true"
         variant="filled"
         dataCy="milestone-set-select"
         (valueChange)="onMilestoneSetChange($event)"

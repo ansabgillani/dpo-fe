@@ -32,8 +32,7 @@ export class MilestoneTabComponent implements OnChanges {
   milestones: MilestoneItem[] = [];
   milestoneSets: string[] = [];
   loading = false;
-  selectedMilestoneType = 'MP';
-  selectedMilestoneSet = '';
+  selectedMilestoneSet = 'MP';
   private loadingTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private readonly projectService: ProjectService) {
@@ -61,10 +60,10 @@ export class MilestoneTabComponent implements OnChanges {
   }
 
   get milestoneSetOptions(): SelectOption[] {
-    return this.milestoneSets.map((set) => ({
-      label: set,
-      value: set
-    }));
+    // Only allow MP and BL
+    return this.milestoneSets
+      .filter((set) => set === 'MP' || set === 'BL')
+      .map((set) => ({ label: set, value: set }));
   }
 
   get milestoneTypeOptions(): SelectOption[] {
@@ -117,10 +116,6 @@ export class MilestoneTabComponent implements OnChanges {
   onMilestoneSetChange(value: string): void {
     this.selectedMilestoneSet = value;
     this.fetchMilestones();
-  }
-
-  onMilestoneTypeChange(value: string): void {
-    this.selectedMilestoneType = value;
   }
 
   onStartDateChange(event: { milestoneId: number; date: string }): void {

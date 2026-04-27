@@ -92,20 +92,6 @@ interface ApiStatus {
   description: string;
 }
 
-interface ApiStatusTrend {
-  name: string;
-  current: {
-    value: string;
-    changed_at: string;
-    description?: string;
-  };
-  previous?: {
-    value: string;
-    changed_at: string;
-    description?: string;
-  } | null;
-}
-
 interface ApiOverviewChartSeries {
   reportingMonth: string;
   gross: number;
@@ -176,14 +162,14 @@ interface ApiProductCost {
 const STATE_CARD_DEFINITIONS: Array<{ key: StateCard['key']; id: string; label: string; statusName: string }> = [
   { key: 'quality', id: 'quality', label: 'Quality', statusName: 'Quality' },
   { key: 'budget', id: 'budget', label: 'Budget', statusName: 'Budget' },
-  { key: 'target-cost', id: 'targetCost', label: 'Target Cost', statusName: 'TargetCost' },
-  { key: 'resources', id: 'resources', label: 'Resources', statusName: 'Resources' },
+  { key: 'target-cost', id: 'targetCost', label: 'Target Cost', statusName: 'Target Costs' },
+  { key: 'resources', id: 'resources', label: 'Resources', statusName: 'Ressources' },
   { key: 'timeline', id: 'timeline', label: 'Timeline', statusName: 'Timeline' },
   {
     key: 'customer-satisfaction',
     id: 'customerSatisfaction',
     label: 'Customer Satisfaction',
-    statusName: 'CustomerSatisfaction'
+    statusName: 'Customer perception'
   }
 ];
 
@@ -333,9 +319,11 @@ export class ProjectService {
 
   getStateCards(id: number): Observable<StateCard[]> {
     return this.http
-      .get<ApiStatusTrend[] | PaginatedResponse<ApiStatusTrend>>(`${UI_CONFIG.api.baseUrl}/projects/${id}/status-trends`)
+      .get<PaginatedResponse<ApiStatus> | ApiStatus[]>(`${UI_CONFIG.api.baseUrl}/statuses/`, {
+        params: new HttpParams().set('project', String(id)).set('page_size', '200')
+      })
       .pipe(
-        map((response) => this.toStateCardsFromTrends(this.unwrapResults(response), id)),
+        map((response) => this.toStateCardsFromStatuses(this.unwrapResults(response), id)),
         catchError((error: unknown) => {
           this.errorLogger.log('error', 'ERR_FETCH_STATE', 'Failed to fetch state cards', { projectId: id }, error);
           return throwError(() => error);
@@ -384,7 +372,7 @@ export class ProjectService {
   getMilestones(id: number, milestoneSet?: string): Observable<MilestoneItem[]> {
     return this.http
       .get<PaginatedResponse<ApiMilestone> | ApiMilestone[]>(`${UI_CONFIG.api.baseUrl}/milestones/`, {
-        params: new HttpParams().set('project', String(id)).set('page_size', '250')
+        params: new HttpParams().set('project', String(id)).set('page_size', '250').set('type', String(milestoneSet))
       })
       .pipe(
         map((response) => {
@@ -900,20 +888,19 @@ export class ProjectService {
     this.projectOverrides.set(projectId, { ...existing, ...patch });
   }
 
-  private toStateCardsFromTrends(trends: ApiStatusTrend[], projectId: number): StateCard[] {
-    const byName = new Map(trends.map((trend) => [trend.name, trend]));
+  private toStateCardsFromStatuses(statuses: ApiStatus[], projectId: number): StateCard[] {
+    const byName = new Map(statuses.map((status) => [status.name, status]));
 
     return STATE_CARD_DEFINITIONS.map((definition) => {
-      const trend = byName.get(definition.statusName);
-      const currentColor = trend?.current?.value || 'Gray';
-      const previousColor = trend?.previous?.value || currentColor;
+      const status = byName.get(definition.statusName);
+      const currentColor = status?.value || 'Gray';
       return {
         id: definition.id,
         key: definition.key,
         label: definition.label,
         value: this.stateValueFromColor(currentColor),
-        previousValue: this.stateValueFromColor(previousColor),
-        narrative: trend?.current?.description || ''
+        previousValue: this.stateValueFromColor(currentColor),
+        narrative: status?.description || ''
       };
     }).map((card) => {
       if (projectId && this.projectOverrides.get(projectId)?.statusProject === 'At Risk' && card.key === 'timeline') {

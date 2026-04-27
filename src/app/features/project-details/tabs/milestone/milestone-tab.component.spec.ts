@@ -12,7 +12,7 @@ describe('MilestoneTabComponent', () => {
   const milestones = [
     {
       id: 1,
-      milestoneSet: 'MS-2025-A',
+      milestoneSet: 'MP',
       name: 'Architecture Complete',
       startDate: '2025-02-01',
       endDate: '2025-02-18'
@@ -20,7 +20,7 @@ describe('MilestoneTabComponent', () => {
   ];
 
   const projectService = {
-    getMilestoneSets: jest.fn(() => of(['MS-2025-A', 'MS-2025-B'])),
+    getMilestoneSets: jest.fn(() => of(['MP', 'BL'])),
     getMilestones: jest.fn(() => of(milestones)),
     updateMilestone: jest.fn(() => of(milestones))
   };
@@ -52,9 +52,8 @@ describe('MilestoneTabComponent', () => {
   });
 
   it('refetches milestones when milestone set changes', () => {
-    component.onMilestoneSetChange('MS-2025-A');
-
-    expect(projectService.getMilestones).toHaveBeenCalledWith(1, 'MS-2025-A');
+    component.onMilestoneSetChange('MP');
+    expect(projectService.getMilestones).toHaveBeenCalledWith(1, 'MP');
   });
 
   it('updates milestone date via service and refreshes list', () => {
