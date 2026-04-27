@@ -1,11 +1,11 @@
 import { SelectOption } from './risk-field-configs.types';
 
 const RISK_TYPE_OPTIONS: SelectOption[] = [
-  { label: 'Scope', value: 'scope' },
-  { label: 'Schedule', value: 'schedule' },
-  { label: 'Resource', value: 'resource' },
-  { label: 'Financial', value: 'financial' },
-  { label: 'Compliance', value: 'compliance' }
+  { label: 'Technical Risk', value: 'Technical Risk' },
+  { label: 'Budget', value: 'Budget' },
+  { label: 'Product Cost', value: 'Product Cost' },
+  { label: 'Ressources', value: 'Ressources' },
+  { label: 'SCM', value: 'SCM' }
 ];
 
 export function getRiskTypeOptions(): SelectOption[] {

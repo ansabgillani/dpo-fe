@@ -26,7 +26,7 @@ describe('Project Details Risk Tab (Phase 8)', () => {
       id: 11,
       project: 1,
       title: 'Resource bottleneck',
-      type: 'resource',
+      type: 'Ressources',
       loss_valuation: '120000',
       due_date: '2025-06-01',
       probability: 'high',
@@ -43,7 +43,7 @@ describe('Project Details Risk Tab (Phase 8)', () => {
       id: 12,
       project: 1,
       title: 'Vendor delay',
-      type: 'schedule',
+      type: 'SCM',
       loss_valuation: '90000',
       due_date: '2025-07-15',
       probability: 'medium',
@@ -96,13 +96,13 @@ describe('Project Details Risk Tab (Phase 8)', () => {
   });
 
   it('E2E-064 Risk Type dropdown filters card list', () => {
-    cy.intercept('GET', '**/api/v1/risks/?project=1&page_size=300&type=schedule*', paginated([apiRisks[1]])).as(
-      'getScheduleRisks'
+    cy.intercept('GET', '**/api/v1/risks/?project=1&page_size=300&type=SCM*', paginated([apiRisks[1]])).as(
+      'getScmRisks'
     );
 
     bootRiskTab();
-    cy.get('[data-cy="risk-filter-type"]').select('Schedule');
-    cy.wait('@getScheduleRisks');
+    cy.get('[data-cy="risk-filter-type"]').select('SCM');
+    cy.wait('@getScmRisks');
     cy.get('[data-cy="risk-card-12"]').should('be.visible');
   });
 

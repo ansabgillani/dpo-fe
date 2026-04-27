@@ -73,7 +73,7 @@ interface ApiRisk {
   state?: string;
   probability?: string;
   severity?: string;
-  loss_valuation?: string | null;
+  loss_valuation?: string | number | null;
   description?: string;
   riskDescription?: string;
   action?: string;
@@ -81,7 +81,7 @@ interface ApiRisk {
   due_date?: string | null;
   severity_after_action?: string | null;
   probability_after_action?: string | null;
-  loss_after_action?: string | null;
+  loss_after_action?: string | number | null;
 }
 
 interface ApiStatus {
@@ -1080,18 +1080,26 @@ export class ProjectService {
       id: risk.id,
       title: risk.title || '',
       riskType: risk.type || '',
-      potentialFinancialLoss: risk.loss_valuation || '',
+      potentialFinancialLoss: this.toRiskText(risk.loss_valuation),
       actionDueDate: risk.due_date || '',
       probability: risk.probability || '',
       severity: risk.severity || '',
       status: risk.state || '',
       riskDescription: description,
       action: risk.action || '',
-      potentialFinancialLossAfter: risk.loss_after_action || '',
+      potentialFinancialLossAfter: this.toRiskText(risk.loss_after_action),
       probabilityAfter: risk.probability_after_action || '',
       severityAfter: risk.severity_after_action || '',
       statusAfter: risk.action_state || ''
     };
+  }
+
+  private toRiskText(value: string | number | null | undefined): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
+
+    return String(value);
   }
 
   private mapRiskPatchToApi(field: keyof RiskEntry, value: string): Record<string, unknown> {

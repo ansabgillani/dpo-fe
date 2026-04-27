@@ -2,5 +2,5 @@
   "departments": ["DIC", "DAS", "LMS"],
   "businessLines": ["XP", "CT", "MR", "XR", "US", "MI", "LAB", "DX"],
   "types": ["SSP", "Platform", "Program"],
-  "riskTypes": ["scope", "schedule", "resource", "financial", "compliance"]
+  "riskTypes": ["Technical Risk", "Budget", "Product Cost", "Ressources", "SCM"]
 }

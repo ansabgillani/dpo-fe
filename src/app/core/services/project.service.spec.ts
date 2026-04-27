@@ -257,6 +257,91 @@ describe('ProjectService', () => {
     httpMock.expectOne('http://localhost:3001/api/v1/psp-mappings/?project=1&page_size=500').flush({ count: 0, next: null, previous: null, results: [] });
   });
 
+  it('maps risk loss fields from API to UI model', () => {
+    service.getRisks(1).subscribe((data) => {
+      expect(data.risks).toHaveLength(1);
+      expect(data.risks[0].potentialFinancialLoss).toBe('120000');
+      expect(data.risks[0].potentialFinancialLossAfter).toBe('80000');
+    });
+
+    const req = httpMock.expectOne('http://localhost:3001/api/v1/risks/?project=1&page_size=300');
+    expect(req.request.method).toBe('GET');
+    req.flush({
+      count: 1,
+      next: null,
+      previous: null,
+      results: [
+        {
+          id: 11,
+          project: 1,
+          title: 'Cabling',
+          type: 'Technical Risk',
+          state: 'Open',
+          probability: 'Medium',
+          severity: 'Medium',
+          loss_valuation: 120000,
+          description: 'Cabling quality is insufficient.',
+          action: '',
+          action_state: 'Open',
+          due_date: '2024-12-31',
+          probability_after_action: 'Low',
+          severity_after_action: 'Low',
+          loss_after_action: 80000
+        }
+      ]
+    });
+  });
+
+  it('patches potential financial loss to loss_valuation', () => {
+    service.updateRisk(1, 11, 'potentialFinancialLoss', '130000').subscribe((data) => {
+      expect(data.risks).toHaveLength(1);
+    });
+
+    const patchReq = httpMock.expectOne('http://localhost:3001/api/v1/risks/11/');
+    expect(patchReq.request.method).toBe('PATCH');
+    expect(patchReq.request.body).toEqual({ loss_valuation: '130000' });
+    patchReq.flush({});
+
+    const refetchReq = httpMock.expectOne('http://localhost:3001/api/v1/risks/?project=1&page_size=300');
+    refetchReq.flush({ count: 1, next: null, previous: null, results: [] });
+  });
+
+  it('patches PFL after action to loss_after_action', () => {
+    service.updateRisk(1, 11, 'potentialFinancialLossAfter', '90000').subscribe((data) => {
+      expect(data.risks).toHaveLength(1);
+    });
+
+    const patchReq = httpMock.expectOne('http://localhost:3001/api/v1/risks/11/');
+    expect(patchReq.request.method).toBe('PATCH');
+    expect(patchReq.request.body).toEqual({ loss_after_action: '90000' });
+    patchReq.flush({});
+
+    const refetchReq = httpMock.expectOne('http://localhost:3001/api/v1/risks/?project=1&page_size=300');
+    refetchReq.flush({ count: 1, next: null, previous: null, results: [] });
+  });
+
+  it('posts add risk payload with loss valuation fields', () => {
+    service
+      .addRisk(1, {
+        title: 'Cabling',
+        riskType: 'Technical Risk',
+        potentialFinancialLoss: '120000',
+        potentialFinancialLossAfter: '80000'
+      })
+      .subscribe((data) => {
+        expect(data.risks).toHaveLength(1);
+      });
+
+    const postReq = httpMock.expectOne('http://localhost:3001/api/v1/risks/');
+    expect(postReq.request.method).toBe('POST');
+    expect(postReq.request.body.loss_valuation).toBe('120000');
+    expect(postReq.request.body.loss_after_action).toBe('80000');
+    postReq.flush({ id: 999 });
+
+    const refetchReq = httpMock.expectOne('http://localhost:3001/api/v1/risks/?project=1&page_size=300');
+    refetchReq.flush({ count: 1, next: null, previous: null, results: [] });
+  });
+
   it('fetches files by project id', () => {
     service.getFiles(1).subscribe((files) => {
       expect(files).toHaveLength(1);

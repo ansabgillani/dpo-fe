@@ -26,7 +26,7 @@ describe('RiskTabComponent', () => {
       {
         id: 11,
         title: 'Resource bottleneck',
-        riskType: 'resource',
+        riskType: 'Ressources',
         potentialFinancialLoss: '120000',
         actionDueDate: '2025-06-01',
         probability: 'high',

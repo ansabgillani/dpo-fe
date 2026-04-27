@@ -18,7 +18,7 @@ describe('RiskCardComponent', () => {
     component.risk = {
       id: 1,
       title: 'Resource bottleneck',
-      riskType: 'resource',
+      riskType: 'Ressources',
       potentialFinancialLoss: '120000',
       actionDueDate: '2025-06-01',
       probability: 'high',
@@ -61,6 +61,19 @@ describe('RiskCardComponent', () => {
       riskId: 1,
       field: 'potentialFinancialLoss',
       value: '140000'
+    });
+  });
+
+  it('emits fieldSaved for PFL after action', () => {
+    const spy = jest.spyOn(component.fieldSaved, 'emit');
+
+    component.onValueChange('potentialFinancialLossAfter', '90000');
+    component.onSave('potentialFinancialLossAfter');
+
+    expect(spy).toHaveBeenCalledWith({
+      riskId: 1,
+      field: 'potentialFinancialLossAfter',
+      value: '90000'
     });
   });
 
