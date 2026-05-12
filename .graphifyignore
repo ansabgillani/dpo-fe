@@ -1,0 +1,9 @@
+vendor/
+node_modules/
+dist/
+*.generated.py
+e2e/screenshots/
+e2e/videos/
+
+mock-server/logs/
+tasks/

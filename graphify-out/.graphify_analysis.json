@@ -1,0 +1,1141 @@
+{
+  "communities": {
+    "0": [
+      "services_project_service_projectservice",
+      "services_project_service_projectservice_addpspproject",
+      "services_project_service_projectservice_addrisk",
+      "services_project_service_projectservice_applyprojectoverrides",
+      "services_project_service_projectservice_buildriskheatmap",
+      "services_project_service_projectservice_constructor",
+      "services_project_service_projectservice_createproject",
+      "services_project_service_projectservice_deletefile",
+      "services_project_service_projectservice_deletepspproject",
+      "services_project_service_projectservice_getactivecostsubviewindex",
+      "services_project_service_projectservice_getactivetabindex",
+      "services_project_service_projectservice_getcostdata",
+      "services_project_service_projectservice_getfiles",
+      "services_project_service_projectservice_getfilters",
+      "services_project_service_projectservice_getmilestones",
+      "services_project_service_projectservice_getmilestonesets",
+      "services_project_service_projectservice_getoverviewchartdata",
+      "services_project_service_projectservice_getprojectdetail",
+      "services_project_service_projectservice_getprojects",
+      "services_project_service_projectservice_getrisks",
+      "services_project_service_projectservice_getstatecards",
+      "services_project_service_projectservice_groupbreakdownsbyperiod",
+      "services_project_service_projectservice_groupmappingsbyproject",
+      "services_project_service_projectservice_latestreportingperiod",
+      "services_project_service_projectservice_mapfiletoui",
+      "services_project_service_projectservice_mapmilestone",
+      "services_project_service_projectservice_mapproject",
+      "services_project_service_projectservice_mapriskpatchtoapi",
+      "services_project_service_projectservice_maprisktoui",
+      "services_project_service_projectservice_riskleveltocolumn",
+      "services_project_service_projectservice_riskleveltorow",
+      "services_project_service_projectservice_savestate",
+      "services_project_service_projectservice_setactivecostsubviewindex",
+      "services_project_service_projectservice_setactivetabindex",
+      "services_project_service_projectservice_setprojectoverride",
+      "services_project_service_projectservice_statevaluefromcolor",
+      "services_project_service_projectservice_statuscolorfromcard",
+      "services_project_service_projectservice_statusnameforcard",
+      "services_project_service_projectservice_sumbreakdown",
+      "services_project_service_projectservice_syncpspmappings",
+      "services_project_service_projectservice_tonumber",
+      "services_project_service_projectservice_toreportingperiod",
+      "services_project_service_projectservice_torisktext",
+      "services_project_service_projectservice_tostatecardsfromstatuses",
+      "services_project_service_projectservice_unique",
+      "services_project_service_projectservice_unwrapresults",
+      "services_project_service_projectservice_updatecostbreakdown",
+      "services_project_service_projectservice_updatemetadata",
+      "services_project_service_projectservice_updatemilestone",
+      "services_project_service_projectservice_updaterisk",
+      "services_project_service_projectservice_uploadfile",
+      "src_app_core_services_project_service_ts"
+    ],
+    "1": [
+      "cost_cost_tab_component_costtabcomponent_topcosttrend",
+      "kpi_calculators_budget_calculator_calculatebudgettrend",
+      "kpi_calculators_budget_calculator_toconsumptionpercent",
+      "kpi_calculators_customer_satisfaction_calculator_calculatecustomersatisfactiontrend",
+      "kpi_calculators_kpi_calculator_utils_getdirection",
+      "kpi_calculators_kpi_calculator_utils_safepercentdelta",
+      "kpi_calculators_kpi_calculator_utils_totrendresult",
+      "kpi_calculators_quality_calculator_calculatequalitytrend",
+      "kpi_calculators_resources_calculator_calculateresourcestrend",
+      "kpi_calculators_target_cost_calculator_calculatetargetcosttrend",
+      "kpi_calculators_timeline_calculator_calculatetimelinetrend",
+      "milestone_milestone_tab_component_milestonetabcomponent_timelinetrend",
+      "milestone_row_milestone_row_component_milestonerowcomponent",
+      "milestone_row_milestone_row_component_milestonerowcomponent_delaydays",
+      "milestone_row_milestone_row_component_milestonerowcomponent_durationdays",
+      "milestone_row_milestone_row_component_milestonerowcomponent_onenddateselected",
+      "milestone_row_milestone_row_component_milestonerowcomponent_onstartdateselected",
+      "milestone_row_milestone_row_component_milestonerowcomponent_trendclass",
+      "milestone_row_milestone_row_component_milestonerowcomponent_trendiconname",
+      "milestone_row_milestone_row_component_milestonerowcomponent_trendpercent",
+      "overview_overview_component_overviewcomponent_totrend",
+      "src_app_core_kpi_calculators_budget_calculator_ts",
+      "src_app_core_kpi_calculators_customer_satisfaction_calculator_ts",
+      "src_app_core_kpi_calculators_kpi_calculator_utils_ts",
+      "src_app_core_kpi_calculators_quality_calculator_ts",
+      "src_app_core_kpi_calculators_resources_calculator_ts",
+      "src_app_core_kpi_calculators_target_cost_calculator_ts",
+      "src_app_core_kpi_calculators_timeline_calculator_ts",
+      "src_app_features_project_details_components_milestone_row_milestone_row_component_ts",
+      "state_state_tab_component_statetabcomponent_gettrend"
+    ],
+    "2": [
+      "cost_cost_tab_component_costtabcomponent",
+      "cost_cost_tab_component_costtabcomponent_breakdownlinedatasets",
+      "cost_cost_tab_component_costtabcomponent_breakdownmodeoptions",
+      "cost_cost_tab_component_costtabcomponent_buildoptionlist",
+      "cost_cost_tab_component_costtabcomponent_constructor",
+      "cost_cost_tab_component_costtabcomponent_currentfilters",
+      "cost_cost_tab_component_costtabcomponent_fetchcostdata",
+      "cost_cost_tab_component_costtabcomponent_fyoptions",
+      "cost_cost_tab_component_costtabcomponent_monthlyrows",
+      "cost_cost_tab_component_costtabcomponent_ngonchanges",
+      "cost_cost_tab_component_costtabcomponent_ngoninit",
+      "cost_cost_tab_component_costtabcomponent_normalizecostdata",
+      "cost_cost_tab_component_costtabcomponent_onbreakdownmodechange",
+      "cost_cost_tab_component_costtabcomponent_onbreakdownrowsave",
+      "cost_cost_tab_component_costtabcomponent_onfyfilterchange",
+      "cost_cost_tab_component_costtabcomponent_onmonthlydatatypechange",
+      "cost_cost_tab_component_costtabcomponent_onprojectfilterchange",
+      "cost_cost_tab_component_costtabcomponent_onpspprojectfilterchange",
+      "cost_cost_tab_component_costtabcomponent_onsubviewchange",
+      "cost_cost_tab_component_costtabcomponent_productrows",
+      "cost_cost_tab_component_costtabcomponent_projectoptions",
+      "cost_cost_tab_component_costtabcomponent_pspprojectoptions",
+      "cost_cost_tab_component_costtabcomponent_reportingperiod",
+      "cost_cost_tab_component_costtabcomponent_setsubviewbyindex",
+      "cost_cost_tab_component_costtabcomponent_targetcoststatecard",
+      "cost_cost_tab_component_costtabcomponent_tocostlabel",
+      "cost_cost_tab_component_costtabcomponent_topcostcardtitle",
+      "cost_cost_tab_component_costtabcomponent_topcostlabel",
+      "cost_cost_tab_component_costtabcomponent_tosubviewindex",
+      "src_app_features_project_details_tabs_cost_cost_tab_component_ts"
+    ],
+    "3": [
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_businesslineoptions",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_createinitialformstate",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_departmentoptions",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_iscreatedisabled",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_isvalid",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_ngonchanges",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onaddpspelement",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onbusinesslinechange",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_oncancelclick",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_oncreateclick",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_ondepartmentchange",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onenddatechange",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onimageselected",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onpickimageclick",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onpspdraftchange",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onremovepspelement",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_onstartdatechange",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_ontitlechange",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_ontypechange",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_resetform",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_shouldshowerror",
+      "create_project_modal_create_project_modal_component_createprojectmodalcomponent_typeoptions",
+      "src_app_features_projects_components_create_project_modal_create_project_modal_component_ts"
+    ],
+    "4": [
+      "risk_field_configs_risk_type_config_getrisktypeoptions",
+      "risk_risk_tab_component_risktabcomponent",
+      "risk_risk_tab_component_risktabcomponent_activerisktype",
+      "risk_risk_tab_component_risktabcomponent_buildemptyrisk",
+      "risk_risk_tab_component_risktabcomponent_buildemptyriskdata",
+      "risk_risk_tab_component_risktabcomponent_constructor",
+      "risk_risk_tab_component_risktabcomponent_fetchrisks",
+      "risk_risk_tab_component_risktabcomponent_finalizeloading",
+      "risk_risk_tab_component_risktabcomponent_ngonchanges",
+      "risk_risk_tab_component_risktabcomponent_ngoninit",
+      "risk_risk_tab_component_risktabcomponent_normalizegrid",
+      "risk_risk_tab_component_risktabcomponent_normalizeheatmap",
+      "risk_risk_tab_component_risktabcomponent_normalizeriskdata",
+      "risk_risk_tab_component_risktabcomponent_normalizeriskentry",
+      "risk_risk_tab_component_risktabcomponent_normalizerow",
+      "risk_risk_tab_component_risktabcomponent_onaddrisk",
+      "risk_risk_tab_component_risktabcomponent_onriskfieldsaved",
+      "risk_risk_tab_component_risktabcomponent_onrisktypechange",
+      "risk_risk_tab_component_risktabcomponent_tonumber",
+      "src_app_core_risk_field_configs_risk_type_config_ts",
+      "src_app_features_project_details_tabs_risk_risk_tab_component_ts"
+    ],
+    "5": [
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_constructor",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_getinitials",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_getpspsavefn",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_onavatareditclick",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_onavatarfileselected",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_oncanceladdpsp",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_oncanceledittitle",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_onconfirmaddpsp",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_ondeletepspproject",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_onsavetitle",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_onstartaddpsp",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_onstartedittitle",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_ontitledraftchange",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_readfileasdataurl",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_savemetadatafield",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_savepspproject",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_startediting",
+      "project_sidebar_project_sidebar_component_projectsidebarcomponent_stopediting",
+      "src_app_features_project_details_components_project_sidebar_project_sidebar_component_ts"
+    ],
+    "6": [
+      "mock_server_routes_v1_milestones_routes_js",
+      "mock_server_routes_v1_products_routes_js",
+      "mock_server_routes_v1_psp_mappings_routes_js",
+      "mock_server_routes_v1_risks_routes_js",
+      "mock_server_routes_v1_store_js",
+      "v1_milestones_routes_ensuremilestoneids",
+      "v1_milestones_routes_matchesmilestone",
+      "v1_milestones_routes_nextmilestoneid",
+      "v1_milestones_routes_normalizemilestoneid",
+      "v1_milestones_routes_withprojectfields",
+      "v1_products_routes_withcomputedfields",
+      "v1_psp_mappings_routes_withprojectfields",
+      "v1_risks_routes_withprojecttitle",
+      "v1_store_clone",
+      "v1_store_getfilesforproject",
+      "v1_store_getprojectbyid",
+      "v1_store_infercontenttype",
+      "v1_store_normalizefileentry",
+      "v1_store_projectsummary"
+    ],
+    "7": [
+      "milestone_milestone_tab_component_milestonetabcomponent",
+      "milestone_milestone_tab_component_milestonetabcomponent_constructor",
+      "milestone_milestone_tab_component_milestonetabcomponent_fetchmilestones",
+      "milestone_milestone_tab_component_milestonetabcomponent_fetchmilestonesets",
+      "milestone_milestone_tab_component_milestonetabcomponent_getdelaydays",
+      "milestone_milestone_tab_component_milestonetabcomponent_getdurationdays",
+      "milestone_milestone_tab_component_milestonetabcomponent_milestonesetoptions",
+      "milestone_milestone_tab_component_milestonetabcomponent_milestonetypeoptions",
+      "milestone_milestone_tab_component_milestonetabcomponent_ngonchanges",
+      "milestone_milestone_tab_component_milestonetabcomponent_onenddatechange",
+      "milestone_milestone_tab_component_milestonetabcomponent_onmilestonesetchange",
+      "milestone_milestone_tab_component_milestonetabcomponent_onstartdatechange",
+      "milestone_milestone_tab_component_milestonetabcomponent_summarydelaydays",
+      "milestone_milestone_tab_component_milestonetabcomponent_timelinestatus",
+      "milestone_milestone_tab_component_milestonetabcomponent_timelinetrendclass",
+      "milestone_milestone_tab_component_milestonetabcomponent_timelinetrendiconname",
+      "milestone_milestone_tab_component_milestonetabcomponent_timelinetrendpercent",
+      "milestone_milestone_tab_component_milestonetabcomponent_updatemilestone",
+      "src_app_features_project_details_tabs_milestone_milestone_tab_component_ts"
+    ],
+    "8": [
+      "risk_card_risk_card_component_riskcardcomponent",
+      "risk_card_risk_card_component_riskcardcomponent_builddraft",
+      "risk_card_risk_card_component_riskcardcomponent_buildemptydraft",
+      "risk_card_risk_card_component_riskcardcomponent_isediting",
+      "risk_card_risk_card_component_riskcardcomponent_ngonchanges",
+      "risk_card_risk_card_component_riskcardcomponent_ngoninit",
+      "risk_card_risk_card_component_riskcardcomponent_onsave",
+      "risk_card_risk_card_component_riskcardcomponent_onstartedit",
+      "risk_card_risk_card_component_riskcardcomponent_onvaluechange",
+      "risk_card_risk_card_component_riskcardcomponent_restoredraftforfield",
+      "risk_field_configs_probability_config_getprobabilityoptions",
+      "risk_field_configs_severity_config_getseverityoptions",
+      "risk_field_configs_status_config_getstatusoptions",
+      "src_app_core_risk_field_configs_probability_config_ts",
+      "src_app_core_risk_field_configs_severity_config_ts",
+      "src_app_core_risk_field_configs_status_config_ts",
+      "src_app_features_project_details_components_risk_card_risk_card_component_ts"
+    ],
+    "9": [
+      "projects_landing_component_landingcomponent",
+      "projects_landing_component_landingcomponent_loadfilters",
+      "projects_landing_component_landingcomponent_loadprojects",
+      "projects_landing_component_landingcomponent_ngoninit",
+      "projects_landing_component_landingcomponent_onclosecreateprojectmodal",
+      "projects_landing_component_landingcomponent_oncreateproject",
+      "projects_landing_component_landingcomponent_onopencreateprojectmodal",
+      "projects_landing_component_landingcomponent_onopenproject",
+      "projects_landing_component_landingcomponent_onreset",
+      "projects_landing_component_landingcomponent_onsearch",
+      "projects_landing_component_landingcomponent_onselectproject",
+      "projects_landing_component_landingcomponent_onvalueschange",
+      "projects_landing_component_landingcomponent_resolveselectedproject",
+      "src_app_features_projects_landing_component_ts"
+    ],
+    "10": [
+      "services_auth_service_authservice",
+      "services_auth_service_authservice_cleartokens",
+      "services_auth_service_authservice_constructor",
+      "services_auth_service_authservice_ensureaccesstoken",
+      "services_auth_service_authservice_forceauthenticate",
+      "services_auth_service_authservice_getaccesstoken",
+      "services_auth_service_authservice_getaccesstokenforrequest",
+      "services_auth_service_authservice_getroleoverride",
+      "services_auth_service_authservice_getuser",
+      "services_auth_service_authservice_isauthenticated",
+      "services_auth_service_authservice_logout",
+      "services_auth_service_authservice_mapbackendrole",
+      "src_app_core_services_auth_service_ts"
+    ],
+    "11": [
+      "files_files_tab_component_filestabcomponent",
+      "files_files_tab_component_filestabcomponent_constructor",
+      "files_files_tab_component_filestabcomponent_fetchfiles",
+      "files_files_tab_component_filestabcomponent_files",
+      "files_files_tab_component_filestabcomponent_finalizeloading",
+      "files_files_tab_component_filestabcomponent_ngonchanges",
+      "files_files_tab_component_filestabcomponent_ngoninit",
+      "files_files_tab_component_filestabcomponent_onaddfile",
+      "files_files_tab_component_filestabcomponent_ondeleterequested",
+      "files_files_tab_component_filestabcomponent_ondownloadrequested",
+      "files_files_tab_component_filestabcomponent_onuploadselected",
+      "src_app_features_project_details_tabs_files_files_tab_component_ts"
+    ],
+    "12": [
+      "overview_overview_component_overviewcomponent",
+      "overview_overview_component_overviewcomponent_budgetdatasets",
+      "overview_overview_component_overviewcomponent_constructor",
+      "overview_overview_component_overviewcomponent_fetchcards",
+      "overview_overview_component_overviewcomponent_findcard",
+      "overview_overview_component_overviewcomponent_formatprojectdate",
+      "overview_overview_component_overviewcomponent_geticonname",
+      "overview_overview_component_overviewcomponent_kpis",
+      "overview_overview_component_overviewcomponent_ngonchanges",
+      "overview_overview_component_overviewcomponent_projectinitials",
+      "overview_overview_component_overviewcomponent_statuslabelforvalue",
+      "src_app_features_project_details_tabs_overview_overview_component_ts"
+    ],
+    "13": [
+      "filter_panel_filter_panel_component_filterpanelcomponent",
+      "filter_panel_filter_panel_component_filterpanelcomponent_businesslineoptions",
+      "filter_panel_filter_panel_component_filterpanelcomponent_departmentoptions",
+      "filter_panel_filter_panel_component_filterpanelcomponent_emitvalues",
+      "filter_panel_filter_panel_component_filterpanelcomponent_onbusinesslinechange",
+      "filter_panel_filter_panel_component_filterpanelcomponent_ondepartmentchange",
+      "filter_panel_filter_panel_component_filterpanelcomponent_onreset",
+      "filter_panel_filter_panel_component_filterpanelcomponent_onsearch",
+      "filter_panel_filter_panel_component_filterpanelcomponent_ontypechange",
+      "filter_panel_filter_panel_component_filterpanelcomponent_typeoptions",
+      "src_app_features_projects_components_filter_panel_filter_panel_component_ts"
+    ],
+    "14": [
+      "project_details_project_details_component_projectdetailscomponent",
+      "project_details_project_details_component_projectdetailscomponent_constructor",
+      "project_details_project_details_component_projectdetailscomponent_loadprojectdetail",
+      "project_details_project_details_component_projectdetailscomponent_loadprojects",
+      "project_details_project_details_component_projectdetailscomponent_ngoninit",
+      "project_details_project_details_component_projectdetailscomponent_onnavigatetoprojects",
+      "project_details_project_details_component_projectdetailscomponent_onprojectselected",
+      "project_details_project_details_component_projectdetailscomponent_onrouteparamchange",
+      "project_details_project_details_component_projectdetailscomponent_ontabselected",
+      "src_app_features_project_details_project_details_component_ts"
+    ],
+    "15": [
+      "src_app_features_project_details_components_state_card_state_card_component_ts",
+      "state_card_state_card_component_statecardcomponent",
+      "state_card_state_card_component_statecardcomponent_metriciconname",
+      "state_card_state_card_component_statecardcomponent_oncancelnarrative",
+      "state_card_state_card_component_statecardcomponent_onconfirmnarrative",
+      "state_card_state_card_component_statecardcomponent_onnarrativechange",
+      "state_card_state_card_component_statecardcomponent_onstartedit",
+      "state_card_state_card_component_statecardcomponent_statuslabel",
+      "state_card_state_card_component_statecardcomponent_tierclass",
+      "state_card_state_card_component_statecardcomponent_trendiconname"
+    ],
+    "16": [
+      "src_app_features_project_details_tabs_state_state_tab_component_ts",
+      "state_state_tab_component_statetabcomponent",
+      "state_state_tab_component_statetabcomponent_constructor",
+      "state_state_tab_component_statetabcomponent_loadstatecards",
+      "state_state_tab_component_statetabcomponent_ngonchanges",
+      "state_state_tab_component_statetabcomponent_ngoninit",
+      "state_state_tab_component_statetabcomponent_onnarrativesaved",
+      "state_state_tab_component_statetabcomponent_onsavestate"
+    ],
+    "17": [
+      "inline_edit_field_inline_edit_field_component_inlineeditfieldcomponent",
+      "inline_edit_field_inline_edit_field_component_inlineeditfieldcomponent_ngonchanges",
+      "inline_edit_field_inline_edit_field_component_inlineeditfieldcomponent_oncancel",
+      "inline_edit_field_inline_edit_field_component_inlineeditfieldcomponent_onconfirm",
+      "inline_edit_field_inline_edit_field_component_inlineeditfieldcomponent_ondismisserror",
+      "inline_edit_field_inline_edit_field_component_inlineeditfieldcomponent_ondraftchange",
+      "inline_edit_field_inline_edit_field_component_inlineeditfieldcomponent_oneditstart",
+      "src_app_features_project_details_components_inline_edit_field_inline_edit_field_component_ts"
+    ],
+    "18": [
+      "cost_breakdown_row_cost_breakdown_row_component_costbreakdownrowcomponent",
+      "cost_breakdown_row_cost_breakdown_row_component_costbreakdownrowcomponent_ngonchanges",
+      "cost_breakdown_row_cost_breakdown_row_component_costbreakdownrowcomponent_ondateselected",
+      "cost_breakdown_row_cost_breakdown_row_component_costbreakdownrowcomponent_onsaveactual",
+      "cost_breakdown_row_cost_breakdown_row_component_costbreakdownrowcomponent_onsavedate",
+      "cost_breakdown_row_cost_breakdown_row_component_costbreakdownrowcomponent_onsavetarget",
+      "cost_breakdown_row_cost_breakdown_row_component_costbreakdownrowcomponent_trendiconname",
+      "src_app_features_project_details_components_cost_breakdown_row_cost_breakdown_row_component_ts"
+    ],
+    "19": [
+      "cypress_e2e_helpers_v1_ts",
+      "cypress_e2e_project_details_shared_cy_ts",
+      "helpers_v1_buildcostbreakdowns",
+      "helpers_v1_buildstatustrends",
+      "helpers_v1_paginated",
+      "helpers_v1_setupsilentauth",
+      "project_details_shared_cy_setupsuccessroutes"
+    ],
+    "20": [
+      "select_select_component_selectcomponent",
+      "select_select_component_selectcomponent_ngonchanges",
+      "select_select_component_selectcomponent_onchange",
+      "select_select_component_selectcomponent_resolvevalue",
+      "select_select_component_selectcomponent_selectedvalue",
+      "select_select_component_selectcomponent_value",
+      "src_app_ui_base_select_select_component_ts"
+    ],
+    "21": [
+      "interceptors_http_error_interceptor_httperrorinterceptor",
+      "interceptors_http_error_interceptor_httperrorinterceptor_constructor",
+      "interceptors_http_error_interceptor_httperrorinterceptor_geterrorcode",
+      "interceptors_http_error_interceptor_httperrorinterceptor_intercept",
+      "interceptors_http_error_interceptor_httperrorinterceptor_shouldsuppressmodal",
+      "interceptors_http_error_interceptor_httperrorinterceptor_tomodalconfig",
+      "src_app_core_interceptors_http_error_interceptor_ts"
+    ],
+    "22": [
+      "services_filter_state_service_filterstateservice",
+      "services_filter_state_service_filterstateservice_getfiltervalues",
+      "services_filter_state_service_filterstateservice_getselectedprojectid",
+      "services_filter_state_service_filterstateservice_reset",
+      "services_filter_state_service_filterstateservice_setfiltervalues",
+      "services_filter_state_service_filterstateservice_setselectedprojectid",
+      "src_app_core_services_filter_state_service_ts"
+    ],
+    "23": [
+      "interceptors_auth_interceptor_authinterceptor",
+      "interceptors_auth_interceptor_authinterceptor_constructor",
+      "interceptors_auth_interceptor_authinterceptor_intercept",
+      "interceptors_auth_interceptor_authinterceptor_isapirequest",
+      "interceptors_auth_interceptor_authinterceptor_isauthroute",
+      "src_app_core_interceptors_auth_interceptor_ts"
+    ],
+    "24": [
+      "scripts_run_cypress_with_mock_killsafe",
+      "scripts_run_cypress_with_mock_main",
+      "scripts_run_cypress_with_mock_mjs",
+      "scripts_run_cypress_with_mock_run",
+      "scripts_run_cypress_with_mock_waitforurl"
+    ],
+    "25": [
+      "mock_server_routes_v1_projects_routes_js",
+      "v1_projects_routes_createdefaultstatuses",
+      "v1_projects_routes_getpreviousstatus",
+      "v1_projects_routes_tobool",
+      "v1_projects_routes_tonumber"
+    ],
+    "26": [
+      "confirm_dialog_confirm_dialog_component_confirmdialogcomponent",
+      "confirm_dialog_confirm_dialog_component_confirmdialogcomponent_constructor",
+      "confirm_dialog_confirm_dialog_component_confirmdialogcomponent_oncancel",
+      "confirm_dialog_confirm_dialog_component_confirmdialogcomponent_onconfirm",
+      "src_app_ui_components_confirm_dialog_confirm_dialog_component_ts"
+    ],
+    "27": [
+      "avatar_avatar_component_avatarcomponent",
+      "avatar_avatar_component_avatarcomponent_ngonchanges",
+      "avatar_avatar_component_avatarcomponent_onimageerror",
+      "avatar_avatar_component_avatarcomponent_sizeclass",
+      "src_app_ui_base_avatar_avatar_component_ts"
+    ],
+    "28": [
+      "services_error_logger_service_errorloggerservice",
+      "services_error_logger_service_errorloggerservice_constructor",
+      "services_error_logger_service_errorloggerservice_log",
+      "services_error_logger_service_errorloggerservice_setremotetransport",
+      "src_app_core_services_error_logger_service_ts"
+    ],
+    "29": [
+      "services_confirm_dialog_service_confirmdialogservice",
+      "services_confirm_dialog_service_confirmdialogservice_cancel",
+      "services_confirm_dialog_service_confirmdialogservice_confirm",
+      "services_confirm_dialog_service_confirmdialogservice_open",
+      "src_app_core_services_confirm_dialog_service_ts"
+    ],
+    "30": [
+      "project_card_project_card_component_projectcardcomponent",
+      "project_card_project_card_component_projectcardcomponent_getinitials",
+      "project_card_project_card_component_projectcardcomponent_onopen",
+      "project_card_project_card_component_projectcardcomponent_onselect",
+      "src_app_features_projects_components_project_card_project_card_component_ts"
+    ],
+    "31": [
+      "project_selector_project_selector_component_projectselectorcomponent",
+      "project_selector_project_selector_component_projectselectorcomponent_onprojectchange",
+      "project_selector_project_selector_component_projectselectorcomponent_options",
+      "project_selector_project_selector_component_projectselectorcomponent_selectedvalue",
+      "src_app_features_project_details_components_project_selector_project_selector_component_ts"
+    ],
+    "32": [
+      "file_row_file_row_component_filerowcomponent",
+      "file_row_file_row_component_filerowcomponent_filesizelabel",
+      "file_row_file_row_component_filerowcomponent_ondeleteclick",
+      "file_row_file_row_component_filerowcomponent_ondownloadclick",
+      "src_app_features_project_details_components_file_row_file_row_component_ts"
+    ],
+    "33": [
+      "mock_server_check_mjs",
+      "mock_server_check_run",
+      "mock_server_check_stopserver",
+      "mock_server_check_wait"
+    ],
+    "34": [
+      "mock_server_routes_v1_cost_breakdowns_routes_js",
+      "v1_cost_breakdowns_routes_findcostproject",
+      "v1_cost_breakdowns_routes_tonumber",
+      "v1_cost_breakdowns_routes_withcostprojectfields"
+    ],
+    "35": [
+      "mock_server_routes_v1_product_costs_routes_js",
+      "v1_product_costs_routes_toamount",
+      "v1_product_costs_routes_todecimal",
+      "v1_product_costs_routes_withcomputed"
+    ],
+    "36": [
+      "mock_server_routes_v1_helpers_js",
+      "v1_helpers_nextid",
+      "v1_helpers_now",
+      "v1_helpers_paginate"
+    ],
+    "37": [
+      "error_modal_error_modal_component_errormodalcomponent",
+      "error_modal_error_modal_component_errormodalcomponent_constructor",
+      "error_modal_error_modal_component_errormodalcomponent_onprimaryaction",
+      "src_app_ui_components_error_modal_error_modal_component_ts"
+    ],
+    "38": [
+      "file_input_file_input_component_fileinputcomponent",
+      "file_input_file_input_component_fileinputcomponent_onfilechange",
+      "file_input_file_input_component_fileinputcomponent_open",
+      "src_app_ui_base_file_input_file_input_component_ts"
+    ],
+    "39": [
+      "date_picker_date_picker_component_datepickercomponent",
+      "date_picker_date_picker_component_datepickercomponent_displayvalue",
+      "date_picker_date_picker_component_datepickercomponent_onchange",
+      "src_app_ui_base_date_picker_date_picker_component_ts"
+    ],
+    "40": [
+      "handlers_global_error_handler_globalerrorhandler",
+      "handlers_global_error_handler_globalerrorhandler_constructor",
+      "handlers_global_error_handler_globalerrorhandler_handleerror",
+      "src_app_core_handlers_global_error_handler_ts"
+    ],
+    "41": [
+      "services_error_modal_service_errormodalservice",
+      "services_error_modal_service_errormodalservice_hide",
+      "services_error_modal_service_errormodalservice_showerror",
+      "src_app_core_services_error_modal_service_ts"
+    ],
+    "42": [
+      "project_preview_project_preview_component_projectpreviewcomponent",
+      "project_preview_project_preview_component_projectpreviewcomponent_getinitials",
+      "project_preview_project_preview_component_projectpreviewcomponent_onopenproject",
+      "src_app_features_projects_components_project_preview_project_preview_component_ts"
+    ],
+    "43": [
+      "project_list_project_list_component_projectlistcomponent",
+      "project_list_project_list_component_projectlistcomponent_onopenproject",
+      "project_list_project_list_component_projectlistcomponent_onselectproject",
+      "src_app_features_projects_components_project_list_project_list_component_ts"
+    ],
+    "44": [
+      "risk_heatmap_risk_heatmap_component_riskheatmapcomponent",
+      "risk_heatmap_risk_heatmap_component_riskheatmapcomponent_getcellclass",
+      "risk_heatmap_risk_heatmap_component_riskheatmapcomponent_getcellvalue",
+      "src_app_features_project_details_components_risk_heatmap_risk_heatmap_component_ts"
+    ],
+    "45": [
+      "kpi_card_kpi_card_component_kpicardcomponent",
+      "kpi_card_kpi_card_component_kpicardcomponent_tierclass",
+      "kpi_card_kpi_card_component_kpicardcomponent_trendiconname",
+      "src_app_features_project_details_components_kpi_card_kpi_card_component_ts"
+    ],
+    "46": [
+      "cost_overview_card_cost_overview_card_component_costoverviewcardcomponent",
+      "cost_overview_card_cost_overview_card_component_costoverviewcardcomponent_datacyid",
+      "cost_overview_card_cost_overview_card_component_costoverviewcardcomponent_tokiloeuro",
+      "src_app_features_project_details_components_cost_overview_card_cost_overview_card_component_ts"
+    ],
+    "47": [
+      "scripts_generate_runtime_env_buildruntimeenvscript",
+      "scripts_generate_runtime_env_mjs",
+      "scripts_generate_runtime_env_parseenv"
+    ],
+    "48": [
+      "mock_server_load_env_js",
+      "mock_server_load_env_loadenv",
+      "mock_server_load_env_parseenv"
+    ],
+    "49": [
+      "input_input_component_inputcomponent",
+      "input_input_component_inputcomponent_onvaluechange",
+      "src_app_ui_base_input_input_component_ts"
+    ],
+    "50": [
+      "button_button_component_buttoncomponent",
+      "button_button_component_buttoncomponent_onclick",
+      "src_app_ui_base_button_button_component_ts"
+    ],
+    "51": [
+      "icon_icon_component_iconcomponent",
+      "icon_icon_component_iconregistrymodule",
+      "src_app_ui_base_icon_icon_component_ts"
+    ],
+    "52": [
+      "cost_bar_chart_cost_bar_chart_component_costbarchartcomponent",
+      "cost_bar_chart_cost_bar_chart_component_costbarchartcomponent_data",
+      "src_app_features_project_details_components_cost_bar_chart_cost_bar_chart_component_ts"
+    ],
+    "53": [
+      "src_app_features_project_details_components_tab_nav_tab_nav_component_ts",
+      "tab_nav_tab_nav_component_tabnavcomponent",
+      "tab_nav_tab_nav_component_tabnavcomponent_onselect"
+    ],
+    "54": [
+      "cost_table_cost_table_component_costtablecomponent",
+      "cost_table_cost_table_component_costtablecomponent_ontoggle",
+      "src_app_features_project_details_components_cost_table_cost_table_component_ts"
+    ],
+    "55": [
+      "budget_chart_budget_chart_component_budgetchartcomponent",
+      "budget_chart_budget_chart_component_budgetchartcomponent_data",
+      "src_app_features_project_details_components_budget_chart_budget_chart_component_ts"
+    ],
+    "56": [
+      "cost_sub_nav_cost_sub_nav_component_costsubnavcomponent",
+      "cost_sub_nav_cost_sub_nav_component_costsubnavcomponent_onselect",
+      "src_app_features_project_details_components_cost_sub_nav_cost_sub_nav_component_ts"
+    ],
+    "57": [
+      "cypress_e2e_project_details_risk_cy_ts",
+      "project_details_risk_cy_bootrisktab"
+    ],
+    "58": [
+      "cypress_e2e_project_details_cost_cy_ts",
+      "project_details_cost_cy_bootcosttab"
+    ],
+    "59": [
+      "cypress_e2e_project_details_milestone_cy_ts",
+      "project_details_milestone_cy_bootmilestonetab"
+    ],
+    "60": [
+      "cypress_e2e_project_details_state_cy_ts",
+      "project_details_state_cy_bootasrole"
+    ],
+    "61": [
+      "cypress_e2e_project_details_files_cy_ts",
+      "project_details_files_cy_bootfilestab"
+    ],
+    "62": [
+      "middleware_auth_middleware_authmiddleware",
+      "mock_server_middleware_auth_middleware_js"
+    ],
+    "63": [
+      "mock_server_routes_v1_cost_projects_routes_js",
+      "v1_cost_projects_routes_tonumber"
+    ],
+    "64": [
+      "mock_server_routes_v1_users_routes_js",
+      "v1_users_routes_sanitize"
+    ],
+    "65": [
+      "app_app_component_appcomponent",
+      "src_app_app_component_ts"
+    ],
+    "66": [
+      "src_app_ui_layouts_three_column_layout_three_column_layout_component_ts",
+      "three_column_layout_three_column_layout_component_threecolumnlayoutcomponent"
+    ],
+    "67": [
+      "page_header_page_header_component_pageheadercomponent",
+      "src_app_ui_layouts_page_header_page_header_component_ts"
+    ],
+    "68": [
+      "page_shell_page_shell_component_pageshellcomponent",
+      "src_app_ui_layouts_page_shell_page_shell_component_ts"
+    ],
+    "69": [
+      "skeleton_block_skeleton_block_component_skeletonblockcomponent",
+      "src_app_ui_base_skeleton_block_skeleton_block_component_ts"
+    ],
+    "70": [
+      "divider_divider_component_dividercomponent",
+      "src_app_ui_base_divider_divider_component_ts"
+    ],
+    "71": [
+      "src_app_ui_base_tag_tag_component_ts",
+      "tag_tag_component_tagcomponent"
+    ],
+    "72": [
+      "badge_badge_component_badgecomponent",
+      "src_app_ui_base_badge_badge_component_ts"
+    ],
+    "73": [
+      "guards_auth_guard_spec_runguard",
+      "src_app_core_guards_auth_guard_spec_ts"
+    ],
+    "74": [
+      "guards_auth_guard_authguard",
+      "src_app_core_guards_auth_guard_ts"
+    ],
+    "75": [
+      "skeleton_card_skeleton_card_component_skeletoncardcomponent",
+      "src_app_features_projects_components_skeleton_card_skeleton_card_component_ts"
+    ],
+    "76": [
+      "files_files_tab_component_spec_makefileentry",
+      "src_app_features_project_details_tabs_files_files_tab_component_spec_ts"
+    ],
+    "77": [
+      "skeleton_kpi_grid_skeleton_kpi_grid_component_skeletonkpigridcomponent",
+      "src_app_features_project_details_components_skeleton_kpi_grid_skeleton_kpi_grid_component_ts"
+    ],
+    "78": [
+      "skeleton_state_grid_skeleton_state_grid_component_skeletonstategridcomponent",
+      "src_app_features_project_details_components_skeleton_state_grid_skeleton_state_grid_component_ts"
+    ],
+    "79": [
+      "skeleton_milestone_list_skeleton_milestone_list_component_skeletonmilestonelistcomponent",
+      "src_app_features_project_details_components_skeleton_milestone_list_skeleton_milestone_list_component_ts"
+    ],
+    "80": [
+      "skeleton_cost_skeleton_cost_component_skeletoncostcomponent",
+      "src_app_features_project_details_components_skeleton_cost_skeleton_cost_component_ts"
+    ],
+    "81": [
+      "cost_detail_table_cost_detail_table_component_costdetailtablecomponent",
+      "src_app_features_project_details_components_cost_detail_table_cost_detail_table_component_ts"
+    ],
+    "82": [
+      "skeleton_file_list_skeleton_file_list_component_skeletonfilelistcomponent",
+      "src_app_features_project_details_components_skeleton_file_list_skeleton_file_list_component_ts"
+    ],
+    "83": [
+      "skeleton_sidebar_skeleton_sidebar_component_skeletonsidebarcomponent",
+      "src_app_features_project_details_components_skeleton_sidebar_skeleton_sidebar_component_ts"
+    ],
+    "84": [
+      "skeleton_risk_skeleton_risk_component_skeletonriskcomponent",
+      "src_app_features_project_details_components_skeleton_risk_skeleton_risk_component_ts"
+    ],
+    "85": [
+      "login_login_component_logincomponent",
+      "src_app_features_login_login_component_ts"
+    ],
+    "86": [
+      "setup_jest_ts"
+    ],
+    "87": [
+      "jest_config_ts"
+    ],
+    "88": [
+      "cypress_config_ts"
+    ],
+    "89": [
+      "cypress_e2e_landing_cy_ts"
+    ],
+    "90": [
+      "cypress_e2e_project_details_overview_cy_ts"
+    ],
+    "91": [
+      "public_env_js"
+    ],
+    "92": [
+      "mock_server_server_js"
+    ],
+    "93": [
+      "mock_server_routes_v1_filters_routes_js"
+    ],
+    "94": [
+      "mock_server_routes_v1_auth_routes_js"
+    ],
+    "95": [
+      "mock_server_routes_v1_logs_routes_js"
+    ],
+    "96": [
+      "mock_server_routes_v1_statuses_routes_js"
+    ],
+    "97": [
+      "src_main_ts"
+    ],
+    "98": [
+      "src_app_ui_config_ts"
+    ],
+    "99": [
+      "src_app_app_routes_ts"
+    ],
+    "100": [
+      "src_app_app_component_spec_ts"
+    ],
+    "101": [
+      "src_app_app_config_ts"
+    ],
+    "102": [
+      "src_app_ui_components_confirm_dialog_confirm_dialog_component_spec_ts"
+    ],
+    "103": [
+      "src_app_ui_components_error_modal_error_modal_component_spec_ts"
+    ],
+    "104": [
+      "src_app_ui_layouts_three_column_layout_three_column_layout_component_spec_ts"
+    ],
+    "105": [
+      "src_app_ui_layouts_page_header_page_header_component_spec_ts"
+    ],
+    "106": [
+      "src_app_ui_layouts_page_shell_page_shell_component_spec_ts"
+    ],
+    "107": [
+      "src_app_ui_base_skeleton_block_skeleton_block_component_spec_ts"
+    ],
+    "108": [
+      "src_app_ui_base_input_input_component_spec_ts"
+    ],
+    "109": [
+      "src_app_ui_base_file_input_file_input_component_spec_ts"
+    ],
+    "110": [
+      "src_app_ui_base_button_button_component_spec_ts"
+    ],
+    "111": [
+      "src_app_ui_base_date_picker_date_picker_component_spec_ts"
+    ],
+    "112": [
+      "src_app_ui_base_divider_divider_component_spec_ts"
+    ],
+    "113": [
+      "src_app_ui_base_avatar_avatar_component_spec_ts"
+    ],
+    "114": [
+      "src_app_ui_base_select_select_component_spec_ts"
+    ],
+    "115": [
+      "src_app_ui_base_icon_icon_component_spec_ts"
+    ],
+    "116": [
+      "src_app_ui_base_tag_tag_component_spec_ts"
+    ],
+    "117": [
+      "src_app_ui_base_badge_badge_component_spec_ts"
+    ],
+    "118": [
+      "src_app_core_interceptors_http_error_interceptor_spec_ts"
+    ],
+    "119": [
+      "src_app_core_interceptors_auth_interceptor_spec_ts"
+    ],
+    "120": [
+      "src_app_core_models_error_log_model_ts"
+    ],
+    "121": [
+      "src_app_core_models_auth_model_ts"
+    ],
+    "122": [
+      "src_app_core_models_error_modal_model_ts"
+    ],
+    "123": [
+      "src_app_core_models_project_model_ts"
+    ],
+    "124": [
+      "src_app_core_models_file_model_ts"
+    ],
+    "125": [
+      "src_app_core_models_confirm_dialog_model_ts"
+    ],
+    "126": [
+      "src_app_core_models_state_card_model_ts"
+    ],
+    "127": [
+      "src_app_core_models_milestone_model_ts"
+    ],
+    "128": [
+      "src_app_core_models_risk_model_ts"
+    ],
+    "129": [
+      "src_app_core_models_cost_model_ts"
+    ],
+    "130": [
+      "src_app_core_kpi_calculators_resources_calculator_spec_ts"
+    ],
+    "131": [
+      "src_app_core_kpi_calculators_budget_calculator_spec_ts"
+    ],
+    "132": [
+      "src_app_core_kpi_calculators_kpi_calculator_types_ts"
+    ],
+    "133": [
+      "src_app_core_kpi_calculators_target_cost_calculator_spec_ts"
+    ],
+    "134": [
+      "src_app_core_kpi_calculators_customer_satisfaction_calculator_spec_ts"
+    ],
+    "135": [
+      "src_app_core_kpi_calculators_quality_calculator_spec_ts"
+    ],
+    "136": [
+      "src_app_core_kpi_calculators_timeline_calculator_spec_ts"
+    ],
+    "137": [
+      "src_app_core_kpi_calculators_index_ts"
+    ],
+    "138": [
+      "src_app_core_handlers_global_error_handler_spec_ts"
+    ],
+    "139": [
+      "src_app_core_services_project_service_spec_ts"
+    ],
+    "140": [
+      "src_app_core_services_error_logger_service_spec_ts"
+    ],
+    "141": [
+      "src_app_core_services_filter_state_service_spec_ts"
+    ],
+    "142": [
+      "src_app_core_services_confirm_dialog_service_spec_ts"
+    ],
+    "143": [
+      "src_app_core_services_auth_service_spec_ts"
+    ],
+    "144": [
+      "src_app_core_services_error_modal_service_spec_ts"
+    ],
+    "145": [
+      "src_app_core_risk_field_configs_risk_field_configs_types_ts"
+    ],
+    "146": [
+      "src_app_core_risk_field_configs_risk_type_config_spec_ts"
+    ],
+    "147": [
+      "src_app_core_risk_field_configs_index_ts"
+    ],
+    "148": [
+      "src_app_core_risk_field_configs_probability_config_spec_ts"
+    ],
+    "149": [
+      "src_app_core_risk_field_configs_severity_config_spec_ts"
+    ],
+    "150": [
+      "src_app_core_risk_field_configs_status_config_spec_ts"
+    ],
+    "151": [
+      "src_app_features_projects_landing_component_spec_ts"
+    ],
+    "152": [
+      "src_app_features_projects_components_project_preview_project_preview_component_spec_ts"
+    ],
+    "153": [
+      "src_app_features_projects_components_project_list_project_list_component_spec_ts"
+    ],
+    "154": [
+      "src_app_features_projects_components_skeleton_card_skeleton_card_component_spec_ts"
+    ],
+    "155": [
+      "src_app_features_projects_components_create_project_modal_create_project_modal_component_spec_ts"
+    ],
+    "156": [
+      "src_app_features_projects_components_project_card_project_card_component_spec_ts"
+    ],
+    "157": [
+      "src_app_features_projects_components_filter_panel_filter_panel_component_spec_ts"
+    ],
+    "158": [
+      "src_app_features_project_details_project_details_component_spec_ts"
+    ],
+    "159": [
+      "src_app_features_project_details_tabs_cost_cost_tab_component_spec_ts"
+    ],
+    "160": [
+      "src_app_features_project_details_tabs_milestone_milestone_tab_component_spec_ts"
+    ],
+    "161": [
+      "src_app_features_project_details_tabs_state_state_tab_component_spec_ts"
+    ],
+    "162": [
+      "src_app_features_project_details_tabs_overview_overview_component_spec_ts"
+    ],
+    "163": [
+      "src_app_features_project_details_tabs_risk_risk_tab_component_spec_ts"
+    ],
+    "164": [
+      "src_app_features_project_details_components_inline_edit_field_inline_edit_field_component_spec_ts"
+    ],
+    "165": [
+      "src_app_features_project_details_components_milestone_row_milestone_row_component_spec_ts"
+    ],
+    "166": [
+      "src_app_features_project_details_components_risk_card_risk_card_component_spec_ts"
+    ],
+    "167": [
+      "src_app_features_project_details_components_cost_bar_chart_cost_bar_chart_component_spec_ts"
+    ],
+    "168": [
+      "src_app_features_project_details_components_tab_nav_tab_nav_component_spec_ts"
+    ],
+    "169": [
+      "src_app_features_project_details_components_cost_table_cost_table_component_spec_ts"
+    ],
+    "170": [
+      "src_app_features_project_details_components_project_selector_project_selector_component_spec_ts"
+    ],
+    "171": [
+      "src_app_features_project_details_components_file_row_file_row_component_spec_ts"
+    ],
+    "172": [
+      "src_app_features_project_details_components_risk_heatmap_risk_heatmap_component_spec_ts"
+    ],
+    "173": [
+      "src_app_features_project_details_components_state_card_state_card_component_spec_ts"
+    ],
+    "174": [
+      "src_app_features_project_details_components_cost_detail_table_cost_detail_table_component_spec_ts"
+    ],
+    "175": [
+      "src_app_features_project_details_components_budget_chart_budget_chart_component_spec_ts"
+    ],
+    "176": [
+      "src_app_features_project_details_components_cost_breakdown_row_cost_breakdown_row_component_spec_ts"
+    ],
+    "177": [
+      "src_app_features_project_details_components_skeleton_file_list_skeleton_file_list_component_spec_ts"
+    ],
+    "178": [
+      "src_app_features_project_details_components_project_sidebar_project_sidebar_component_spec_ts"
+    ],
+    "179": [
+      "src_app_features_project_details_components_skeleton_sidebar_skeleton_sidebar_component_spec_ts"
+    ],
+    "180": [
+      "src_app_features_project_details_components_kpi_card_kpi_card_component_spec_ts"
+    ],
+    "181": [
+      "src_app_features_project_details_components_skeleton_risk_skeleton_risk_component_spec_ts"
+    ],
+    "182": [
+      "src_app_features_project_details_components_cost_sub_nav_cost_sub_nav_component_spec_ts"
+    ],
+    "183": [
+      "src_app_features_project_details_components_cost_overview_card_cost_overview_card_component_spec_ts"
+    ]
+  },
+  "cohesion": {},
+  "god_nodes": [
+    {
+      "id": "services_project_service_projectservice",
+      "label": "ProjectService",
+      "degree": 51
+    },
+    {
+      "id": "cost_cost_tab_component_costtabcomponent",
+      "label": "CostTabComponent",
+      "degree": 30
+    },
+    {
+      "id": "create_project_modal_create_project_modal_component_createprojectmodalcomponent",
+      "label": "CreateProjectModalComponent",
+      "degree": 23
+    },
+    {
+      "id": "milestone_milestone_tab_component_milestonetabcomponent",
+      "label": "MilestoneTabComponent",
+      "degree": 19
+    },
+    {
+      "id": "project_sidebar_project_sidebar_component_projectsidebarcomponent",
+      "label": "ProjectSidebarComponent",
+      "degree": 19
+    },
+    {
+      "id": "risk_risk_tab_component_risktabcomponent",
+      "label": "RiskTabComponent",
+      "degree": 18
+    },
+    {
+      "id": "projects_landing_component_landingcomponent",
+      "label": "LandingComponent",
+      "degree": 13
+    },
+    {
+      "id": "services_auth_service_authservice",
+      "label": "AuthService",
+      "degree": 12
+    },
+    {
+      "id": "overview_overview_component_overviewcomponent",
+      "label": "OverviewComponent",
+      "degree": 12
+    },
+    {
+      "id": "files_files_tab_component_filestabcomponent",
+      "label": "FilesTabComponent",
+      "degree": 11
+    }
+  ],
+  "surprises": [
+    {
+      "source": "withProjectTitle()",
+      "target": "projectSummary()",
+      "source_files": [
+        "mock-server/routes/v1/risks.routes.js",
+        "mock-server/routes/v1/_store.js"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; peripheral node `withProjectTitle()` unexpectedly reaches hub `projectSummary()`"
+    },
+    {
+      "source": "withComputedFields()",
+      "target": "projectSummary()",
+      "source_files": [
+        "mock-server/routes/v1/products.routes.js",
+        "mock-server/routes/v1/_store.js"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; peripheral node `withComputedFields()` unexpectedly reaches hub `projectSummary()`"
+    },
+    {
+      "source": "withProjectFields()",
+      "target": "projectSummary()",
+      "source_files": [
+        "mock-server/routes/v1/psp-mappings.routes.js",
+        "mock-server/routes/v1/_store.js"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; peripheral node `withProjectFields()` unexpectedly reaches hub `projectSummary()`"
+    },
+    {
+      "source": "setupSuccessRoutes()",
+      "target": "setupSilentAuth()",
+      "source_files": [
+        "cypress/e2e/project-details/shared.cy.ts",
+        "cypress/e2e/helpers/v1.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source"
+    },
+    {
+      "source": "setupSuccessRoutes()",
+      "target": "paginated()",
+      "source_files": [
+        "cypress/e2e/project-details/shared.cy.ts",
+        "cypress/e2e/helpers/v1.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source"
+    }
+  ]
+}
