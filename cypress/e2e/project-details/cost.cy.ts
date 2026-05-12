@@ -60,7 +60,7 @@ describe('Project Details Cost Tab (Phase 7)', () => {
 
     cy.intercept('GET', '**/api/v1/projects/1/status-trends', paginated(statuses)).as('getStateOne');
 
-    cy.intercept('GET', '**/api/v1/cost-projects/?page_size=500*', paginated(costProjects)).as('getCostProjects');
+    cy.intercept('GET', '**/api/v1/cost-projects/?page_size=2000*', paginated(costProjects)).as('getCostProjects');
     cy.intercept('GET', '**/api/v1/cost-breakdowns/?page_size=1000*', paginated(costBreakdowns)).as('getCostBreakdowns');
     cy.intercept('GET', '**/api/v1/products/?project=1&page_size=500*', paginated(products)).as('getProducts');
     cy.intercept('GET', '**/api/v1/product-costs/?product__project=1&page_size=500*', paginated(productCosts)).as('getProductCosts');

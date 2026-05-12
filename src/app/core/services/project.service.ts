@@ -18,7 +18,7 @@ import {
   PaginatedResponse
 } from '../../data/api.models';
 import { ProjectApiService } from '../../data/project-api.service';
-import { CostData, CostFilters } from '@core/models/cost.model';
+import { CostData, CostFilters, CostPeriodRow } from '@core/models/cost.model';
 import { FileEntry } from '@core/models/file.model';
 import {
   CreateProjectPayload,
@@ -40,6 +40,18 @@ export interface OverviewChartData {
   }>;
 }
 
+type CostStatusKey = 'budget' | 'actuals' | 'forecast' | 'rolling' | 'unknown';
+type PeriodTotals = {
+  period: string;
+  gross: number;
+  chargingToBL: number;
+  net: number;
+  chargingToInternal: number;
+  ctCosts: number;
+  externalMaterial: number;
+  internalMaterial: number;
+};
+
 const STATE_CARD_DEFINITIONS: Array<{ key: StateCard['key']; id: string; label: string; statusName: string }> = [
   { key: 'quality', id: 'quality', label: 'Quality', statusName: 'Quality' },
   { key: 'budget', id: 'budget', label: 'Budget', statusName: 'Budget' },
@@ -55,19 +67,25 @@ const STATE_CARD_DEFINITIONS: Array<{ key: StateCard['key']; id: string; label: 
 ];
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectService {
   private readonly activeTabIndexSubject = new BehaviorSubject<number>(0);
-  private readonly activeCostSubViewIndexSubject = new BehaviorSubject<number>(0);
-  private readonly projectOverrides = new Map<number, Partial<ProjectSummary>>();
+  private readonly activeCostSubViewIndexSubject = new BehaviorSubject<number>(
+    0,
+  );
+  private readonly projectOverrides = new Map<
+    number,
+    Partial<ProjectSummary>
+  >();
 
   readonly activeTabIndex$ = this.activeTabIndexSubject.asObservable();
-  readonly activeCostSubViewIndex$ = this.activeCostSubViewIndexSubject.asObservable();
+  readonly activeCostSubViewIndex$ =
+    this.activeCostSubViewIndexSubject.asObservable();
 
   constructor(
     private readonly projectApi: ProjectApiService,
-    private readonly errorLogger: ErrorLoggerService
+    private readonly errorLogger: ErrorLoggerService,
   ) {}
 
   getActiveTabIndex(): number {
@@ -87,19 +105,23 @@ export class ProjectService {
   }
 
   getFilters(): Observable<FilterOptions> {
-    return this.projectApi
-      .getProjectFilters()
-      .pipe(
-        map((response) => ({
-          departments: this.unique(response.department || []),
-          businessLines: this.unique(response.business_line || []),
-          types: this.unique(response.type || [])
-        })),
-        catchError((error: unknown) => {
-          this.errorLogger.log('error', 'ERR_FETCH_FILTERS', 'Failed to fetch filter options', undefined, error);
-          return throwError(() => error);
-        })
-      );
+    return this.projectApi.getProjectFilters().pipe(
+      map((response) => ({
+        departments: this.unique(response.department || []),
+        businessLines: this.unique(response.business_line || []),
+        types: this.unique(response.type || []),
+      })),
+      catchError((error: unknown) => {
+        this.errorLogger.log(
+          'error',
+          'ERR_FETCH_FILTERS',
+          'Failed to fetch filter options',
+          undefined,
+          error,
+        );
+        return throwError(() => error);
+      }),
+    );
   }
 
   getProjects(filters?: FilterValues): Observable<ProjectSummary[]> {
@@ -119,28 +141,44 @@ export class ProjectService {
 
     return forkJoin({
       projects: this.projectApi.listProjects(params),
-      pspMappings: this.projectApi.listPspMappings(new HttpParams().set('page_size', '500'))
+      pspMappings: this.projectApi.listPspMappings(
+        new HttpParams().set('page_size', '500'),
+      ),
     }).pipe(
       map(({ projects, pspMappings }) => {
-        const mappingByProject = this.groupMappingsByProject(this.unwrapResults(pspMappings));
+        const mappingByProject = this.groupMappingsByProject(
+          this.unwrapResults(pspMappings),
+        );
         return this.unwrapResults(projects).map((project) =>
-          this.applyProjectOverrides(this.mapProject(project, mappingByProject.get(project.id) || []))
+          this.applyProjectOverrides(
+            this.mapProject(project, mappingByProject.get(project.id) || []),
+          ),
         );
       }),
       catchError((error: unknown) => {
-        this.errorLogger.log('error', 'ERR_FETCH_PROJECTS', 'Failed to fetch projects list', { filters }, error);
+        this.errorLogger.log(
+          'error',
+          'ERR_FETCH_PROJECTS',
+          'Failed to fetch projects list',
+          { filters },
+          error,
+        );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
   getProjectDetail(id: number): Observable<ProjectSummary> {
     return forkJoin({
       project: this.projectApi.getProject(id),
-      pspMappings: this.projectApi.listPspMappings(new HttpParams().set('project', String(id)).set('page_size', '500'))
+      pspMappings: this.projectApi.listPspMappings(
+        new HttpParams().set('project', String(id)).set('page_size', '500'),
+      ),
     }).pipe(
       map(({ project, pspMappings }) =>
-        this.applyProjectOverrides(this.mapProject(project, this.unwrapResults(pspMappings)))
+        this.applyProjectOverrides(
+          this.mapProject(project, this.unwrapResults(pspMappings)),
+        ),
       ),
       catchError((error: unknown) => {
         this.errorLogger.log(
@@ -148,10 +186,10 @@ export class ProjectService {
           'ERR_FETCH_PROJECT_DETAIL',
           'Failed to fetch project details',
           { projectId: id },
-          error
+          error,
         );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -166,7 +204,7 @@ export class ProjectService {
         global_project: false,
         start_date: payload.startDate,
         end_date: payload.endDate,
-        display_image: payload.avatarUrl || null
+        display_image: payload.avatarUrl || null,
       })
       .pipe(
         switchMap((project) => {
@@ -179,27 +217,43 @@ export class ProjectService {
             pspElements.map((name) =>
               this.projectApi.createPspMapping({
                 project: project.id,
-                psp_element: name
-              })
-            )
+                psp_element: name,
+              }),
+            ),
           ).pipe(switchMap(() => this.getProjectDetail(project.id)));
         }),
         catchError((error: unknown) => {
-          this.errorLogger.log('error', 'ERR_FETCH_PROJECTS', 'Failed to create project', { payload }, error);
+          this.errorLogger.log(
+            'error',
+            'ERR_FETCH_PROJECTS',
+            'Failed to create project',
+            { payload },
+            error,
+          );
           return throwError(() => error);
-        })
+        }),
       );
   }
 
   getStateCards(id: number): Observable<StateCard[]> {
     return this.projectApi
-      .listStatuses(new HttpParams().set('project', String(id)).set('page_size', '200'))
+      .listStatuses(
+        new HttpParams().set('project', String(id)).set('page_size', '200'),
+      )
       .pipe(
-        map((response) => this.toStateCardsFromStatuses(this.unwrapResults(response), id)),
+        map((response) =>
+          this.toStateCardsFromStatuses(this.unwrapResults(response), id),
+        ),
         catchError((error: unknown) => {
-          this.errorLogger.log('error', 'ERR_FETCH_STATE', 'Failed to fetch state cards', { projectId: id }, error);
+          this.errorLogger.log(
+            'error',
+            'ERR_FETCH_STATE',
+            'Failed to fetch state cards',
+            { projectId: id },
+            error,
+          );
           return throwError(() => error);
-        })
+        }),
       );
   }
 
@@ -210,19 +264,19 @@ export class ProjectService {
           {
             label: 'Gross',
             color: 'rgb(0, 160, 175)',
-            data: costData.series.map((entry) => this.toNumber(entry.gross))
+            data: costData.series.map((entry) => this.toNumber(entry.gross)),
           },
           {
             label: 'Net',
             color: 'rgb(232, 119, 34)',
-            data: costData.series.map((entry) => this.toNumber(entry.net))
+            data: costData.series.map((entry) => this.toNumber(entry.net)),
           },
           {
             label: 'Manpower',
             color: 'rgb(0, 112, 192)',
-            data: costData.series.map((entry) => this.toNumber(entry.manpower))
-          }
-        ]
+            data: costData.series.map((entry) => this.toNumber(entry.manpower)),
+          },
+        ],
       })),
       catchError((error: unknown) => {
         this.errorLogger.log(
@@ -230,10 +284,10 @@ export class ProjectService {
           'ERR_FETCH_PROJECT_DETAIL',
           'Failed to fetch overview chart data',
           { projectId: id },
-          error
+          error,
         );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -241,14 +295,25 @@ export class ProjectService {
     return of(['MP', 'BL']);
   }
 
-  getMilestones(id: number, milestoneSet?: string): Observable<MilestoneItem[]> {
+  getMilestones(
+    id: number,
+    milestoneSet?: string,
+  ): Observable<MilestoneItem[]> {
     return this.projectApi
-      .listMilestones(new HttpParams().set('project', String(id)).set('page_size', '250').set('type', String(milestoneSet)))
+      .listMilestones(
+        new HttpParams()
+          .set('project', String(id))
+          .set('page_size', '250')
+          .set('type', String(milestoneSet)),
+      )
       .pipe(
         map((response) => {
           const milestones = this.unwrapResults(response)
             .map((milestone, index) => this.mapMilestone(milestone, index))
-            .filter((milestone) => !milestoneSet || milestone.milestoneSet === milestoneSet);
+            .filter(
+              (milestone) =>
+                !milestoneSet || milestone.milestoneSet === milestoneSet,
+            );
           return milestones;
         }),
         catchError((error: unknown) => {
@@ -257,10 +322,10 @@ export class ProjectService {
             'ERR_FETCH_MILESTONES',
             'Failed to fetch milestones',
             { projectId: id, milestoneSet },
-            error
+            error,
           );
           return throwError(() => error);
-        })
+        }),
       );
   }
 
@@ -268,169 +333,355 @@ export class ProjectService {
     id: number,
     milestoneId: number,
     dates: { startDate?: string; endDate?: string },
-    milestoneSet?: string
+    milestoneSet?: string,
   ): Observable<MilestoneItem[]> {
-    return this.projectApi.updateMilestone(milestoneId, {
-      ...(dates.startDate ? { start_date: dates.startDate } : {}),
-      ...(dates.endDate ? { end_date: dates.endDate } : {})
-    }).pipe(
-      switchMap(() => this.getMilestones(id, milestoneSet)),
-      catchError((error: unknown) => {
-        this.errorLogger.log(
-          'error',
-          'ERR_UPDATE_MILESTONE',
-          'Failed to update milestone',
-          { projectId: id, milestoneId },
-          error
-        );
-        return throwError(() => error);
+    return this.projectApi
+      .updateMilestone(milestoneId, {
+        ...(dates.startDate ? { start_date: dates.startDate } : {}),
+        ...(dates.endDate ? { end_date: dates.endDate } : {}),
       })
-    );
+      .pipe(
+        switchMap(() => this.getMilestones(id, milestoneSet)),
+        catchError((error: unknown) => {
+          this.errorLogger.log(
+            'error',
+            'ERR_UPDATE_MILESTONE',
+            'Failed to update milestone',
+            { projectId: id, milestoneId },
+            error,
+          );
+          return throwError(() => error);
+        }),
+      );
   }
 
   getCostData(id: number, filters?: CostFilters): Observable<CostData> {
+    let costProjectParams = new HttpParams()
+      .set('project_id', String(id))
+      .set('page_size', '2000');
+    if (filters?.fy) {
+      costProjectParams = costProjectParams.set('fiscal_year', filters.fy);
+    }
+
     return forkJoin({
       project: this.projectApi.getProject(id),
-      pspMappings: this.projectApi.listPspMappings(new HttpParams().set('project', String(id)).set('page_size', '500')),
-      costProjects: this.projectApi.listCostProjects(new HttpParams().set('page_size', '500')),
-      costBreakdowns: this.projectApi.listCostBreakdowns(new HttpParams().set('page_size', '1000')),
-      products: this.projectApi.listProducts(new HttpParams().set('project', String(id)).set('page_size', '500')),
-      productCosts: this.projectApi.listProductCosts(new HttpParams().set('product__project', String(id)).set('page_size', '500'))
+      pspMappings: this.projectApi.listPspMappings(
+        new HttpParams().set('project', String(id)).set('page_size', '500'),
+      ),
+      costProjects: this.projectApi.listCostProjects(costProjectParams),
+      products: this.projectApi.listProducts(
+        new HttpParams().set('project', String(id)).set('page_size', '500'),
+      ),
+      productCosts: this.projectApi.listProductCosts(
+        new HttpParams()
+          .set('product__project', String(id))
+          .set('page_size', '500'),
+      ),
     }).pipe(
-      map(({ project, pspMappings, costProjects, costBreakdowns, products, productCosts }) => {
+      map(({ project, pspMappings, costProjects, products, productCosts }) => {
         const mappingList = this.unwrapResults(pspMappings);
-        const pspElements = this.unique(mappingList.map((mapping) => mapping.psp_element));
+        const pspElements = this.unique(
+          mappingList.map((mapping) => mapping.psp_element),
+        );
 
-        let scopedCostProjects = this.unwrapResults(costProjects).filter((costProject) => {
+        const costProjectList = this.unwrapResults(costProjects);
+        const fiscalYears = this.unique(
+          costProjectList
+            .map((entry) => entry.fiscal_year || '')
+            .filter(Boolean),
+        );
+
+        let scopedCostProjects = costProjectList.filter((costProject) => {
           if (pspElements.length > 0) {
             return pspElements.includes(costProject.psp_element);
           }
-          return (costProject.project_title || '').toLowerCase() === (project.title || '').toLowerCase();
+          return (
+            (costProject.project_title || '').toLowerCase() ===
+            (project.title || '').toLowerCase()
+          );
         });
 
         if (filters?.pspProject) {
-          scopedCostProjects = scopedCostProjects.filter((entry) => entry.psp_element === filters.pspProject);
+          scopedCostProjects = scopedCostProjects.filter(
+            (entry) => entry.psp_element === filters.pspProject,
+          );
         }
 
-        const scopedCostProjectIds = new Set(scopedCostProjects.map((entry) => entry.id));
-        const scopedBreakdowns = this.unwrapResults(costBreakdowns).filter((breakdown) =>
-          scopedCostProjectIds.has(breakdown.psp_project)
+        const scopedBreakdowns = scopedCostProjects.flatMap((costProject) =>
+          (costProject.breakdown || []).map((breakdown) => ({
+            ...breakdown,
+            psp_project: breakdown.psp_project || costProject.id,
+          })),
+        );
+        const nonYtdScopedBreakdowns = scopedBreakdowns.filter(
+          (row) => !this.isYtdRow(row),
         );
 
-        const monthlyByPeriod = this.groupBreakdownsByPeriod(scopedBreakdowns);
-        const budgetSeries = monthlyByPeriod.map((row) => row.budget.gross);
-        const actualSeries = monthlyByPeriod.map((row) => row.actuals.gross);
-        const chargingSeries = monthlyByPeriod.map((row) => row.actuals.chargingToBL);
+        const statusBreakdowns =
+          this.collectBreakdownsByStatus(scopedCostProjects);
+        const hasStatusBreakdowns = statusBreakdowns.hasStatus;
+
+        let actualSummary = { gross: 0, chargingToBL: 0, net: 0 };
+        let budgetSummary = { gross: 0, chargingToBL: 0, net: 0 };
+        let forecastSummary = { gross: 0, chargingToBL: 0, net: 0 };
+        let forecastsPlusActualsSummary = { gross: 0, chargingToBL: 0, net: 0 };
+        let monthlyActuals: CostPeriodRow[] = [];
+        let monthlyBudget: CostPeriodRow[] = [];
+        let monthlyForecastsPlusActuals: CostPeriodRow[] = [];
+        let budgetSeries: number[] = [];
+        let actualsAndForecastsSeries: number[] = [];
+        let chargingSeries: number[] = [];
+        let periodDetail: CostData['breakdown']['periodDetail'] = [];
+        let reportingPeriod = 'P01';
+        let projectCost = 0;
+
+        if (hasStatusBreakdowns) {
+          const budgetBreakdowns = statusBreakdowns.budget
+            .filter((row) => !this.isYtdRow(row) && !this.isBudgetRow(row));
+          const actualsBreakdowns = statusBreakdowns.actuals.filter(
+            (row) => !this.isYtdRow(row),
+          );
+          const forecastBreakdowns = statusBreakdowns.forecast.filter(
+            (row) => !this.isYtdRow(row),
+          );
+          const rollingBreakdowns = statusBreakdowns.rolling.filter(
+            (row) => !this.isYtdRow(row),
+          );
+
+          const budgetByPeriod = this.groupTotalsByPeriod(budgetBreakdowns, {
+            includeInternals: false,
+          });
+          const actualsByPeriod = this.groupTotalsByPeriod(actualsBreakdowns, {
+            includeInternals: true,
+          });
+          const forecastByPeriod = this.groupTotalsByPeriod(
+            forecastBreakdowns,
+            { includeInternals: false },
+          );
+          const actualsPlusForecastByPeriod = this.mergePeriodTotals(
+            actualsByPeriod,
+            forecastByPeriod,
+          );
+
+          const zeroSummary = { gross: 0, chargingToBL: 0, net: 0 };
+          const actualsPlusForecastSummary = this.sumPeriodTotals(
+            actualsPlusForecastByPeriod,
+          );
+
+          actualSummary = this.sumPeriodTotals(actualsByPeriod);
+          budgetSummary = this.sumPeriodTotals(budgetByPeriod);
+          forecastSummary = this.sumPeriodTotals(forecastByPeriod);
+          forecastsPlusActualsSummary = zeroSummary;
+
+          monthlyActuals = actualsByPeriod.map((row) =>
+            this.toCostPeriodRow(row),
+          );
+          monthlyBudget = budgetByPeriod.map((row) =>
+            this.toCostPeriodRow(row),
+          );
+          monthlyForecastsPlusActuals = actualsPlusForecastByPeriod.map(
+            (row) => ({
+              period: row.period,
+              gross: 0,
+              chargingToBL: 0,
+              net: 0,
+            }),
+          );
+
+          budgetSeries = budgetByPeriod.map((row) => row.gross);
+          actualsAndForecastsSeries = actualsPlusForecastByPeriod.map(
+            (row) => row.gross,
+          );
+          chargingSeries = actualsPlusForecastByPeriod.map(
+            (row) => row.chargingToBL,
+          );
+
+          const detailSource = actualsByPeriod.length
+            ? actualsByPeriod
+            : actualsPlusForecastByPeriod;
+          periodDetail = detailSource.map((row) => ({
+            period: row.period,
+            gross: row.gross,
+            chargingToInternal: row.chargingToInternal,
+            ctCosts: row.ctCosts,
+            externalMaterial: row.externalMaterial,
+            internalMaterial: row.internalMaterial,
+            chargingToBL: row.chargingToBL,
+            net: row.net,
+          }));
+
+          const reportingBreakdowns = actualsBreakdowns.length
+            ? actualsBreakdowns
+            : rollingBreakdowns.length
+              ? rollingBreakdowns
+              : budgetBreakdowns.length
+                ? budgetBreakdowns
+                : forecastBreakdowns;
+          reportingPeriod = this.latestReportingPeriod(reportingBreakdowns);
+          projectCost =
+            actualsPlusForecastSummary.net || actualsPlusForecastSummary.gross;
+        } else {
+          const monthlyByPeriod = this.groupBreakdownsByPeriod(
+            nonYtdScopedBreakdowns,
+          );
+          budgetSeries = monthlyByPeriod.map((row) => row.budget.gross);
+          chargingSeries = monthlyByPeriod.map(
+            (row) => row.actuals.chargingToBL,
+          );
+          actualsAndForecastsSeries = monthlyByPeriod.map(
+            (row) => row.actuals.gross + row.forecast.gross,
+          );
+
+          const zeroSummary = { gross: 0, chargingToBL: 0, net: 0 };
+          actualSummary = this.sumBreakdown(nonYtdScopedBreakdowns, 'Actuals');
+          budgetSummary = this.sumBreakdown(nonYtdScopedBreakdowns, 'Budget');
+          forecastSummary = this.sumBreakdown(
+            nonYtdScopedBreakdowns,
+            'Forecast',
+          );
+          forecastsPlusActualsSummary = zeroSummary;
+
+          monthlyActuals = monthlyByPeriod.map((row) => ({
+            period: row.period,
+            gross: row.actuals.gross,
+            chargingToBL: row.actuals.chargingToBL,
+            net: row.actuals.net,
+          }));
+          monthlyBudget = monthlyByPeriod.map((row) => ({
+            period: row.period,
+            gross: row.budget.gross,
+            chargingToBL: row.budget.chargingToBL,
+            net: row.budget.net,
+          }));
+          monthlyForecastsPlusActuals = monthlyByPeriod.map((row) => ({
+            period: row.period,
+            gross: 0,
+            chargingToBL: 0,
+            net: 0,
+          }));
+
+          periodDetail = monthlyByPeriod.map((row) => ({
+            period: row.period,
+            gross: row.actuals.gross,
+            chargingToInternal: row.actuals.chargingToInternal,
+            ctCosts: row.actuals.ctCosts,
+            externalMaterial: row.actuals.externalMaterial,
+            internalMaterial: row.actuals.internalMaterial,
+            chargingToBL: row.actuals.chargingToBL,
+            net: row.actuals.net,
+          }));
+
+          projectCost = nonYtdScopedBreakdowns.reduce(
+            (acc, row) => acc + this.toNumber(row.net || row.gross),
+            0,
+          );
+          reportingPeriod = this.latestReportingPeriod(nonYtdScopedBreakdowns);
+        }
 
         const scopedProducts = this.unwrapResults(products);
         const scopedProductCosts = this.unwrapResults(productCosts);
-        const productById = new Map(scopedProducts.map((entry) => [entry.id, entry]));
+        const productById = new Map(
+          scopedProducts.map((entry) => [entry.id, entry]),
+        );
 
         const productRows = scopedProductCosts.map((entry) => {
           const productEntry = productById.get(entry.product);
           const target = this.toNumber(entry.target);
           const actual = this.toNumber(entry.actual);
           const variance = actual - target;
-          const trendPercent = target === 0 ? 0 : Math.round((Math.abs(variance) / target) * 100);
+          const trendPercent =
+            target === 0 ? 0 : Math.round((Math.abs(variance) / target) * 100);
           return {
             id: String(entry.id),
             name: productEntry?.name || `Product ${entry.product}`,
             target,
             actual,
             calculationDate: entry.calculation_date,
-            trendDirection: variance > 0 ? 'up' : variance < 0 ? 'down' : 'neutral',
-            trendPercent
+            trendDirection:
+              variance > 0 ? 'up' : variance < 0 ? 'down' : 'neutral',
+            trendPercent,
           } as CostData['breakdown']['products'][number];
         });
-
-        const actualSummary = this.sumBreakdown(scopedBreakdowns, 'Actuals');
-        const budgetSummary = this.sumBreakdown(scopedBreakdowns, 'Budget');
-        const forecastSummary = this.sumBreakdown(scopedBreakdowns, 'Forecast');
-
-        const projectCost = scopedBreakdowns.reduce((acc, row) => acc + this.toNumber(row.net || row.gross), 0);
-        const reportingPeriod = this.latestReportingPeriod(scopedBreakdowns);
 
         return {
           projectCost,
           latestReportingPeriod: reportingPeriod,
           project: filters?.project || project.title,
           fy: filters?.fy || scopedCostProjects[0]?.fiscal_year || 'FY25',
-          pspProject: filters?.pspProject || scopedCostProjects[0]?.psp_element || pspElements[0] || '',
+          fiscalYears,
+          pspProject:
+            filters?.pspProject ||
+            scopedCostProjects[0]?.psp_element ||
+            pspElements[0] ||
+            '',
           breakdownMode: filters?.breakdownMode || 'project',
           overview: {
             actuals: actualSummary,
             budget: budgetSummary,
             forecasts: forecastSummary,
-            forecastsPlusActuals: {
-              gross: actualSummary.gross + forecastSummary.gross,
-              chargingToBL: actualSummary.chargingToBL + forecastSummary.chargingToBL,
-              net: actualSummary.net + forecastSummary.net
-            },
+            forecastsPlusActuals: forecastsPlusActualsSummary,
             barChart: {
               groups: ['Forecast', 'Budget', 'Actuals', 'FC + Actuals'],
               datasets: [
                 {
                   label: 'Charging to BL',
-                  data: [forecastSummary.chargingToBL, budgetSummary.chargingToBL, actualSummary.chargingToBL, actualSummary.chargingToBL + forecastSummary.chargingToBL],
-                  color: 'rgb(0, 176, 80)'
+                  data: [
+                    forecastSummary.chargingToBL,
+                    budgetSummary.chargingToBL,
+                    actualSummary.chargingToBL,
+                    forecastsPlusActualsSummary.chargingToBL,
+                  ],
+                  color: 'rgb(0, 176, 80)',
                 },
                 {
                   label: 'Gross',
-                  data: [forecastSummary.gross, budgetSummary.gross, actualSummary.gross, actualSummary.gross + forecastSummary.gross],
-                  color: 'rgb(232, 119, 34)'
+                  data: [
+                    forecastSummary.gross,
+                    budgetSummary.gross,
+                    actualSummary.gross,
+                    forecastsPlusActualsSummary.gross,
+                  ],
+                  color: 'rgb(232, 119, 34)',
                 },
                 {
                   label: 'NET',
-                  data: [forecastSummary.net, budgetSummary.net, actualSummary.net, actualSummary.net + forecastSummary.net],
-                  color: 'rgb(0, 112, 192)'
-                }
-              ]
-            }
+                  data: [
+                    forecastSummary.net,
+                    budgetSummary.net,
+                    actualSummary.net,
+                    forecastsPlusActualsSummary.net,
+                  ],
+                  color: 'rgb(0, 112, 192)',
+                },
+              ],
+            },
           },
           monthly: {
-            actuals: monthlyByPeriod.map((row) => ({
-              period: row.period,
-              gross: row.actuals.gross,
-              chargingToBL: row.actuals.chargingToBL,
-              net: row.actuals.net
-            })),
-            budget: monthlyByPeriod.map((row) => ({
-              period: row.period,
-              gross: row.budget.gross,
-              chargingToBL: row.budget.chargingToBL,
-              net: row.budget.net
-            })),
-            forecastsPlusActuals: monthlyByPeriod.map((row) => ({
-              period: row.period,
-              gross: row.actuals.gross + row.forecast.gross,
-              chargingToBL: row.actuals.chargingToBL + row.forecast.chargingToBL,
-              net: row.actuals.net + row.forecast.net
-            }))
+            actuals: monthlyActuals,
+            budget: monthlyBudget,
+            forecastsPlusActuals: monthlyForecastsPlusActuals,
           },
           breakdown: {
             products: productRows,
             lineChart: {
               budget: budgetSeries,
-              actualsAndForecasts: monthlyByPeriod.map((row) => row.actuals.gross + row.forecast.gross),
-              chargingActualsAndForecasts: chargingSeries
+              actualsAndForecasts: actualsAndForecastsSeries,
+              chargingActualsAndForecasts: chargingSeries,
             },
-            periodDetail: monthlyByPeriod.map((row) => ({
-              period: row.period,
-              gross: row.actuals.gross,
-              chargingToInternal: row.actuals.chargingToInternal,
-              ctCosts: row.actuals.ctCosts,
-              externalMaterial: row.actuals.externalMaterial,
-              internalMaterial: row.actuals.internalMaterial,
-              chargingToBL: row.actuals.chargingToBL,
-              net: row.actuals.net
-            }))
-          }
+            periodDetail,
+          },
         } satisfies CostData;
       }),
       catchError((error: unknown) => {
-        this.errorLogger.log('error', 'ERR_FETCH_COST', 'Failed to fetch cost data', { projectId: id, filters }, error);
+        this.errorLogger.log(
+          'error',
+          'ERR_FETCH_COST',
+          'Failed to fetch cost data',
+          { projectId: id, filters },
+          error,
+        );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -438,7 +689,7 @@ export class ProjectService {
     id: number,
     productId: string,
     data: { target?: number; actual?: number; calculationDate?: string },
-    filters?: CostFilters
+    filters?: CostFilters,
   ): Observable<CostData> {
     const payload: Record<string, unknown> = {};
 
@@ -462,26 +713,32 @@ export class ProjectService {
           'ERR_FETCH_COST',
           'Failed to update cost breakdown',
           { projectId: id, productId, data },
-          error
+          error,
         );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
   saveState(id: number, cards: StateCard[]): Observable<StateCard[]> {
     return this.projectApi
-      .listStatuses(new HttpParams().set('project', String(id)).set('page_size', '200'))
+      .listStatuses(
+        new HttpParams().set('project', String(id)).set('page_size', '200'),
+      )
       .pipe(
         switchMap((response) => {
           const existing = this.unwrapResults(response);
           const requests = cards.map((card) => {
             const statusName = this.statusNameForCard(card.key);
-            const existingEntry = existing.find((entry) => entry.name === statusName);
+            const existingEntry = existing.find(
+              (entry) => entry.name === statusName,
+            );
             const payload = {
-              ...(existingEntry ? { name: existingEntry.name } : { project: id, name: statusName }),
+              ...(existingEntry
+                ? { name: existingEntry.name }
+                : { project: id, name: statusName }),
               value: this.statusColorFromCard(card.value),
-              description: card.narrative
+              description: card.narrative,
             };
 
             if (existingEntry) {
@@ -495,15 +752,27 @@ export class ProjectService {
         }),
         switchMap(() => this.getStateCards(id)),
         catchError((error: unknown) => {
-          this.errorLogger.log('error', 'ERR_SAVE_STATE', 'Failed to save project state', { projectId: id }, error);
+          this.errorLogger.log(
+            'error',
+            'ERR_SAVE_STATE',
+            'Failed to save project state',
+            { projectId: id },
+            error,
+          );
           return throwError(() => error);
-        })
+        }),
       );
   }
 
-  updateMetadata(id: number, field: string, value: string | unknown[]): Observable<ProjectSummary> {
+  updateMetadata(
+    id: number,
+    field: string,
+    value: string | unknown[],
+  ): Observable<ProjectSummary> {
     if (field === 'pspProjects' && Array.isArray(value)) {
-      return this.syncPspMappings(id, value as PspProject[]).pipe(switchMap(() => this.getProjectDetail(id)));
+      return this.syncPspMappings(id, value as PspProject[]).pipe(
+        switchMap(() => this.getProjectDetail(id)),
+      );
     }
 
     if (field === 'statusProject') {
@@ -518,18 +787,20 @@ export class ProjectService {
       type: 'type',
       startDate: 'start_date',
       endDate: 'end_date',
-      avatarUrl: 'display_image'
+      avatarUrl: 'display_image',
     };
 
     const apiField = fieldMap[field];
     if (!apiField) {
-      this.setProjectOverride(id, { [field]: value } as Partial<ProjectSummary>);
+      this.setProjectOverride(id, {
+        [field]: value,
+      } as Partial<ProjectSummary>);
       return this.getProjectDetail(id);
     }
 
     return this.projectApi
       .updateProject(id, {
-        [apiField]: value
+        [apiField]: value,
       })
       .pipe(
         switchMap(() => this.getProjectDetail(id)),
@@ -539,10 +810,10 @@ export class ProjectService {
             'ERR_UPDATE_PROJECT_METADATA',
             'Failed to update project metadata',
             { projectId: id, field },
-            error
+            error,
           );
           return throwError(() => error);
-        })
+        }),
       );
   }
 
@@ -557,53 +828,59 @@ export class ProjectService {
             'ERR_ADD_PSP_PROJECT',
             'Failed to add PSP project',
             { projectId: id, pspName: name },
-            error
+            error,
           );
           return throwError(() => error);
-        })
+        }),
       );
   }
 
   deletePspProject(id: number, pspId: number): Observable<ProjectSummary> {
-    return this.projectApi
-      .deletePspMapping(pspId)
-      .pipe(
-        switchMap(() => this.getProjectDetail(id)),
-        catchError((error: unknown) => {
-          this.errorLogger.log(
-            'error',
-            'ERR_DELETE_PSP_PROJECT',
-            'Failed to delete PSP project',
-            { projectId: id, pspId },
-            error
-          );
-          return throwError(() => error);
-        })
-      );
+    return this.projectApi.deletePspMapping(pspId).pipe(
+      switchMap(() => this.getProjectDetail(id)),
+      catchError((error: unknown) => {
+        this.errorLogger.log(
+          'error',
+          'ERR_DELETE_PSP_PROJECT',
+          'Failed to delete PSP project',
+          { projectId: id, pspId },
+          error,
+        );
+        return throwError(() => error);
+      }),
+    );
   }
 
   getRisks(id: number, riskType?: string): Observable<RiskData> {
-    let params = new HttpParams().set('project', String(id)).set('page_size', '300');
+    let params = new HttpParams()
+      .set('project', String(id))
+      .set('page_size', '300');
 
     if (riskType) {
       params = params.set('type', riskType);
     }
 
-    return this.projectApi
-      .listRisks(params)
-      .pipe(
-        map((response) => {
-          const risks = this.unwrapResults(response).map((entry) => this.mapRiskToUi(entry));
-          return {
-            heatmap: this.buildRiskHeatmap(risks),
-            risks
-          };
-        }),
-        catchError((error: unknown) => {
-          this.errorLogger.log('error', 'ERR_FETCH_RISKS', 'Failed to fetch risks', { projectId: id, riskType }, error);
-          return throwError(() => error);
-        })
-      );
+    return this.projectApi.listRisks(params).pipe(
+      map((response) => {
+        const risks = this.unwrapResults(response).map((entry) =>
+          this.mapRiskToUi(entry),
+        );
+        return {
+          heatmap: this.buildRiskHeatmap(risks),
+          risks,
+        };
+      }),
+      catchError((error: unknown) => {
+        this.errorLogger.log(
+          'error',
+          'ERR_FETCH_RISKS',
+          'Failed to fetch risks',
+          { projectId: id, riskType },
+          error,
+        );
+        return throwError(() => error);
+      }),
+    );
   }
 
   updateRisk(
@@ -611,7 +888,7 @@ export class ProjectService {
     riskId: number,
     field: keyof RiskEntry,
     value: string,
-    riskType?: string
+    riskType?: string,
   ): Observable<RiskData> {
     const payload = this.mapRiskPatchToApi(field, value);
 
@@ -623,14 +900,18 @@ export class ProjectService {
           'ERR_FETCH_RISKS',
           'Failed to update risk',
           { projectId: id, riskId, field },
-          error
+          error,
         );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
-  addRisk(id: number, risk: Partial<RiskEntry> = {}, riskType?: string): Observable<RiskData> {
+  addRisk(
+    id: number,
+    risk: Partial<RiskEntry> = {},
+    riskType?: string,
+  ): Observable<RiskData> {
     const payload = {
       project: id,
       title: risk.title || 'New Risk',
@@ -646,15 +927,21 @@ export class ProjectService {
       due_date: risk.actionDueDate || null,
       severity_after_action: risk.severityAfter || null,
       probability_after_action: risk.probabilityAfter || null,
-      loss_after_action: risk.potentialFinancialLossAfter || null
+      loss_after_action: risk.potentialFinancialLossAfter || null,
     };
 
     return this.projectApi.createRisk(payload).pipe(
       switchMap(() => this.getRisks(id, riskType)),
       catchError((error: unknown) => {
-        this.errorLogger.log('error', 'ERR_FETCH_RISKS', 'Failed to add risk', { projectId: id }, error);
+        this.errorLogger.log(
+          'error',
+          'ERR_FETCH_RISKS',
+          'Failed to add risk',
+          { projectId: id },
+          error,
+        );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -662,9 +949,15 @@ export class ProjectService {
     return this.projectApi.listFiles(id).pipe(
       map((files) => files.map((file) => this.mapFileToUi(file, id))),
       catchError((error: unknown) => {
-        this.errorLogger.log('error', 'ERR_FETCH_FILES', 'Failed to fetch files', { projectId: id }, error);
+        this.errorLogger.log(
+          'error',
+          'ERR_FETCH_FILES',
+          'Failed to fetch files',
+          { projectId: id },
+          error,
+        );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -680,12 +973,21 @@ export class ProjectService {
           const body = httpError.error as Record<string, unknown> | null;
           const code = body?.['code'];
           if (code === 'FILE_TOO_LARGE') {
-            return throwError(() => ({ type: 'FILE_TOO_LARGE', maxBytes: body?.['maxBytes'] }));
+            return throwError(() => ({
+              type: 'FILE_TOO_LARGE',
+              maxBytes: body?.['maxBytes'],
+            }));
           }
         }
-        this.errorLogger.log('error', 'ERR_FILE_UPLOAD', 'Failed to upload file', { projectId: id, fileName: file.name }, error);
+        this.errorLogger.log(
+          'error',
+          'ERR_FILE_UPLOAD',
+          'Failed to upload file',
+          { projectId: id, fileName: file.name },
+          error,
+        );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -693,9 +995,15 @@ export class ProjectService {
     return this.projectApi.deleteFile(id, fileId).pipe(
       switchMap(() => this.getFiles(id)),
       catchError((error: unknown) => {
-        this.errorLogger.log('error', 'ERR_FILE_UPLOAD', 'Failed to delete file', { projectId: id, fileId }, error);
+        this.errorLogger.log(
+          'error',
+          'ERR_FILE_UPLOAD',
+          'Failed to delete file',
+          { projectId: id, fileId },
+          error,
+        );
         return throwError(() => error);
-      })
+      }),
     );
   }
 
@@ -703,7 +1011,10 @@ export class ProjectService {
     return Array.isArray(response) ? response : response.results || [];
   }
 
-  private mapProject(project: ApiProject, pspMappings: ApiPspMapping[]): ProjectSummary {
+  private mapProject(
+    project: ApiProject,
+    pspMappings: ApiPspMapping[],
+  ): ProjectSummary {
     return {
       id: project.id,
       name: project.title,
@@ -716,12 +1027,14 @@ export class ProjectService {
       statusProject: project.is_active === 'true' ? 'Active' : 'Inactive',
       pspProjects: pspMappings.map((mapping) => ({
         id: mapping.id,
-        name: mapping.psp_element
-      }))
+        name: mapping.psp_element,
+      })),
     };
   }
 
-  private groupMappingsByProject(mappings: ApiPspMapping[]): Map<number, ApiPspMapping[]> {
+  private groupMappingsByProject(
+    mappings: ApiPspMapping[],
+  ): Map<number, ApiPspMapping[]> {
     const grouped = new Map<number, ApiPspMapping[]>();
     for (const mapping of mappings) {
       const current = grouped.get(mapping.project) || [];
@@ -734,16 +1047,22 @@ export class ProjectService {
   private applyProjectOverrides(project: ProjectSummary): ProjectSummary {
     return {
       ...project,
-      ...(this.projectOverrides.get(project.id) || {})
+      ...(this.projectOverrides.get(project.id) || {}),
     };
   }
 
-  private setProjectOverride(projectId: number, patch: Partial<ProjectSummary>): void {
+  private setProjectOverride(
+    projectId: number,
+    patch: Partial<ProjectSummary>,
+  ): void {
     const existing = this.projectOverrides.get(projectId) || {};
     this.projectOverrides.set(projectId, { ...existing, ...patch });
   }
 
-  private toStateCardsFromStatuses(statuses: ApiStatus[], projectId: number): StateCard[] {
+  private toStateCardsFromStatuses(
+    statuses: ApiStatus[],
+    projectId: number,
+  ): StateCard[] {
     const byName = new Map(statuses.map((status) => [status.name, status]));
 
     return STATE_CARD_DEFINITIONS.map((definition) => {
@@ -755,10 +1074,14 @@ export class ProjectService {
         label: definition.label,
         value: this.stateValueFromColor(currentColor),
         previousValue: this.stateValueFromColor(currentColor),
-        narrative: status?.description || ''
+        narrative: status?.description || '',
       };
     }).map((card) => {
-      if (projectId && this.projectOverrides.get(projectId)?.statusProject === 'At Risk' && card.key === 'timeline') {
+      if (
+        projectId &&
+        this.projectOverrides.get(projectId)?.statusProject === 'At Risk' &&
+        card.key === 'timeline'
+      ) {
         return { ...card, value: 45, previousValue: 60 };
       }
       return card;
@@ -778,7 +1101,9 @@ export class ProjectService {
     }
   }
 
-  private statusColorFromCard(value: number): 'Green' | 'Yellow' | 'Red' | 'Gray' {
+  private statusColorFromCard(
+    value: number,
+  ): 'Green' | 'Yellow' | 'Red' | 'Gray' {
     if (value >= 80) return 'Green';
     if (value >= 50) return 'Yellow';
     if (value > 0) return 'Red';
@@ -786,7 +1111,9 @@ export class ProjectService {
   }
 
   private statusNameForCard(key: StateCard['key']): string {
-    const definition = STATE_CARD_DEFINITIONS.find((entry) => entry.key === key);
+    const definition = STATE_CARD_DEFINITIONS.find(
+      (entry) => entry.key === key,
+    );
     return definition?.statusName || 'Quality';
   }
 
@@ -803,33 +1130,78 @@ export class ProjectService {
       status: milestone.status || '',
       proposedEndDate: milestone.proposed_end_date || '',
       startDate: milestone.start_date,
-      endDate: milestone.end_date
+      endDate: milestone.end_date,
     };
+  }
+
+  private isYtdRow(row: ApiCostBreakdown): boolean {
+    return (
+      String(row.type || '')
+        .trim()
+        .toUpperCase() === 'YTD'
+    );
+  }
+
+  private isBudgetRow(row: ApiCostBreakdown): boolean {
+    return (
+      String(row.type || '')
+        .trim()
+        .toUpperCase() === 'BUDGET'
+    );
+  }
+
+  private roundToTwoDecimals(value: number): number {
+    return Math.round(value * 100) / 100;
   }
 
   private groupBreakdownsByPeriod(rows: ApiCostBreakdown[]): Array<{
     period: string;
-    actuals: { gross: number; chargingToBL: number; net: number; chargingToInternal: number; ctCosts: number; externalMaterial: number; internalMaterial: number };
+    actuals: {
+      gross: number;
+      chargingToBL: number;
+      net: number;
+      chargingToInternal: number;
+      ctCosts: number;
+      externalMaterial: number;
+      internalMaterial: number;
+    };
     budget: { gross: number; chargingToBL: number; net: number };
     forecast: { gross: number; chargingToBL: number; net: number };
   }> {
-    const byPeriod = new Map<string, {
-      period: string;
-      actuals: { gross: number; chargingToBL: number; net: number; chargingToInternal: number; ctCosts: number; externalMaterial: number; internalMaterial: number };
-      budget: { gross: number; chargingToBL: number; net: number };
-      forecast: { gross: number; chargingToBL: number; net: number };
-    }>();
+    const byPeriod = new Map<
+      string,
+      {
+        period: string;
+        actuals: {
+          gross: number;
+          chargingToBL: number;
+          net: number;
+          chargingToInternal: number;
+          ctCosts: number;
+          externalMaterial: number;
+          internalMaterial: number;
+        };
+        budget: { gross: number; chargingToBL: number; net: number };
+        forecast: { gross: number; chargingToBL: number; net: number };
+      }
+    >();
 
     for (const row of rows) {
       const period = this.toReportingPeriod(row.reporting_month || '2025-01');
-      const current =
-        byPeriod.get(period) ||
-        {
-          period,
-          actuals: { gross: 0, chargingToBL: 0, net: 0, chargingToInternal: 0, ctCosts: 0, externalMaterial: 0, internalMaterial: 0 },
-          budget: { gross: 0, chargingToBL: 0, net: 0 },
-          forecast: { gross: 0, chargingToBL: 0, net: 0 }
-        };
+      const current = byPeriod.get(period) || {
+        period,
+        actuals: {
+          gross: 0,
+          chargingToBL: 0,
+          net: 0,
+          chargingToInternal: 0,
+          ctCosts: 0,
+          externalMaterial: 0,
+          internalMaterial: 0,
+        },
+        budget: { gross: 0, chargingToBL: 0, net: 0 },
+        forecast: { gross: 0, chargingToBL: 0, net: 0 },
+      };
 
       const gross = this.toNumber(row.gross);
       const chargingToBL = this.toNumber(row.charging_to_bl);
@@ -847,21 +1219,196 @@ export class ProjectService {
         current.actuals.gross += gross;
         current.actuals.chargingToBL += chargingToBL;
         current.actuals.net += net;
-        current.actuals.chargingToInternal += this.toNumber(row.charging_internal);
+        current.actuals.chargingToInternal += this.toNumber(
+          row.charging_internal,
+        );
         current.actuals.ctCosts += this.toNumber(row.ct_costs);
-        current.actuals.externalMaterial += this.toNumber(row.external_material);
-        current.actuals.internalMaterial += this.toNumber(row.internal_material);
+        current.actuals.externalMaterial += this.toNumber(
+          row.external_material,
+        );
+        current.actuals.internalMaterial += this.toNumber(
+          row.internal_material,
+        );
       }
 
       byPeriod.set(period, current);
     }
 
-    return Array.from(byPeriod.values()).sort((a, b) => a.period.localeCompare(b.period));
+    return Array.from(byPeriod.values()).sort((a, b) =>
+      a.period.localeCompare(b.period),
+    );
   }
 
-  private sumBreakdown(rows: ApiCostBreakdown[], type: string): { gross: number; chargingToBL: number; net: number } {
+  private collectBreakdownsByStatus(costProjects: ApiCostProject[]): {
+    budget: ApiCostBreakdown[];
+    actuals: ApiCostBreakdown[];
+    forecast: ApiCostBreakdown[];
+    rolling: ApiCostBreakdown[];
+    hasStatus: boolean;
+  } {
+    const buckets = {
+      budget: [] as ApiCostBreakdown[],
+      actuals: [] as ApiCostBreakdown[],
+      forecast: [] as ApiCostBreakdown[],
+      rolling: [] as ApiCostBreakdown[],
+    };
+    let hasStatus = false;
+
+    for (const entry of costProjects) {
+      const statusKey = this.toCostStatusKey(entry.status);
+      if (statusKey === 'unknown') {
+        continue;
+      }
+
+      hasStatus = true;
+      const breakdowns = (entry.breakdown || []).map((breakdown) => ({
+        ...breakdown,
+        psp_project: breakdown.psp_project || entry.id,
+      }));
+      buckets[statusKey].push(...breakdowns);
+    }
+
+    return { ...buckets, hasStatus };
+  }
+
+  private toCostStatusKey(status?: string | null): CostStatusKey {
+    const normalized = String(status || '')
+      .trim()
+      .toLowerCase();
+    const compact = normalized.replace(/\s+/g, ' ');
+    const compactNoSpace = normalized.replace(/\s+/g, '');
+
+    if (compact === 'budget') return 'budget';
+    if (compact === 'forecast' || compact === 'forecasts') return 'forecast';
+    if (compact === 'actuals' || compact === 'actual') return 'actuals';
+
+    if (
+      compact === 'rol. fc' ||
+      compact === 'rol fc' ||
+      compact === 'rolling fc' ||
+      compact === 'rolling forecast' ||
+      compact === 'fc + actuals' ||
+      compact === 'fc+actuals' ||
+      compactNoSpace === 'rol.fc'
+    ) {
+      return 'rolling';
+    }
+
+    if (compactNoSpace === 'fc+actuals') {
+      return 'rolling';
+    }
+
+    return 'unknown';
+  }
+
+  private groupTotalsByPeriod(
+    rows: ApiCostBreakdown[],
+    options: { includeInternals: boolean },
+  ): PeriodTotals[] {
+    const byPeriod = new Map<string, PeriodTotals>();
+
+    for (const row of rows) {
+      const period = this.toReportingPeriod(row.reporting_month || '2025-01');
+      const current = byPeriod.get(period) || {
+        period,
+        gross: 0,
+        chargingToBL: 0,
+        net: 0,
+        chargingToInternal: 0,
+        ctCosts: 0,
+        externalMaterial: 0,
+        internalMaterial: 0,
+      };
+
+      current.gross += this.toNumber(row.gross);
+      current.chargingToBL += this.toNumber(row.charging_to_bl);
+      current.net += this.toNumber(row.net);
+
+      if (options.includeInternals) {
+        current.chargingToInternal += this.toNumber(row.charging_internal);
+        current.ctCosts += this.toNumber(row.ct_costs);
+        current.externalMaterial += this.toNumber(row.external_material);
+        current.internalMaterial += this.toNumber(row.internal_material);
+      }
+
+      byPeriod.set(period, current);
+    }
+
+    return Array.from(byPeriod.values()).sort((a, b) =>
+      a.period.localeCompare(b.period),
+    );
+  }
+
+  private mergePeriodTotals(
+    primary: PeriodTotals[],
+    secondary: PeriodTotals[],
+  ): PeriodTotals[] {
+    const byPeriod = new Map<string, PeriodTotals>();
+
+    const merge = (row: PeriodTotals) => {
+      const current = byPeriod.get(row.period) || {
+        period: row.period,
+        gross: 0,
+        chargingToBL: 0,
+        net: 0,
+        chargingToInternal: 0,
+        ctCosts: 0,
+        externalMaterial: 0,
+        internalMaterial: 0,
+      };
+
+      current.gross += row.gross;
+      current.chargingToBL += row.chargingToBL;
+      current.net += row.net;
+      current.chargingToInternal += row.chargingToInternal;
+      current.ctCosts += row.ctCosts;
+      current.externalMaterial += row.externalMaterial;
+      current.internalMaterial += row.internalMaterial;
+
+      byPeriod.set(row.period, current);
+    };
+
+    primary.forEach(merge);
+    secondary.forEach(merge);
+
+    return Array.from(byPeriod.values()).sort((a, b) =>
+      a.period.localeCompare(b.period),
+    );
+  }
+
+  private sumPeriodTotals(rows: PeriodTotals[]): {
+    gross: number;
+    chargingToBL: number;
+    net: number;
+  } {
+    return rows.reduce(
+      (acc, row) => {
+        acc.gross += row.gross;
+        acc.chargingToBL += row.chargingToBL;
+        acc.net += row.net;
+        return acc;
+      },
+      { gross: 0, chargingToBL: 0, net: 0 },
+    );
+  }
+
+  private toCostPeriodRow(row: PeriodTotals): CostPeriodRow {
+    return {
+      period: row.period,
+      gross: row.gross,
+      chargingToBL: row.chargingToBL,
+      net: row.net,
+    };
+  }
+
+  private sumBreakdown(
+    rows: ApiCostBreakdown[],
+    type: string,
+  ): { gross: number; chargingToBL: number; net: number } {
     return rows
-      .filter((row) => (type === 'Actuals' ? row.type === 'Actuals' : row.type === type))
+      .filter((row) =>
+        type === 'Actuals' ? row.type === 'Actuals' : row.type === type,
+      )
       .reduce(
         (acc, row) => {
           acc.gross += this.toNumber(row.gross);
@@ -869,7 +1416,7 @@ export class ProjectService {
           acc.net += this.toNumber(row.net);
           return acc;
         },
-        { gross: 0, chargingToBL: 0, net: 0 }
+        { gross: 0, chargingToBL: 0, net: 0 },
       );
   }
 
@@ -886,16 +1433,26 @@ export class ProjectService {
     return this.toReportingPeriod(months[months.length - 1]);
   }
 
-  private toReportingPeriod(monthValue: string): string {
-    const [, month] = monthValue.split('-');
-    const numericMonth = Number(month || 1);
-    const safeMonth = Number.isFinite(numericMonth) ? Math.max(1, Math.min(12, numericMonth)) : 1;
+  private toReportingPeriod(monthValue: string | number): string {
+    const raw = String(monthValue || '').trim();
+    const monthToken = raw.includes('-') ? raw.split('-').pop() || '' : raw;
+    const numericMonth = Number(monthToken);
+    const safeMonth = Number.isFinite(numericMonth)
+      ? Math.max(1, Math.min(12, numericMonth))
+      : 1;
     return `P${String(safeMonth).padStart(2, '0')}`;
   }
 
-  private syncPspMappings(projectId: number, next: PspProject[]): Observable<unknown> {
+  private syncPspMappings(
+    projectId: number,
+    next: PspProject[],
+  ): Observable<unknown> {
     return this.projectApi
-      .listPspMappings(new HttpParams().set('project', String(projectId)).set('page_size', '500'))
+      .listPspMappings(
+        new HttpParams()
+          .set('project', String(projectId))
+          .set('page_size', '500'),
+      )
       .pipe(
         switchMap((response) => {
           const current = this.unwrapResults(response);
@@ -907,22 +1464,24 @@ export class ProjectService {
           const toCreate = next.filter((item) => !currentById.has(item.id));
 
           const requests: Array<Observable<unknown>> = [
-            ...toDelete.map((item) => this.projectApi.deletePspMapping(item.id)),
+            ...toDelete.map((item) =>
+              this.projectApi.deletePspMapping(item.id),
+            ),
             ...toUpdate.map((item) =>
               this.projectApi.updatePspMapping(item.id, {
-                psp_element: item.name
-              })
+                psp_element: item.name,
+              }),
             ),
             ...toCreate.map((item) =>
               this.projectApi.createPspMapping({
                 project: projectId,
-                psp_element: item.name
-              })
-            )
+                psp_element: item.name,
+              }),
+            ),
           ];
 
           return requests.length ? forkJoin(requests) : of([]);
-        })
+        }),
       );
   }
 
@@ -943,7 +1502,7 @@ export class ProjectService {
       potentialFinancialLossAfter: this.toRiskText(risk.loss_after_action),
       probabilityAfter: risk.probability_after_action || '',
       severityAfter: risk.severity_after_action || '',
-      statusAfter: risk.action_state || ''
+      statusAfter: risk.action_state || '',
     };
   }
 
@@ -955,7 +1514,10 @@ export class ProjectService {
     return String(value);
   }
 
-  private mapRiskPatchToApi(field: keyof RiskEntry, value: string): Record<string, unknown> {
+  private mapRiskPatchToApi(
+    field: keyof RiskEntry,
+    value: string,
+  ): Record<string, unknown> {
     const mapByField: Partial<Record<keyof RiskEntry, string>> = {
       title: 'title',
       riskType: 'type',
@@ -969,7 +1531,7 @@ export class ProjectService {
       potentialFinancialLossAfter: 'loss_after_action',
       probabilityAfter: 'probability_after_action',
       severityAfter: 'severity_after_action',
-      statusAfter: 'action_state'
+      statusAfter: 'action_state',
     };
 
     const apiField = mapByField[field] || 'title';
@@ -981,18 +1543,18 @@ export class ProjectService {
     const blank = {
       high: { ...blankRow },
       medium: { ...blankRow },
-      low: { ...blankRow }
+      low: { ...blankRow },
     };
 
     const before = {
       high: { ...blankRow },
       medium: { ...blankRow },
-      low: { ...blankRow }
+      low: { ...blankRow },
     };
     const after = {
       high: { ...blankRow },
       medium: { ...blankRow },
-      low: { ...blankRow }
+      low: { ...blankRow },
     };
 
     for (const entry of entries) {
@@ -1000,25 +1562,36 @@ export class ProjectService {
       const colBefore = this.riskLevelToColumn(entry.probability);
       before[rowBefore][colBefore] += 1;
 
-      const rowAfter = this.riskLevelToRow(entry.severityAfter || entry.severity);
-      const colAfter = this.riskLevelToColumn(entry.probabilityAfter || entry.probability);
+      const rowAfter = this.riskLevelToRow(
+        entry.severityAfter || entry.severity,
+      );
+      const colAfter = this.riskLevelToColumn(
+        entry.probabilityAfter || entry.probability,
+      );
       after[rowAfter][colAfter] += 1;
     }
 
     return {
       before: entries.length ? before : blank,
-      after: entries.length ? after : blank
+      after: entries.length ? after : blank,
     };
   }
 
   private riskLevelToRow(value: string): 'low' | 'medium' | 'high' {
     const normalized = value.toLowerCase();
-    if (normalized.includes('critical') || normalized.includes('high') || normalized === '3') return 'high';
+    if (
+      normalized.includes('critical') ||
+      normalized.includes('high') ||
+      normalized === '3'
+    )
+      return 'high';
     if (normalized.includes('medium') || normalized === '2') return 'medium';
     return 'low';
   }
 
-  private riskLevelToColumn(value: string): 'low' | 'medium' | 'high' | 'block' {
+  private riskLevelToColumn(
+    value: string,
+  ): 'low' | 'medium' | 'high' | 'block' {
     const normalized = value.toLowerCase();
     if (normalized.includes('block')) return 'block';
     if (normalized.includes('high') || normalized === '3') return 'high';
@@ -1037,7 +1610,11 @@ export class ProjectService {
     const apiOrigin = new URL(UI_CONFIG.api.baseUrl).origin;
 
     let resolvedDownloadUrl = rawDownloadUrl;
-    if (rawDownloadUrl && !rawDownloadUrl.startsWith('http://') && !rawDownloadUrl.startsWith('https://')) {
+    if (
+      rawDownloadUrl &&
+      !rawDownloadUrl.startsWith('http://') &&
+      !rawDownloadUrl.startsWith('https://')
+    ) {
       resolvedDownloadUrl = `${apiOrigin}${rawDownloadUrl.startsWith('/') ? rawDownloadUrl : `/${rawDownloadUrl}`}`;
     }
 
@@ -1047,7 +1624,9 @@ export class ProjectService {
       sizeBytes: file.sizeBytes,
       contentType: file.contentType,
       uploadedAt: file.uploadedAt,
-      downloadUrl: resolvedDownloadUrl || `${UI_CONFIG.api.baseUrl}/projects/${projectId}/files/${safeId}/download`
+      downloadUrl:
+        resolvedDownloadUrl ||
+        `${UI_CONFIG.api.baseUrl}/projects/${projectId}/files/${safeId}/download`,
     };
   }
 

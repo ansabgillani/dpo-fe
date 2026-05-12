@@ -56,6 +56,7 @@ export interface CostData {
   latestReportingPeriod: string;
   project: string;
   fy: string;
+  fiscalYears: string[];
   pspProject: string;
   breakdownMode: BreakdownMode;
   overview: CostOverview;

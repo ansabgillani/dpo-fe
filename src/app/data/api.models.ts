@@ -113,13 +113,18 @@ export interface ApiCostProject {
   psp_element: string;
   project_title?: string | null;
   stand_reporting_period?: string | null;
+  category?: string | null;
+  status?: string | null;
+  period_index?: number | null;
+  created?: string | null;
+  breakdown?: ApiCostBreakdown[] | null;
 }
 
 export interface ApiCostBreakdown {
   id: number;
-  psp_project: number;
+  psp_project?: number;
   type?: string | null;
-  reporting_month?: string | null;
+  reporting_month?: string | number | null;
   gross?: string | null;
   charging_to_bl?: string | null;
   net?: string | null;

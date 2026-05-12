@@ -1,10 +1,11 @@
-# Graph Report - .  (2026-04-30)
+# Graph Report - untitled folder  (2026-05-12)
 
 ## Corpus Check
-- Large corpus: 331 files · ~1,535,352 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder, or use --no-semantic to run AST-only.
+- 204 files · ~1,537,153 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 659 nodes · 576 edges · 72 communities detected
+- 707 nodes · 622 edges · 75 communities detected
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 35 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -34,7 +35,7 @@
 - [[_COMMUNITY_Community 22|Community 22]]
 - [[_COMMUNITY_Community 23|Community 23]]
 - [[_COMMUNITY_Community 24|Community 24]]
-- [[_COMMUNITY_Community 26|Community 26]]
+- [[_COMMUNITY_Community 25|Community 25]]
 - [[_COMMUNITY_Community 27|Community 27]]
 - [[_COMMUNITY_Community 28|Community 28]]
 - [[_COMMUNITY_Community 29|Community 29]]
@@ -44,8 +45,8 @@
 - [[_COMMUNITY_Community 33|Community 33]]
 - [[_COMMUNITY_Community 34|Community 34]]
 - [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
 - [[_COMMUNITY_Community 37|Community 37]]
-- [[_COMMUNITY_Community 38|Community 38]]
 - [[_COMMUNITY_Community 39|Community 39]]
 - [[_COMMUNITY_Community 40|Community 40]]
 - [[_COMMUNITY_Community 41|Community 41]]
@@ -54,53 +55,56 @@
 - [[_COMMUNITY_Community 44|Community 44]]
 - [[_COMMUNITY_Community 45|Community 45]]
 - [[_COMMUNITY_Community 46|Community 46]]
+- [[_COMMUNITY_Community 47|Community 47]]
 - [[_COMMUNITY_Community 48|Community 48]]
 - [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 50|Community 50]]
 - [[_COMMUNITY_Community 51|Community 51]]
 - [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 53|Community 53]]
 - [[_COMMUNITY_Community 54|Community 54]]
 - [[_COMMUNITY_Community 55|Community 55]]
 - [[_COMMUNITY_Community 56|Community 56]]
-- [[_COMMUNITY_Community 65|Community 65]]
-- [[_COMMUNITY_Community 66|Community 66]]
-- [[_COMMUNITY_Community 67|Community 67]]
+- [[_COMMUNITY_Community 57|Community 57]]
+- [[_COMMUNITY_Community 58|Community 58]]
+- [[_COMMUNITY_Community 59|Community 59]]
 - [[_COMMUNITY_Community 68|Community 68]]
 - [[_COMMUNITY_Community 69|Community 69]]
 - [[_COMMUNITY_Community 70|Community 70]]
 - [[_COMMUNITY_Community 71|Community 71]]
 - [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
+- [[_COMMUNITY_Community 74|Community 74]]
 - [[_COMMUNITY_Community 75|Community 75]]
-- [[_COMMUNITY_Community 77|Community 77]]
 - [[_COMMUNITY_Community 78|Community 78]]
-- [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
 - [[_COMMUNITY_Community 81|Community 81]]
 - [[_COMMUNITY_Community 82|Community 82]]
 - [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
 - [[_COMMUNITY_Community 85|Community 85]]
+- [[_COMMUNITY_Community 86|Community 86]]
+- [[_COMMUNITY_Community 87|Community 87]]
+- [[_COMMUNITY_Community 88|Community 88]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `ProjectService` - 51 edges
+1. `ProjectService` - 60 edges
 2. `CostTabComponent` - 30 edges
-3. `CreateProjectModalComponent` - 23 edges
-4. `MilestoneTabComponent` - 19 edges
-5. `ProjectSidebarComponent` - 19 edges
-6. `RiskTabComponent` - 18 edges
-7. `LandingComponent` - 13 edges
-8. `AuthService` - 12 edges
-9. `OverviewComponent` - 12 edges
-10. `FilesTabComponent` - 11 edges
+3. `ProjectApiService` - 27 edges
+4. `CreateProjectModalComponent` - 23 edges
+5. `MilestoneTabComponent` - 19 edges
+6. `ProjectSidebarComponent` - 19 edges
+7. `RiskTabComponent` - 18 edges
+8. `LandingComponent` - 13 edges
+9. `AuthService` - 12 edges
+10. `OverviewComponent` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `withProjectTitle()` --calls--> `projectSummary()`  [INFERRED]
-  mock-server/routes/v1/risks.routes.js → mock-server/routes/v1/_store.js
-- `withComputedFields()` --calls--> `projectSummary()`  [INFERRED]
-  mock-server/routes/v1/products.routes.js → mock-server/routes/v1/_store.js
-- `withProjectFields()` --calls--> `projectSummary()`  [INFERRED]
-  mock-server/routes/v1/psp-mappings.routes.js → mock-server/routes/v1/_store.js
+- `projectSummary()` --calls--> `withProjectTitle()`  [INFERRED]
+  mock-server/routes/v1/_store.js → mock-server/routes/v1/risks.routes.js
+- `projectSummary()` --calls--> `withComputedFields()`  [INFERRED]
+  mock-server/routes/v1/_store.js → mock-server/routes/v1/products.routes.js
+- `projectSummary()` --calls--> `withProjectFields()`  [INFERRED]
+  mock-server/routes/v1/_store.js → mock-server/routes/v1/psp-mappings.routes.js
 - `setupSuccessRoutes()` --calls--> `setupSilentAuth()`  [INFERRED]
   cypress/e2e/project-details/shared.cy.ts → cypress/e2e/helpers/v1.ts
 - `setupSuccessRoutes()` --calls--> `paginated()`  [INFERRED]
@@ -109,425 +113,461 @@
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.0
+Cohesion: 0.04
 Nodes (1): ProjectService
 
 ### Community 1 - "Community 1"
-Cohesion: 0.0
+Cohesion: 0.1
 Nodes (11): calculateBudgetTrend(), toConsumptionPercent(), calculateCustomerSatisfactionTrend(), getDirection(), safePercentDelta(), toTrendResult(), calculateQualityTrend(), calculateResourcesTrend() (+3 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.0
+Cohesion: 0.09
 Nodes (1): CostTabComponent
 
 ### Community 3 - "Community 3"
-Cohesion: 0.0
-Nodes (1): CreateProjectModalComponent
+Cohesion: 0.07
+Nodes (1): ProjectApiService
 
 ### Community 4 - "Community 4"
-Cohesion: 0.0
-Nodes (2): getRiskTypeOptions(), RiskTabComponent
+Cohesion: 0.09
+Nodes (1): CreateProjectModalComponent
 
 ### Community 5 - "Community 5"
-Cohesion: 0.0
+Cohesion: 0.11
 Nodes (1): ProjectSidebarComponent
 
 ### Community 6 - "Community 6"
-Cohesion: 0.0
+Cohesion: 0.12
 Nodes (8): withProjectFields(), withComputedFields(), withProjectFields(), withProjectTitle(), getProjectById(), inferContentType(), normalizeFileEntry(), projectSummary()
 
 ### Community 7 - "Community 7"
-Cohesion: 0.0
-Nodes (1): MilestoneTabComponent
+Cohesion: 0.17
+Nodes (1): RiskTabComponent
 
 ### Community 8 - "Community 8"
-Cohesion: 0.0
-Nodes (4): RiskCardComponent, getProbabilityOptions(), getSeverityOptions(), getStatusOptions()
+Cohesion: 0.14
+Nodes (1): MilestoneTabComponent
 
 ### Community 9 - "Community 9"
-Cohesion: 0.0
-Nodes (1): LandingComponent
+Cohesion: 0.12
+Nodes (5): RiskCardComponent, getProbabilityOptions(), getRiskTypeOptions(), getSeverityOptions(), getStatusOptions()
 
 ### Community 10 - "Community 10"
-Cohesion: 0.0
-Nodes (1): AuthService
+Cohesion: 0.16
+Nodes (1): LandingComponent
 
 ### Community 11 - "Community 11"
-Cohesion: 0.0
-Nodes (1): FilesTabComponent
+Cohesion: 0.26
+Nodes (1): AuthService
 
 ### Community 12 - "Community 12"
-Cohesion: 0.0
-Nodes (1): OverviewComponent
+Cohesion: 0.2
+Nodes (1): FilesTabComponent
 
 ### Community 13 - "Community 13"
-Cohesion: 0.0
-Nodes (1): FilterPanelComponent
+Cohesion: 0.18
+Nodes (1): OverviewComponent
 
 ### Community 14 - "Community 14"
-Cohesion: 0.0
-Nodes (1): ProjectDetailsComponent
+Cohesion: 0.24
+Nodes (1): FilterPanelComponent
 
 ### Community 15 - "Community 15"
-Cohesion: 0.0
+Cohesion: 0.18
 Nodes (1): StateCardComponent
 
 ### Community 16 - "Community 16"
-Cohesion: 0.0
-Nodes (1): StateTabComponent
+Cohesion: 0.24
+Nodes (1): ProjectDetailsComponent
 
 ### Community 17 - "Community 17"
-Cohesion: 0.0
-Nodes (1): InlineEditFieldComponent
+Cohesion: 0.29
+Nodes (1): StateTabComponent
 
 ### Community 18 - "Community 18"
-Cohesion: 0.0
-Nodes (1): CostBreakdownRowComponent
+Cohesion: 0.25
+Nodes (1): InlineEditFieldComponent
 
 ### Community 19 - "Community 19"
-Cohesion: 0.0
-Nodes (3): paginated(), setupSilentAuth(), setupSuccessRoutes()
+Cohesion: 0.25
+Nodes (1): CostBreakdownRowComponent
 
 ### Community 20 - "Community 20"
-Cohesion: 0.0
-Nodes (1): SelectComponent
+Cohesion: 0.33
+Nodes (3): paginated(), setupSilentAuth(), setupSuccessRoutes()
 
 ### Community 21 - "Community 21"
-Cohesion: 0.0
-Nodes (1): HttpErrorInterceptor
+Cohesion: 0.43
+Nodes (1): SelectComponent
 
 ### Community 22 - "Community 22"
-Cohesion: 0.0
-Nodes (1): FilterStateService
+Cohesion: 0.29
+Nodes (1): HttpErrorInterceptor
 
 ### Community 23 - "Community 23"
-Cohesion: 0.0
-Nodes (1): AuthInterceptor
+Cohesion: 0.38
+Nodes (1): FilterStateService
 
 ### Community 24 - "Community 24"
-Cohesion: 0.0
+Cohesion: 0.47
+Nodes (1): AuthInterceptor
+
+### Community 25 - "Community 25"
+Cohesion: 0.6
 Nodes (3): main(), run(), waitForUrl()
 
-### Community 26 - "Community 26"
-Cohesion: 0.0
+### Community 27 - "Community 27"
+Cohesion: 0.4
 Nodes (1): ConfirmDialogComponent
 
-### Community 27 - "Community 27"
-Cohesion: 0.0
+### Community 28 - "Community 28"
+Cohesion: 0.4
 Nodes (1): AvatarComponent
 
-### Community 28 - "Community 28"
-Cohesion: 0.0
+### Community 29 - "Community 29"
+Cohesion: 0.4
 Nodes (1): ErrorLoggerService
 
-### Community 29 - "Community 29"
-Cohesion: 0.0
+### Community 30 - "Community 30"
+Cohesion: 0.4
 Nodes (1): ConfirmDialogService
 
-### Community 30 - "Community 30"
-Cohesion: 0.0
+### Community 31 - "Community 31"
+Cohesion: 0.4
 Nodes (1): ProjectCardComponent
 
-### Community 31 - "Community 31"
-Cohesion: 0.0
+### Community 32 - "Community 32"
+Cohesion: 0.4
 Nodes (1): ProjectSelectorComponent
 
-### Community 32 - "Community 32"
-Cohesion: 0.0
+### Community 33 - "Community 33"
+Cohesion: 0.4
 Nodes (1): FileRowComponent
 
-### Community 33 - "Community 33"
-Cohesion: 0.0
-Nodes (2): run(), wait()
-
 ### Community 34 - "Community 34"
-Cohesion: 0.0
-Nodes (2): findCostProject(), withCostProjectFields()
+Cohesion: 0.4
+Nodes (1): AuthApiService
 
 ### Community 35 - "Community 35"
-Cohesion: 0.0
-Nodes (3): toAmount(), toDecimal(), withComputed()
+Cohesion: 0.67
+Nodes (2): run(), wait()
+
+### Community 36 - "Community 36"
+Cohesion: 0.67
+Nodes (2): findCostProject(), withCostProjectFields()
 
 ### Community 37 - "Community 37"
-Cohesion: 0.0
-Nodes (1): ErrorModalComponent
-
-### Community 38 - "Community 38"
-Cohesion: 0.0
-Nodes (1): FileInputComponent
+Cohesion: 1.0
+Nodes (3): toAmount(), toDecimal(), withComputed()
 
 ### Community 39 - "Community 39"
-Cohesion: 0.0
-Nodes (1): DatePickerComponent
+Cohesion: 0.5
+Nodes (1): ErrorModalComponent
 
 ### Community 40 - "Community 40"
-Cohesion: 0.0
-Nodes (1): GlobalErrorHandler
+Cohesion: 0.5
+Nodes (1): FileInputComponent
 
 ### Community 41 - "Community 41"
-Cohesion: 0.0
-Nodes (1): ErrorModalService
+Cohesion: 0.5
+Nodes (1): DatePickerComponent
 
 ### Community 42 - "Community 42"
-Cohesion: 0.0
-Nodes (1): ProjectPreviewComponent
+Cohesion: 0.5
+Nodes (1): GlobalErrorHandler
 
 ### Community 43 - "Community 43"
-Cohesion: 0.0
-Nodes (1): ProjectListComponent
+Cohesion: 0.5
+Nodes (1): ErrorModalService
 
 ### Community 44 - "Community 44"
-Cohesion: 0.0
-Nodes (1): RiskHeatmapComponent
+Cohesion: 0.5
+Nodes (1): ProjectPreviewComponent
 
 ### Community 45 - "Community 45"
-Cohesion: 0.0
-Nodes (1): KpiCardComponent
+Cohesion: 0.5
+Nodes (1): ProjectListComponent
 
 ### Community 46 - "Community 46"
-Cohesion: 0.0
-Nodes (1): CostOverviewCardComponent
+Cohesion: 0.5
+Nodes (1): RiskHeatmapComponent
+
+### Community 47 - "Community 47"
+Cohesion: 0.5
+Nodes (1): KpiCardComponent
 
 ### Community 48 - "Community 48"
-Cohesion: 0.0
-Nodes (2): loadEnv(), parseEnv()
+Cohesion: 0.5
+Nodes (1): CostOverviewCardComponent
 
 ### Community 49 - "Community 49"
-Cohesion: 0.0
-Nodes (1): InputComponent
-
-### Community 50 - "Community 50"
-Cohesion: 0.0
-Nodes (1): ButtonComponent
+Cohesion: 0.5
+Nodes (1): ErrorLogApiService
 
 ### Community 51 - "Community 51"
-Cohesion: 0.0
-Nodes (2): IconComponent, IconRegistryModule
+Cohesion: 1.0
+Nodes (2): loadEnv(), parseEnv()
 
 ### Community 52 - "Community 52"
-Cohesion: 0.0
-Nodes (1): CostBarChartComponent
+Cohesion: 0.67
+Nodes (1): InputComponent
 
 ### Community 53 - "Community 53"
-Cohesion: 0.0
-Nodes (1): TabNavComponent
+Cohesion: 0.67
+Nodes (1): ButtonComponent
 
 ### Community 54 - "Community 54"
-Cohesion: 0.0
-Nodes (1): CostTableComponent
+Cohesion: 0.67
+Nodes (2): IconComponent, IconRegistryModule
 
 ### Community 55 - "Community 55"
-Cohesion: 0.0
-Nodes (1): BudgetChartComponent
+Cohesion: 0.67
+Nodes (1): CostBarChartComponent
 
 ### Community 56 - "Community 56"
-Cohesion: 0.0
+Cohesion: 0.67
+Nodes (1): TabNavComponent
+
+### Community 57 - "Community 57"
+Cohesion: 0.67
+Nodes (1): CostTableComponent
+
+### Community 58 - "Community 58"
+Cohesion: 0.67
+Nodes (1): BudgetChartComponent
+
+### Community 59 - "Community 59"
+Cohesion: 0.67
 Nodes (1): CostSubNavComponent
 
-### Community 65 - "Community 65"
-Cohesion: 0.0
+### Community 68 - "Community 68"
+Cohesion: 1.0
 Nodes (1): AppComponent
 
-### Community 66 - "Community 66"
-Cohesion: 0.0
+### Community 69 - "Community 69"
+Cohesion: 1.0
 Nodes (1): ThreeColumnLayoutComponent
 
-### Community 67 - "Community 67"
-Cohesion: 0.0
+### Community 70 - "Community 70"
+Cohesion: 1.0
 Nodes (1): PageHeaderComponent
 
-### Community 68 - "Community 68"
-Cohesion: 0.0
+### Community 71 - "Community 71"
+Cohesion: 1.0
 Nodes (1): PageShellComponent
 
-### Community 69 - "Community 69"
-Cohesion: 0.0
+### Community 72 - "Community 72"
+Cohesion: 1.0
 Nodes (1): SkeletonBlockComponent
 
-### Community 70 - "Community 70"
-Cohesion: 0.0
+### Community 73 - "Community 73"
+Cohesion: 1.0
 Nodes (1): DividerComponent
 
-### Community 71 - "Community 71"
-Cohesion: 0.0
+### Community 74 - "Community 74"
+Cohesion: 1.0
 Nodes (1): TagComponent
 
-### Community 72 - "Community 72"
-Cohesion: 0.0
+### Community 75 - "Community 75"
+Cohesion: 1.0
 Nodes (1): BadgeComponent
 
-### Community 75 - "Community 75"
-Cohesion: 0.0
+### Community 78 - "Community 78"
+Cohesion: 1.0
 Nodes (1): SkeletonCardComponent
 
-### Community 77 - "Community 77"
-Cohesion: 0.0
+### Community 80 - "Community 80"
+Cohesion: 1.0
 Nodes (1): SkeletonKpiGridComponent
 
-### Community 78 - "Community 78"
-Cohesion: 0.0
+### Community 81 - "Community 81"
+Cohesion: 1.0
 Nodes (1): SkeletonStateGridComponent
 
-### Community 79 - "Community 79"
-Cohesion: 0.0
+### Community 82 - "Community 82"
+Cohesion: 1.0
 Nodes (1): SkeletonMilestoneListComponent
 
-### Community 80 - "Community 80"
-Cohesion: 0.0
+### Community 83 - "Community 83"
+Cohesion: 1.0
 Nodes (1): SkeletonCostComponent
 
-### Community 81 - "Community 81"
-Cohesion: 0.0
+### Community 84 - "Community 84"
+Cohesion: 1.0
 Nodes (1): CostDetailTableComponent
 
-### Community 82 - "Community 82"
-Cohesion: 0.0
+### Community 85 - "Community 85"
+Cohesion: 1.0
 Nodes (1): SkeletonFileListComponent
 
-### Community 83 - "Community 83"
-Cohesion: 0.0
+### Community 86 - "Community 86"
+Cohesion: 1.0
 Nodes (1): SkeletonSidebarComponent
 
-### Community 84 - "Community 84"
-Cohesion: 0.0
+### Community 87 - "Community 87"
+Cohesion: 1.0
 Nodes (1): SkeletonRiskComponent
 
-### Community 85 - "Community 85"
-Cohesion: 0.0
+### Community 88 - "Community 88"
+Cohesion: 1.0
 Nodes (1): LoginComponent
 
 ## Knowledge Gaps
 - **20 isolated node(s):** `AppComponent`, `ThreeColumnLayoutComponent`, `PageHeaderComponent`, `PageShellComponent`, `SkeletonBlockComponent` (+15 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 0`** (52 nodes): `ProjectService`, `.addPspProject()`, `.addRisk()`, `.applyProjectOverrides()`, `.buildRiskHeatmap()`, `.constructor()`, `.createProject()`, `.deleteFile()`, `.deletePspProject()`, `.getActiveCostSubViewIndex()`, `.getActiveTabIndex()`, `.getCostData()`, `.getFiles()`, `.getFilters()`, `.getMilestones()`, `.getMilestoneSets()`, `.getOverviewChartData()`, `.getProjectDetail()`, `.getProjects()`, `.getRisks()`, `.getStateCards()`, `.groupBreakdownsByPeriod()`, `.groupMappingsByProject()`, `.latestReportingPeriod()`, `.mapFileToUi()`, `.mapMilestone()`, `.mapProject()`, `.mapRiskPatchToApi()`, `.mapRiskToUi()`, `.riskLevelToColumn()`, `.riskLevelToRow()`, `.saveState()`, `.setActiveCostSubViewIndex()`, `.setActiveTabIndex()`, `.setProjectOverride()`, `.stateValueFromColor()`, `.statusColorFromCard()`, `.statusNameForCard()`, `.sumBreakdown()`, `.syncPspMappings()`, `.toNumber()`, `.toReportingPeriod()`, `.toRiskText()`, `.toStateCardsFromStatuses()`, `.unique()`, `.unwrapResults()`, `.updateCostBreakdown()`, `.updateMetadata()`, `.updateMilestone()`, `.updateRisk()`, `.uploadFile()`, `project.service.ts`
+- **Thin community `Community 0`** (61 nodes): `ProjectService`, `.addPspProject()`, `.addRisk()`, `.applyProjectOverrides()`, `.buildRiskHeatmap()`, `.collectBreakdownsByStatus()`, `.constructor()`, `.createProject()`, `.deleteFile()`, `.deletePspProject()`, `.getActiveCostSubViewIndex()`, `.getActiveTabIndex()`, `.getCostData()`, `.getFiles()`, `.getFilters()`, `.getMilestones()`, `.getMilestoneSets()`, `.getOverviewChartData()`, `.getProjectDetail()`, `.getProjects()`, `.getRisks()`, `.getStateCards()`, `.groupBreakdownsByPeriod()`, `.groupMappingsByProject()`, `.groupTotalsByPeriod()`, `.isBudgetRow()`, `.isYtdRow()`, `.latestReportingPeriod()`, `.mapFileToUi()`, `.mapMilestone()`, `.mapProject()`, `.mapRiskPatchToApi()`, `.mapRiskToUi()`, `.mergePeriodTotals()`, `.riskLevelToColumn()`, `.riskLevelToRow()`, `.roundToTwoDecimals()`, `.saveState()`, `.setActiveCostSubViewIndex()`, `.setActiveTabIndex()`, `.setProjectOverride()`, `.stateValueFromColor()`, `.statusColorFromCard()`, `.statusNameForCard()`, `.sumBreakdown()`, `.sumPeriodTotals()`, `.syncPspMappings()`, `.toCostPeriodRow()`, `.toCostStatusKey()`, `.toNumber()`, `.toReportingPeriod()`, `.toRiskText()`, `.toStateCardsFromStatuses()`, `.unique()`, `.unwrapResults()`, `.updateCostBreakdown()`, `.updateMetadata()`, `.updateMilestone()`, `.updateRisk()`, `.uploadFile()`, `project.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 2`** (30 nodes): `CostTabComponent`, `.breakdownLineDatasets()`, `.breakdownModeOptions()`, `.buildOptionList()`, `.constructor()`, `.currentFilters()`, `.fetchCostData()`, `.fyOptions()`, `.monthlyRows()`, `.ngOnChanges()`, `.ngOnInit()`, `.normalizeCostData()`, `.onBreakdownModeChange()`, `.onBreakdownRowSave()`, `.onFyFilterChange()`, `.onMonthlyDataTypeChange()`, `.onProjectFilterChange()`, `.onPspProjectFilterChange()`, `.onSubViewChange()`, `.productRows()`, `.projectOptions()`, `.pspProjectOptions()`, `.reportingPeriod()`, `.setSubViewByIndex()`, `.targetCostStateCard()`, `.toCostLabel()`, `.topCostCardTitle()`, `.topCostLabel()`, `.toSubViewIndex()`, `cost-tab.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 3`** (24 nodes): `CreateProjectModalComponent`, `.businessLineOptions()`, `.createInitialFormState()`, `.departmentOptions()`, `.isCreateDisabled()`, `.isValid()`, `.ngOnChanges()`, `.onAddPspElement()`, `.onBusinessLineChange()`, `.onCancelClick()`, `.onCreateClick()`, `.onDepartmentChange()`, `.onEndDateChange()`, `.onImageSelected()`, `.onPickImageClick()`, `.onPspDraftChange()`, `.onRemovePspElement()`, `.onStartDateChange()`, `.onTitleChange()`, `.onTypeChange()`, `.resetForm()`, `.shouldShowError()`, `.typeOptions()`, `create-project-modal.component.ts`
+- **Thin community `Community 3`** (28 nodes): `ProjectApiService`, `.constructor()`, `.createProject()`, `.createPspMapping()`, `.createRisk()`, `.createStatus()`, `.deleteFile()`, `.deletePspMapping()`, `.getProject()`, `.getProjectFilters()`, `.getProjectOverviewChart()`, `.listCostProjects()`, `.listFiles()`, `.listMilestones()`, `.listProductCosts()`, `.listProducts()`, `.listProjects()`, `.listPspMappings()`, `.listRisks()`, `.listStatuses()`, `.updateMilestone()`, `.updateProductCost()`, `.updateProject()`, `.updatePspMapping()`, `.updateRisk()`, `.updateStatus()`, `.uploadFile()`, `project-api.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 4`** (21 nodes): `getRiskTypeOptions()`, `RiskTabComponent`, `.activeRiskType()`, `.buildEmptyRisk()`, `.buildEmptyRiskData()`, `.constructor()`, `.fetchRisks()`, `.finalizeLoading()`, `.ngOnChanges()`, `.ngOnInit()`, `.normalizeGrid()`, `.normalizeHeatmap()`, `.normalizeRiskData()`, `.normalizeRiskEntry()`, `.normalizeRow()`, `.onAddRisk()`, `.onRiskFieldSaved()`, `.onRiskTypeChange()`, `.toNumber()`, `risk-type.config.ts`, `risk-tab.component.ts`
+- **Thin community `Community 4`** (24 nodes): `CreateProjectModalComponent`, `.businessLineOptions()`, `.createInitialFormState()`, `.departmentOptions()`, `.isCreateDisabled()`, `.isValid()`, `.ngOnChanges()`, `.onAddPspElement()`, `.onBusinessLineChange()`, `.onCancelClick()`, `.onCreateClick()`, `.onDepartmentChange()`, `.onEndDateChange()`, `.onImageSelected()`, `.onPickImageClick()`, `.onPspDraftChange()`, `.onRemovePspElement()`, `.onStartDateChange()`, `.onTitleChange()`, `.onTypeChange()`, `.resetForm()`, `.shouldShowError()`, `.typeOptions()`, `create-project-modal.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 5`** (20 nodes): `ProjectSidebarComponent`, `.constructor()`, `.getInitials()`, `.getPspSaveFn()`, `.onAvatarEditClick()`, `.onAvatarFileSelected()`, `.onCancelAddPsp()`, `.onCancelEditTitle()`, `.onConfirmAddPsp()`, `.onDeletePspProject()`, `.onSaveTitle()`, `.onStartAddPsp()`, `.onStartEditTitle()`, `.onTitleDraftChange()`, `.readFileAsDataUrl()`, `.saveMetadataField()`, `.savePspProject()`, `.startEditing()`, `.stopEditing()`, `project-sidebar.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 7`** (19 nodes): `MilestoneTabComponent`, `.constructor()`, `.fetchMilestones()`, `.fetchMilestoneSets()`, `.getDelayDays()`, `.getDurationDays()`, `.milestoneSetOptions()`, `.milestoneTypeOptions()`, `.ngOnChanges()`, `.onEndDateChange()`, `.onMilestoneSetChange()`, `.onStartDateChange()`, `.summaryDelayDays()`, `.timelineStatus()`, `.timelineTrendClass()`, `.timelineTrendIconName()`, `.timelineTrendPercent()`, `.updateMilestone()`, `milestone-tab.component.ts`
+- **Thin community `Community 7`** (19 nodes): `RiskTabComponent`, `.activeRiskType()`, `.buildEmptyRisk()`, `.buildEmptyRiskData()`, `.constructor()`, `.fetchRisks()`, `.finalizeLoading()`, `.ngOnChanges()`, `.ngOnInit()`, `.normalizeGrid()`, `.normalizeHeatmap()`, `.normalizeRiskData()`, `.normalizeRiskEntry()`, `.normalizeRow()`, `.onAddRisk()`, `.onRiskFieldSaved()`, `.onRiskTypeChange()`, `.toNumber()`, `risk-tab.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 9`** (14 nodes): `LandingComponent`, `.loadFilters()`, `.loadProjects()`, `.ngOnInit()`, `.onCloseCreateProjectModal()`, `.onCreateProject()`, `.onOpenCreateProjectModal()`, `.onOpenProject()`, `.onReset()`, `.onSearch()`, `.onSelectProject()`, `.onValuesChange()`, `.resolveSelectedProject()`, `landing.component.ts`
+- **Thin community `Community 8`** (19 nodes): `MilestoneTabComponent`, `.constructor()`, `.fetchMilestones()`, `.fetchMilestoneSets()`, `.getDelayDays()`, `.getDurationDays()`, `.milestoneSetOptions()`, `.milestoneTypeOptions()`, `.ngOnChanges()`, `.onEndDateChange()`, `.onMilestoneSetChange()`, `.onStartDateChange()`, `.summaryDelayDays()`, `.timelineStatus()`, `.timelineTrendClass()`, `.timelineTrendIconName()`, `.timelineTrendPercent()`, `.updateMilestone()`, `milestone-tab.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 10`** (13 nodes): `AuthService`, `.clearTokens()`, `.constructor()`, `.ensureAccessToken()`, `.forceAuthenticate()`, `.getAccessToken()`, `.getAccessTokenForRequest()`, `.getRoleOverride()`, `.getUser()`, `.isAuthenticated()`, `.logout()`, `.mapBackendRole()`, `auth.service.ts`
+- **Thin community `Community 10`** (14 nodes): `LandingComponent`, `.loadFilters()`, `.loadProjects()`, `.ngOnInit()`, `.onCloseCreateProjectModal()`, `.onCreateProject()`, `.onOpenCreateProjectModal()`, `.onOpenProject()`, `.onReset()`, `.onSearch()`, `.onSelectProject()`, `.onValuesChange()`, `.resolveSelectedProject()`, `landing.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 11`** (12 nodes): `FilesTabComponent`, `.constructor()`, `.fetchFiles()`, `.files()`, `.finalizeLoading()`, `.ngOnChanges()`, `.ngOnInit()`, `.onAddFile()`, `.onDeleteRequested()`, `.onDownloadRequested()`, `.onUploadSelected()`, `files-tab.component.ts`
+- **Thin community `Community 11`** (13 nodes): `AuthService`, `.clearTokens()`, `.constructor()`, `.ensureAccessToken()`, `.forceAuthenticate()`, `.getAccessToken()`, `.getAccessTokenForRequest()`, `.getRoleOverride()`, `.getUser()`, `.isAuthenticated()`, `.logout()`, `.mapBackendRole()`, `auth.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 12`** (12 nodes): `OverviewComponent`, `.budgetDatasets()`, `.constructor()`, `.fetchCards()`, `.findCard()`, `.formatProjectDate()`, `.getIconName()`, `.kpis()`, `.ngOnChanges()`, `.projectInitials()`, `.statusLabelForValue()`, `overview.component.ts`
+- **Thin community `Community 12`** (12 nodes): `FilesTabComponent`, `.constructor()`, `.fetchFiles()`, `.files()`, `.finalizeLoading()`, `.ngOnChanges()`, `.ngOnInit()`, `.onAddFile()`, `.onDeleteRequested()`, `.onDownloadRequested()`, `.onUploadSelected()`, `files-tab.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 13`** (11 nodes): `FilterPanelComponent`, `.businessLineOptions()`, `.departmentOptions()`, `.emitValues()`, `.onBusinessLineChange()`, `.onDepartmentChange()`, `.onReset()`, `.onSearch()`, `.onTypeChange()`, `.typeOptions()`, `filter-panel.component.ts`
+- **Thin community `Community 13`** (12 nodes): `OverviewComponent`, `.budgetDatasets()`, `.constructor()`, `.fetchCards()`, `.findCard()`, `.formatProjectDate()`, `.getIconName()`, `.kpis()`, `.ngOnChanges()`, `.projectInitials()`, `.statusLabelForValue()`, `overview.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 14`** (10 nodes): `ProjectDetailsComponent`, `.constructor()`, `.loadProjectDetail()`, `.loadProjects()`, `.ngOnInit()`, `.onNavigateToProjects()`, `.onProjectSelected()`, `.onRouteParamChange()`, `.onTabSelected()`, `project-details.component.ts`
+- **Thin community `Community 14`** (11 nodes): `FilterPanelComponent`, `.businessLineOptions()`, `.departmentOptions()`, `.emitValues()`, `.onBusinessLineChange()`, `.onDepartmentChange()`, `.onReset()`, `.onSearch()`, `.onTypeChange()`, `.typeOptions()`, `filter-panel.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 15`** (10 nodes): `state-card.component.ts`, `StateCardComponent`, `.metricIconName()`, `.onCancelNarrative()`, `.onConfirmNarrative()`, `.onNarrativeChange()`, `.onStartEdit()`, `.statusLabel()`, `.tierClass()`, `.trendIconName()`
+- **Thin community `Community 15`** (11 nodes): `state-card.component.ts`, `StateCardComponent`, `.metricIconName()`, `.onCancelNarrative()`, `.onConfirmNarrative()`, `.onNarrativeChange()`, `.onStartEdit()`, `.statusLabel()`, `.statusTier()`, `.statusTierClass()`, `.trendIconName()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 16`** (8 nodes): `state-tab.component.ts`, `StateTabComponent`, `.constructor()`, `.loadStateCards()`, `.ngOnChanges()`, `.ngOnInit()`, `.onNarrativeSaved()`, `.onSaveState()`
+- **Thin community `Community 16`** (10 nodes): `ProjectDetailsComponent`, `.constructor()`, `.loadProjectDetail()`, `.loadProjects()`, `.ngOnInit()`, `.onNavigateToProjects()`, `.onProjectSelected()`, `.onRouteParamChange()`, `.onTabSelected()`, `project-details.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 17`** (8 nodes): `InlineEditFieldComponent`, `.ngOnChanges()`, `.onCancel()`, `.onConfirm()`, `.onDismissError()`, `.onDraftChange()`, `.onEditStart()`, `inline-edit-field.component.ts`
+- **Thin community `Community 17`** (8 nodes): `state-tab.component.ts`, `StateTabComponent`, `.constructor()`, `.loadStateCards()`, `.ngOnChanges()`, `.ngOnInit()`, `.onNarrativeSaved()`, `.onSaveState()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 18`** (8 nodes): `CostBreakdownRowComponent`, `.ngOnChanges()`, `.onDateSelected()`, `.onSaveActual()`, `.onSaveDate()`, `.onSaveTarget()`, `.trendIconName()`, `cost-breakdown-row.component.ts`
+- **Thin community `Community 18`** (8 nodes): `InlineEditFieldComponent`, `.ngOnChanges()`, `.onCancel()`, `.onConfirm()`, `.onDismissError()`, `.onDraftChange()`, `.onEditStart()`, `inline-edit-field.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 20`** (7 nodes): `SelectComponent`, `.ngOnChanges()`, `.onChange()`, `.resolveValue()`, `.selectedValue()`, `.value()`, `select.component.ts`
+- **Thin community `Community 19`** (8 nodes): `CostBreakdownRowComponent`, `.ngOnChanges()`, `.onDateSelected()`, `.onSaveActual()`, `.onSaveDate()`, `.onSaveTarget()`, `.trendIconName()`, `cost-breakdown-row.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 21`** (7 nodes): `HttpErrorInterceptor`, `.constructor()`, `.getErrorCode()`, `.intercept()`, `.shouldSuppressModal()`, `.toModalConfig()`, `http-error.interceptor.ts`
+- **Thin community `Community 21`** (7 nodes): `SelectComponent`, `.ngOnChanges()`, `.onChange()`, `.resolveValue()`, `.selectedValue()`, `.value()`, `select.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 22`** (7 nodes): `FilterStateService`, `.getFilterValues()`, `.getSelectedProjectId()`, `.reset()`, `.setFilterValues()`, `.setSelectedProjectId()`, `filter-state.service.ts`
+- **Thin community `Community 22`** (7 nodes): `HttpErrorInterceptor`, `.constructor()`, `.getErrorCode()`, `.intercept()`, `.shouldSuppressModal()`, `.toModalConfig()`, `http-error.interceptor.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 23`** (6 nodes): `AuthInterceptor`, `.constructor()`, `.intercept()`, `.isApiRequest()`, `.isAuthRoute()`, `auth.interceptor.ts`
+- **Thin community `Community 23`** (7 nodes): `FilterStateService`, `.getFilterValues()`, `.getSelectedProjectId()`, `.reset()`, `.setFilterValues()`, `.setSelectedProjectId()`, `filter-state.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 26`** (5 nodes): `ConfirmDialogComponent`, `.constructor()`, `.onCancel()`, `.onConfirm()`, `confirm-dialog.component.ts`
+- **Thin community `Community 24`** (6 nodes): `AuthInterceptor`, `.constructor()`, `.intercept()`, `.isApiRequest()`, `.isAuthRoute()`, `auth.interceptor.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 27`** (5 nodes): `AvatarComponent`, `.ngOnChanges()`, `.onImageError()`, `.sizeClass()`, `avatar.component.ts`
+- **Thin community `Community 27`** (5 nodes): `ConfirmDialogComponent`, `.constructor()`, `.onCancel()`, `.onConfirm()`, `confirm-dialog.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 28`** (5 nodes): `ErrorLoggerService`, `.constructor()`, `.log()`, `.setRemoteTransport()`, `error-logger.service.ts`
+- **Thin community `Community 28`** (5 nodes): `AvatarComponent`, `.ngOnChanges()`, `.onImageError()`, `.sizeClass()`, `avatar.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 29`** (5 nodes): `ConfirmDialogService`, `.cancel()`, `.confirm()`, `.open()`, `confirm-dialog.service.ts`
+- **Thin community `Community 29`** (5 nodes): `ErrorLoggerService`, `.constructor()`, `.log()`, `.setRemoteTransport()`, `error-logger.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 30`** (5 nodes): `ProjectCardComponent`, `.getInitials()`, `.onOpen()`, `.onSelect()`, `project-card.component.ts`
+- **Thin community `Community 30`** (5 nodes): `ConfirmDialogService`, `.cancel()`, `.confirm()`, `.open()`, `confirm-dialog.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 31`** (5 nodes): `ProjectSelectorComponent`, `.onProjectChange()`, `.options()`, `.selectedValue()`, `project-selector.component.ts`
+- **Thin community `Community 31`** (5 nodes): `ProjectCardComponent`, `.getInitials()`, `.onOpen()`, `.onSelect()`, `project-card.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 32`** (5 nodes): `FileRowComponent`, `.fileSizeLabel()`, `.onDeleteClick()`, `.onDownloadClick()`, `file-row.component.ts`
+- **Thin community `Community 32`** (5 nodes): `ProjectSelectorComponent`, `.onProjectChange()`, `.options()`, `.selectedValue()`, `project-selector.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 33`** (4 nodes): `check.mjs`, `run()`, `stopServer()`, `wait()`
+- **Thin community `Community 33`** (5 nodes): `FileRowComponent`, `.fileSizeLabel()`, `.onDeleteClick()`, `.onDownloadClick()`, `file-row.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 34`** (4 nodes): `cost-breakdowns.routes.js`, `findCostProject()`, `toNumber()`, `withCostProjectFields()`
+- **Thin community `Community 34`** (5 nodes): `AuthApiService`, `.constructor()`, `.fetchMe()`, `.requestTokenPair()`, `auth-api.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 37`** (4 nodes): `ErrorModalComponent`, `.constructor()`, `.onPrimaryAction()`, `error-modal.component.ts`
+- **Thin community `Community 35`** (4 nodes): `check.mjs`, `run()`, `stopServer()`, `wait()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 38`** (4 nodes): `FileInputComponent`, `.onFileChange()`, `.open()`, `file-input.component.ts`
+- **Thin community `Community 36`** (4 nodes): `cost-breakdowns.routes.js`, `findCostProject()`, `toNumber()`, `withCostProjectFields()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 39`** (4 nodes): `DatePickerComponent`, `.displayValue()`, `.onChange()`, `date-picker.component.ts`
+- **Thin community `Community 39`** (4 nodes): `ErrorModalComponent`, `.constructor()`, `.onPrimaryAction()`, `error-modal.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 40`** (4 nodes): `GlobalErrorHandler`, `.constructor()`, `.handleError()`, `global-error.handler.ts`
+- **Thin community `Community 40`** (4 nodes): `FileInputComponent`, `.onFileChange()`, `.open()`, `file-input.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 41`** (4 nodes): `ErrorModalService`, `.hide()`, `.showError()`, `error-modal.service.ts`
+- **Thin community `Community 41`** (4 nodes): `DatePickerComponent`, `.displayValue()`, `.onChange()`, `date-picker.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 42`** (4 nodes): `ProjectPreviewComponent`, `.getInitials()`, `.onOpenProject()`, `project-preview.component.ts`
+- **Thin community `Community 42`** (4 nodes): `GlobalErrorHandler`, `.constructor()`, `.handleError()`, `global-error.handler.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 43`** (4 nodes): `ProjectListComponent`, `.onOpenProject()`, `.onSelectProject()`, `project-list.component.ts`
+- **Thin community `Community 43`** (4 nodes): `ErrorModalService`, `.hide()`, `.showError()`, `error-modal.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 44`** (4 nodes): `RiskHeatmapComponent`, `.getCellClass()`, `.getCellValue()`, `risk-heatmap.component.ts`
+- **Thin community `Community 44`** (4 nodes): `ProjectPreviewComponent`, `.getInitials()`, `.onOpenProject()`, `project-preview.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 45`** (4 nodes): `KpiCardComponent`, `.tierClass()`, `.trendIconName()`, `kpi-card.component.ts`
+- **Thin community `Community 45`** (4 nodes): `ProjectListComponent`, `.onOpenProject()`, `.onSelectProject()`, `project-list.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 46`** (4 nodes): `CostOverviewCardComponent`, `.dataCyId()`, `.toKiloEuro()`, `cost-overview-card.component.ts`
+- **Thin community `Community 46`** (4 nodes): `RiskHeatmapComponent`, `.getCellClass()`, `.getCellValue()`, `risk-heatmap.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 48`** (3 nodes): `load-env.js`, `loadEnv()`, `parseEnv()`
+- **Thin community `Community 47`** (4 nodes): `KpiCardComponent`, `.tierClass()`, `.trendIconName()`, `kpi-card.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 49`** (3 nodes): `InputComponent`, `.onValueChange()`, `input.component.ts`
+- **Thin community `Community 48`** (4 nodes): `CostOverviewCardComponent`, `.dataCyId()`, `.toKiloEuro()`, `cost-overview-card.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 50`** (3 nodes): `ButtonComponent`, `.onClick()`, `button.component.ts`
+- **Thin community `Community 49`** (4 nodes): `ErrorLogApiService`, `.constructor()`, `.postLog()`, `error-log-api.service.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 51`** (3 nodes): `IconComponent`, `IconRegistryModule`, `icon.component.ts`
+- **Thin community `Community 51`** (3 nodes): `load-env.js`, `loadEnv()`, `parseEnv()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 52`** (3 nodes): `CostBarChartComponent`, `.data()`, `cost-bar-chart.component.ts`
+- **Thin community `Community 52`** (3 nodes): `InputComponent`, `.onValueChange()`, `input.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 53`** (3 nodes): `tab-nav.component.ts`, `TabNavComponent`, `.onSelect()`
+- **Thin community `Community 53`** (3 nodes): `ButtonComponent`, `.onClick()`, `button.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 54`** (3 nodes): `CostTableComponent`, `.onToggle()`, `cost-table.component.ts`
+- **Thin community `Community 54`** (3 nodes): `IconComponent`, `IconRegistryModule`, `icon.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 55`** (3 nodes): `BudgetChartComponent`, `.data()`, `budget-chart.component.ts`
+- **Thin community `Community 55`** (3 nodes): `CostBarChartComponent`, `.data()`, `cost-bar-chart.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 56`** (3 nodes): `CostSubNavComponent`, `.onSelect()`, `cost-sub-nav.component.ts`
+- **Thin community `Community 56`** (3 nodes): `tab-nav.component.ts`, `TabNavComponent`, `.onSelect()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 65`** (2 nodes): `AppComponent`, `app.component.ts`
+- **Thin community `Community 57`** (3 nodes): `CostTableComponent`, `.onToggle()`, `cost-table.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 66`** (2 nodes): `three-column-layout.component.ts`, `ThreeColumnLayoutComponent`
+- **Thin community `Community 58`** (3 nodes): `BudgetChartComponent`, `.data()`, `budget-chart.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 67`** (2 nodes): `PageHeaderComponent`, `page-header.component.ts`
+- **Thin community `Community 59`** (3 nodes): `CostSubNavComponent`, `.onSelect()`, `cost-sub-nav.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 68`** (2 nodes): `PageShellComponent`, `page-shell.component.ts`
+- **Thin community `Community 68`** (2 nodes): `AppComponent`, `app.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 69`** (2 nodes): `SkeletonBlockComponent`, `skeleton-block.component.ts`
+- **Thin community `Community 69`** (2 nodes): `three-column-layout.component.ts`, `ThreeColumnLayoutComponent`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 70`** (2 nodes): `DividerComponent`, `divider.component.ts`
+- **Thin community `Community 70`** (2 nodes): `PageHeaderComponent`, `page-header.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 71`** (2 nodes): `tag.component.ts`, `TagComponent`
+- **Thin community `Community 71`** (2 nodes): `PageShellComponent`, `page-shell.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 72`** (2 nodes): `BadgeComponent`, `badge.component.ts`
+- **Thin community `Community 72`** (2 nodes): `SkeletonBlockComponent`, `skeleton-block.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 75`** (2 nodes): `SkeletonCardComponent`, `skeleton-card.component.ts`
+- **Thin community `Community 73`** (2 nodes): `DividerComponent`, `divider.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 77`** (2 nodes): `SkeletonKpiGridComponent`, `skeleton-kpi-grid.component.ts`
+- **Thin community `Community 74`** (2 nodes): `tag.component.ts`, `TagComponent`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (2 nodes): `SkeletonStateGridComponent`, `skeleton-state-grid.component.ts`
+- **Thin community `Community 75`** (2 nodes): `BadgeComponent`, `badge.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 79`** (2 nodes): `SkeletonMilestoneListComponent`, `skeleton-milestone-list.component.ts`
+- **Thin community `Community 78`** (2 nodes): `SkeletonCardComponent`, `skeleton-card.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (2 nodes): `SkeletonCostComponent`, `skeleton-cost.component.ts`
+- **Thin community `Community 80`** (2 nodes): `SkeletonKpiGridComponent`, `skeleton-kpi-grid.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 81`** (2 nodes): `CostDetailTableComponent`, `cost-detail-table.component.ts`
+- **Thin community `Community 81`** (2 nodes): `SkeletonStateGridComponent`, `skeleton-state-grid.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 82`** (2 nodes): `SkeletonFileListComponent`, `skeleton-file-list.component.ts`
+- **Thin community `Community 82`** (2 nodes): `SkeletonMilestoneListComponent`, `skeleton-milestone-list.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 83`** (2 nodes): `SkeletonSidebarComponent`, `skeleton-sidebar.component.ts`
+- **Thin community `Community 83`** (2 nodes): `SkeletonCostComponent`, `skeleton-cost.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 84`** (2 nodes): `SkeletonRiskComponent`, `skeleton-risk.component.ts`
+- **Thin community `Community 84`** (2 nodes): `CostDetailTableComponent`, `cost-detail-table.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 85`** (2 nodes): `LoginComponent`, `login.component.ts`
+- **Thin community `Community 85`** (2 nodes): `SkeletonFileListComponent`, `skeleton-file-list.component.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 86`** (2 nodes): `SkeletonSidebarComponent`, `skeleton-sidebar.component.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 87`** (2 nodes): `SkeletonRiskComponent`, `skeleton-risk.component.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 88`** (2 nodes): `LoginComponent`, `login.component.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+
+## Suggested Questions
+_Questions this graph is uniquely positioned to answer:_
+
+- **Why does `CostTabComponent` connect `Community 2` to `Community 1`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **What connects `AppComponent`, `ThreeColumnLayoutComponent`, `PageHeaderComponent` to the rest of the system?**
+  _20 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Community 0` be split into smaller, more focused modules?**
+  _Cohesion score 0.04 - nodes in this community are weakly interconnected._
+- **Should `Community 1` be split into smaller, more focused modules?**
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+- **Should `Community 2` be split into smaller, more focused modules?**
+  _Cohesion score 0.09 - nodes in this community are weakly interconnected._
+- **Should `Community 3` be split into smaller, more focused modules?**
+  _Cohesion score 0.07 - nodes in this community are weakly interconnected._
+- **Should `Community 4` be split into smaller, more focused modules?**
+  _Cohesion score 0.09 - nodes in this community are weakly interconnected._

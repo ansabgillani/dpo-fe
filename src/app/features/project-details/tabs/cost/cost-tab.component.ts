@@ -118,7 +118,9 @@ export class CostTabComponent implements OnInit, OnChanges {
   }
 
   get fyOptions(): SelectOption[] {
-    return this.buildOptionList(this.costData?.fy || '', ['FY25', 'FY26']);
+    const fiscalYears = this.costData?.fiscalYears?.length ? this.costData.fiscalYears : ['FY25', 'FY26'];
+    const uniqueYears = Array.from(new Set(fiscalYears.filter((value) => !!value)));
+    return [{ label: 'All FYs', value: '' }, ...uniqueYears.map((value) => ({ label: value, value }))];
   }
 
   get pspProjectOptions(): SelectOption[] {
@@ -279,6 +281,16 @@ export class CostTabComponent implements OnInit, OnChanges {
       latestReportingPeriod: raw?.latestReportingPeriod || 'P01',
       project: raw?.project || this.projectFilter || 'Project A',
       fy: raw?.fy || this.fyFilter || 'FY26',
+      fiscalYears: raw?.fiscalYears?.length
+        ? raw.fiscalYears
+        : Array.from(
+            new Set([
+              raw?.fy,
+              this.fyFilter,
+              'FY26',
+              'FY25'
+            ].filter((value): value is string => typeof value === 'string' && value.length > 0))
+          ),
       pspProject: raw?.pspProject || this.pspProjectFilter || 'PSP-1',
       breakdownMode: raw?.breakdownMode || this.breakdownMode,
       overview: {

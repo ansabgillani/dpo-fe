@@ -50,3 +50,7 @@ Thumbs.db
 cypress/videos/*
 cypress/screenshots/*
 cypress/logs/*
+
+
+graphify-out/*
+graphify-out/

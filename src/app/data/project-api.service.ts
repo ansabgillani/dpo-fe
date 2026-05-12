@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { UI_CONFIG } from '../ui-config';
 import {
-  ApiCostBreakdown,
   ApiCostProject,
   ApiFileEntry,
   ApiMilestone,
@@ -85,10 +84,6 @@ export class ProjectApiService {
 
   listCostProjects(params: HttpParams): Observable<PaginatedResponse<ApiCostProject> | ApiCostProject[]> {
     return this.http.get<PaginatedResponse<ApiCostProject> | ApiCostProject[]>(`${UI_CONFIG.api.baseUrl}/cost-projects/`, { params });
-  }
-
-  listCostBreakdowns(params: HttpParams): Observable<PaginatedResponse<ApiCostBreakdown> | ApiCostBreakdown[]> {
-    return this.http.get<PaginatedResponse<ApiCostBreakdown> | ApiCostBreakdown[]>(`${UI_CONFIG.api.baseUrl}/cost-breakdowns/`, { params });
   }
 
   listProducts(params: HttpParams): Observable<PaginatedResponse<ApiProduct> | ApiProduct[]> {

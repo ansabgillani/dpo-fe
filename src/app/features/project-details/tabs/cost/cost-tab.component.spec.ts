@@ -14,6 +14,7 @@ describe('CostTabComponent', () => {
     latestReportingPeriod: 'P01',
     project: 'Project A',
     fy: 'FY26',
+    fiscalYears: ['FY26', 'FY25'],
     pspProject: 'PSP-1',
     breakdownMode: 'product' as const,
     overview: {
