@@ -16,6 +16,7 @@ export class KpiCardComponent {
   @Input({ required: true }) value: number | string = 0;
   @Input({ required: true }) trend!: KpiTrendResult;
   @Input() iconName = 'target';
+  @Input() statusTier: 'green' | 'yellow' | 'red' | 'gray' = 'gray';
 
   get trendIconName(): string {
     if (this.trend.direction === 'up') {
@@ -30,6 +31,6 @@ export class KpiCardComponent {
   }
 
   get tierClass(): string {
-    return `tier-${this.trend.tier}`;
+    return this.statusTier === 'gray' ? '' : `tier-${this.statusTier}`;
   }
 }

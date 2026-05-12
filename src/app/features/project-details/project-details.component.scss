@@ -37,10 +37,20 @@
 }
 
 .tab-content {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--layout-panel-min-height);
   background: var(--color-bg-card);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-md);
+}
+
+.tab-content > dpo-overview-tab,
+.tab-content > dpo-state-tab {
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .tab-title,

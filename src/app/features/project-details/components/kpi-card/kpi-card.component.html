@@ -1,4 +1,8 @@
-<article class="kpi-card" [attr.data-cy]="'kpi-card-' + label.toLowerCase().replaceAll(' ', '-')">
+<article
+  class="kpi-card"
+  [ngClass]="tierClass"
+  [attr.data-cy]="'kpi-card-' + label.toLowerCase().replaceAll(' ', '-')"
+>
   <div class="header">
     <dpo-icon [name]="iconName" [size]="16" [dataCy]="'kpi-card-icon-' + label.toLowerCase().replaceAll(' ', '-')"></dpo-icon>
     <h3 class="label">{{ label }}</h3>

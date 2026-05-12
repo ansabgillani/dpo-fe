@@ -420,6 +420,11 @@ export class ProjectService {
         const statusBreakdowns =
           this.collectBreakdownsByStatus(scopedCostProjects);
         const hasStatusBreakdowns = statusBreakdowns.hasStatus;
+        const latestFyActualsReportingPeriod =
+          this.latestReportingPeriodFromLatestFiscalYearActuals(
+            scopedCostProjects,
+            hasStatusBreakdowns,
+          );
 
         let actualSummary = { gross: 0, chargingToBL: 0, net: 0 };
         let budgetSummary = { gross: 0, chargingToBL: 0, net: 0 };
@@ -517,7 +522,9 @@ export class ProjectService {
               : budgetBreakdowns.length
                 ? budgetBreakdowns
                 : forecastBreakdowns;
-          reportingPeriod = this.latestReportingPeriod(reportingBreakdowns);
+          reportingPeriod =
+            latestFyActualsReportingPeriod ||
+            this.latestReportingPeriod(reportingBreakdowns);
           projectCost =
             actualsPlusForecastSummary.net || actualsPlusForecastSummary.gross;
         } else {
@@ -575,7 +582,9 @@ export class ProjectService {
             (acc, row) => acc + this.toNumber(row.net || row.gross),
             0,
           );
-          reportingPeriod = this.latestReportingPeriod(nonYtdScopedBreakdowns);
+          reportingPeriod =
+            latestFyActualsReportingPeriod ||
+            this.latestReportingPeriod(nonYtdScopedBreakdowns);
         }
 
         const scopedProducts = this.unwrapResults(products);
@@ -1150,6 +1159,14 @@ export class ProjectService {
     );
   }
 
+  private isForecastRow(row: ApiCostBreakdown): boolean {
+    return (
+      String(row.type || '')
+        .trim()
+        .toUpperCase() === 'FORECAST'
+    );
+  }
+
   private roundToTwoDecimals(value: number): number {
     return Math.round(value * 100) / 100;
   }
@@ -1421,16 +1438,93 @@ export class ProjectService {
   }
 
   private latestReportingPeriod(rows: ApiCostBreakdown[]): string {
-    const months = rows
-      .map((row) => row.reporting_month || '')
-      .filter(Boolean)
-      .sort();
+    
+    const filtered = rows.reduceRight<ApiCostBreakdown | undefined>((found, row) => {
+      if (found) return found;
 
-    if (!months.length) {
-      return 'P01';
+      return Number(row.gross) !== 0 ? row : undefined;
+    }, undefined);
+
+
+    return this.toReportingPeriod(filtered?.reporting_month || '12');
+  }
+
+  private latestReportingPeriodFromLatestFiscalYearActuals(
+    costProjects: ApiCostProject[],
+    hasStatusBreakdowns: boolean,
+  ): string | null {
+    const latestFiscalYear = this.latestFiscalYear(costProjects);
+    if (!latestFiscalYear) {
+      return null;
+    }
+    
+    const actualRows = costProjects
+      .filter((entry) => entry.fiscal_year === latestFiscalYear)
+      .filter((entry) =>
+        hasStatusBreakdowns
+          ? this.toCostStatusKey(entry.status) === 'actuals'
+          : true,
+      )
+      .flatMap((entry) =>
+        (entry.breakdown || []).filter((row) => {
+          if (this.isYtdRow(row)) {
+            return false;
+          }
+          if (hasStatusBreakdowns) {
+            return true;
+          }
+
+          return !this.isBudgetRow(row) && !this.isForecastRow(row);
+        }),
+      );
+
+    if (!actualRows.length) {
+      return null;
     }
 
-    return this.toReportingPeriod(months[months.length - 1]);
+    return this.latestReportingPeriod(actualRows);
+  }
+
+  private latestFiscalYear(costProjects: ApiCostProject[]): string | null {
+
+    
+
+    const fiscalYears = Array.from(
+      new Set(costProjects.map((entry) => entry.fiscal_year || '').filter(Boolean)),
+    );
+
+    if (!fiscalYears.length) {
+      return null;
+    }
+
+    const sorted = fiscalYears.sort((a, b) => {
+      const aRank = this.toFiscalYearRank(a);
+      const bRank = this.toFiscalYearRank(b);
+      if (aRank !== bRank) {
+        return aRank - bRank;
+      }
+      return a.localeCompare(b);
+    })[fiscalYears.length - 1];
+    return sorted;
+  }
+
+  private toFiscalYearRank(value: string): number {
+    const matches = value.match(/\d+/g);
+    if (!matches?.length) {
+      return Number.NEGATIVE_INFINITY;
+    }
+
+    const token = matches[matches.length - 1];
+    const parsed = Number(token);
+    if (!Number.isFinite(parsed)) {
+      return Number.NEGATIVE_INFINITY;
+    }
+
+    if (token.length <= 2) {
+      return parsed + 2000;
+    }
+
+    return parsed;
   }
 
   private toReportingPeriod(monthValue: string | number): string {

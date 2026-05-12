@@ -17,6 +17,7 @@ describe('KpiCardComponent', () => {
     component.label = 'Quality';
     component.value = 84;
     component.trend = { tier: 'green', direction: 'up', deltaPercent: 12 };
+    component.statusTier = 'green';
     fixture.detectChanges();
   });
 
@@ -26,5 +27,12 @@ describe('KpiCardComponent', () => {
 
   it('returns tier class', () => {
     expect(component.tierClass).toBe('tier-green');
+  });
+
+  it('uses status tier for class instead of trend tier', () => {
+    component.statusTier = 'yellow';
+    component.trend = { tier: 'green', direction: 'up', deltaPercent: 12 };
+
+    expect(component.tierClass).toBe('tier-yellow');
   });
 });

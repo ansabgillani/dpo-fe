@@ -111,6 +111,14 @@ describe('OverviewComponent', () => {
     expect(component.kpis).toHaveLength(6);
   });
 
+  it('derives status tier from card value', () => {
+    const timeline = component.kpis.find((kpi) => kpi.id === 'timeline');
+    const quality = component.kpis.find((kpi) => kpi.id === 'quality');
+
+    expect(quality?.statusTier).toBe('green');
+    expect(timeline?.statusTier).toBe('red');
+  });
+
   it('builds chart datasets', () => {
     expect(component.budgetDatasets).toHaveLength(3);
     expect(component.budgetDatasets[0].label).toBe('Budget');

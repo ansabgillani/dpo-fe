@@ -249,6 +249,100 @@ describe('ProjectService', () => {
     httpMock.expectNone((req) => req.url.includes('/cost-breakdowns/'));
   });
 
+  it('uses latest FY actuals period for latest reporting period when FY filter is not selected', () => {
+    service.getCostData(1).subscribe((data) => {
+      expect(data.latestReportingPeriod).toBe('P07');
+      expect(data.fiscalYears).toEqual(['FY25', 'FY26']);
+    });
+
+    httpMock.expectOne('http://localhost:3001/api/v1/projects/1/').flush({
+      id: 1,
+      title: 'Imaging Platform Modernization',
+      department: 'DIC',
+      business_line: 'XP',
+      type: 'SSP',
+      start_date: '2025-01-10',
+      end_date: '2025-11-30',
+      is_active: 'true'
+    });
+
+    httpMock.expectOne('http://localhost:3001/api/v1/psp-mappings/?project=1&page_size=500').flush({
+      count: 1,
+      next: null,
+      previous: null,
+      results: [{ id: 999, project: 1, psp_element: '41535084' }]
+    });
+
+    const costProjectsReq = httpMock.expectOne(
+      (req) =>
+        req.url === 'http://localhost:3001/api/v1/cost-projects/' &&
+        req.params.get('project_id') === '1' &&
+        req.params.get('fiscal_year') === null &&
+        req.params.get('page_size') === '2000'
+    );
+    costProjectsReq.flush({
+      count: 4,
+      next: null,
+      previous: null,
+      results: [
+        {
+          id: 2101,
+          psp_element: '41535084',
+          fiscal_year: 'FY25',
+          project_title: 'Imaging Platform Modernization',
+          status: 'Actuals',
+          breakdown: [
+            { id: 1, reporting_month: '12', gross: '120.00', charging_to_bl: '-50.00', net: '70.00' }
+          ]
+        },
+        {
+          id: 2102,
+          psp_element: '41535084',
+          fiscal_year: 'FY25',
+          project_title: 'Imaging Platform Modernization',
+          status: 'Budget',
+          breakdown: [
+            { id: 2, type: 'Budget', reporting_month: '12', gross: '150.00', charging_to_bl: '-80.00', net: '70.00' }
+          ]
+        },
+        {
+          id: 2201,
+          psp_element: '41535084',
+          fiscal_year: 'FY26',
+          project_title: 'Imaging Platform Modernization',
+          status: 'Actuals',
+          breakdown: [
+            { id: 3, reporting_month: '7', gross: '130.00', charging_to_bl: '-60.00', net: '70.00' }
+          ]
+        },
+        {
+          id: 2202,
+          psp_element: '41535084',
+          fiscal_year: 'FY26',
+          project_title: 'Imaging Platform Modernization',
+          status: 'Forecast',
+          breakdown: [
+            { id: 4, reporting_month: '12', gross: '999.00', charging_to_bl: '-999.00', net: '0.00' }
+          ]
+        }
+      ]
+    });
+
+    httpMock.expectOne('http://localhost:3001/api/v1/products/?project=1&page_size=500').flush({
+      count: 0,
+      next: null,
+      previous: null,
+      results: []
+    });
+
+    httpMock.expectOne('http://localhost:3001/api/v1/product-costs/?product__project=1&page_size=500').flush({
+      count: 0,
+      next: null,
+      previous: null,
+      results: []
+    });
+  });
+
   it('saves state via statuses update and refetches', () => {
     service
       .saveState(1, [

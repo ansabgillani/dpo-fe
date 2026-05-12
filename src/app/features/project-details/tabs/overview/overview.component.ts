@@ -28,6 +28,7 @@ interface KpiVm {
   value: string;
   iconName: string;
   trend: KpiTrendResult;
+  statusTier: 'green' | 'yellow' | 'red' | 'gray';
 }
 
 type KpiCardKey =
@@ -90,7 +91,8 @@ export class OverviewComponent implements OnChanges {
         label: card.label,
         value: this.statusLabelForValue(card.value),
         iconName: this.getIconName(card.key),
-        trend: this.toTrend(card)
+        trend: this.toTrend(card),
+        statusTier: this.statusTierForValue(card.value)
       }));
   }
 
@@ -217,5 +219,21 @@ export class OverviewComponent implements OnChanges {
     }
 
     return 'N/A';
+  }
+
+  private statusTierForValue(value: number): 'green' | 'yellow' | 'red' | 'gray' {
+    if (value >= 80) {
+      return 'green';
+    }
+
+    if (value >= 50) {
+      return 'yellow';
+    }
+
+    if (value > 0) {
+      return 'red';
+    }
+
+    return 'gray';
   }
 }
