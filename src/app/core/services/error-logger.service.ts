@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { UI_CONFIG } from '../../ui-config';
+import { ErrorLogApiService } from '../../data/error-log-api.service';
 import { ErrorLog } from '../models/error-log.model';
 
 type RemoteTransport = (entry: ErrorLog) => void;
@@ -10,7 +9,7 @@ type RemoteTransport = (entry: ErrorLog) => void;
 export class ErrorLoggerService {
   private remoteTransport?: RemoteTransport;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly errorLogApi: ErrorLogApiService) {}
 
   setRemoteTransport(fn: RemoteTransport): void {
     this.remoteTransport = fn;
@@ -40,7 +39,7 @@ export class ErrorLoggerService {
       console.log(entry);
     }
 
-    this.http.post(`${UI_CONFIG.api.baseUrl}/logs`, entry).subscribe({
+    this.errorLogApi.postLog(entry).subscribe({
       error: () => {
         // Remote log failures are intentionally ignored.
       }

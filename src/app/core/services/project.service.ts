@@ -1,9 +1,23 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, forkJoin, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { UI_CONFIG } from '../../ui-config';
+import {
+  ApiCostBreakdown,
+  ApiCostProject,
+  ApiFileEntry,
+  ApiMilestone,
+  ApiProduct,
+  ApiProductCost,
+  ApiProject,
+  ApiPspMapping,
+  ApiRisk,
+  ApiStatus,
+  PaginatedResponse
+} from '../../data/api.models';
+import { ProjectApiService } from '../../data/project-api.service';
 import { CostData, CostFilters } from '@core/models/cost.model';
 import { FileEntry } from '@core/models/file.model';
 import {
@@ -24,139 +38,6 @@ export interface OverviewChartData {
     color: string;
     data: number[];
   }>;
-}
-
-interface PaginatedResponse<T> {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: T[];
-}
-
-interface ApiProject {
-  id: number;
-  title: string;
-  type: string;
-  business_line: string;
-  department: string;
-  market?: string;
-  global_project?: boolean;
-  start_date: string;
-  end_date: string;
-  display_image?: string | null;
-  is_active?: string;
-}
-
-interface ApiProjectFilterOptions {
-  department?: string[];
-  business_line?: string[];
-  type?: string[];
-}
-
-interface ApiMilestone {
-  id: number;
-  project: number;
-  name: string;
-  type?: string;
-  description?: string;
-  status?: string;
-  start_date: string;
-  proposed_end_date?: string | null;
-  end_date: string;
-}
-
-interface ApiRisk {
-  id: number;
-  project: number;
-  title: string;
-  type?: string;
-  state?: string;
-  probability?: string;
-  severity?: string;
-  loss_valuation?: string | number | null;
-  description?: string;
-  riskDescription?: string;
-  action?: string;
-  action_state?: string;
-  due_date?: string | null;
-  severity_after_action?: string | null;
-  probability_after_action?: string | null;
-  loss_after_action?: string | number | null;
-}
-
-interface ApiStatus {
-  id: number;
-  project: number;
-  name: string;
-  value: string;
-  description: string;
-}
-
-interface ApiOverviewChartSeries {
-  reportingMonth: string;
-  gross: number;
-  net: number;
-  manpower: number;
-}
-
-interface ApiOverviewChartResponse {
-  series: ApiOverviewChartSeries[];
-  totals?: {
-    gross?: number;
-    net?: number;
-    manpower?: number;
-  };
-}
-
-interface ApiFileEntry {
-  id: number;
-  name: string;
-  sizeBytes: number;
-  contentType: string;
-  uploadedAt: string;
-  downloadUrl: string;
-}
-
-interface ApiPspMapping {
-  id: number;
-  project: number;
-  psp_element: string;
-}
-
-interface ApiCostProject {
-  id: number;
-  fiscal_year: string;
-  psp_element: string;
-  project_title?: string | null;
-  stand_reporting_period?: string | null;
-}
-
-interface ApiCostBreakdown {
-  id: number;
-  psp_project: number;
-  type?: string | null;
-  reporting_month?: string | null;
-  gross?: string | null;
-  charging_to_bl?: string | null;
-  net?: string | null;
-  charging_internal?: string | null;
-  ct_costs?: string | null;
-  external_material?: string | null;
-  internal_material?: string | null;
-}
-
-interface ApiProduct {
-  id: number;
-  project: number;
-  name: string;
-}
-
-interface ApiProductCost {
-  id: number;
-  product: number;
-  target: string;
-  actual: string;
-  calculation_date: string;
 }
 
 const STATE_CARD_DEFINITIONS: Array<{ key: StateCard['key']; id: string; label: string; statusName: string }> = [
@@ -185,7 +66,7 @@ export class ProjectService {
   readonly activeCostSubViewIndex$ = this.activeCostSubViewIndexSubject.asObservable();
 
   constructor(
-    private readonly http: HttpClient,
+    private readonly projectApi: ProjectApiService,
     private readonly errorLogger: ErrorLoggerService
   ) {}
 
@@ -206,8 +87,8 @@ export class ProjectService {
   }
 
   getFilters(): Observable<FilterOptions> {
-    return this.http
-      .get<ApiProjectFilterOptions>(`${UI_CONFIG.api.baseUrl}/filters/projects`)
+    return this.projectApi
+      .getProjectFilters()
       .pipe(
         map((response) => ({
           departments: this.unique(response.department || []),
@@ -237,10 +118,8 @@ export class ProjectService {
     }
 
     return forkJoin({
-      projects: this.http.get<PaginatedResponse<ApiProject> | ApiProject[]>(`${UI_CONFIG.api.baseUrl}/projects/`, { params }),
-      pspMappings: this.http.get<PaginatedResponse<ApiPspMapping> | ApiPspMapping[]>(`${UI_CONFIG.api.baseUrl}/psp-mappings/`, {
-        params: new HttpParams().set('page_size', '500')
-      })
+      projects: this.projectApi.listProjects(params),
+      pspMappings: this.projectApi.listPspMappings(new HttpParams().set('page_size', '500'))
     }).pipe(
       map(({ projects, pspMappings }) => {
         const mappingByProject = this.groupMappingsByProject(this.unwrapResults(pspMappings));
@@ -257,13 +136,8 @@ export class ProjectService {
 
   getProjectDetail(id: number): Observable<ProjectSummary> {
     return forkJoin({
-      project: this.http.get<ApiProject>(`${UI_CONFIG.api.baseUrl}/projects/${id}/`),
-      pspMappings: this.http.get<PaginatedResponse<ApiPspMapping> | ApiPspMapping[]>(
-        `${UI_CONFIG.api.baseUrl}/psp-mappings/`,
-        {
-          params: new HttpParams().set('project', String(id)).set('page_size', '500')
-        }
-      )
+      project: this.projectApi.getProject(id),
+      pspMappings: this.projectApi.listPspMappings(new HttpParams().set('project', String(id)).set('page_size', '500'))
     }).pipe(
       map(({ project, pspMappings }) =>
         this.applyProjectOverrides(this.mapProject(project, this.unwrapResults(pspMappings)))
@@ -282,8 +156,8 @@ export class ProjectService {
   }
 
   createProject(payload: CreateProjectPayload): Observable<ProjectSummary> {
-    return this.http
-      .post<ApiProject>(`${UI_CONFIG.api.baseUrl}/projects/`, {
+    return this.projectApi
+      .createProject({
         title: payload.title,
         type: payload.type,
         business_line: payload.businessLine,
@@ -303,7 +177,7 @@ export class ProjectService {
 
           return forkJoin(
             pspElements.map((name) =>
-              this.http.post(`${UI_CONFIG.api.baseUrl}/psp-mappings/`, {
+              this.projectApi.createPspMapping({
                 project: project.id,
                 psp_element: name
               })
@@ -318,10 +192,8 @@ export class ProjectService {
   }
 
   getStateCards(id: number): Observable<StateCard[]> {
-    return this.http
-      .get<PaginatedResponse<ApiStatus> | ApiStatus[]>(`${UI_CONFIG.api.baseUrl}/statuses/`, {
-        params: new HttpParams().set('project', String(id)).set('page_size', '200')
-      })
+    return this.projectApi
+      .listStatuses(new HttpParams().set('project', String(id)).set('page_size', '200'))
       .pipe(
         map((response) => this.toStateCardsFromStatuses(this.unwrapResults(response), id)),
         catchError((error: unknown) => {
@@ -332,7 +204,7 @@ export class ProjectService {
   }
 
   getOverviewChartData(id: number): Observable<OverviewChartData> {
-    return this.http.get<ApiOverviewChartResponse>(`${UI_CONFIG.api.baseUrl}/projects/${id}/overview-chart`).pipe(
+    return this.projectApi.getProjectOverviewChart(id).pipe(
       map((costData) => ({
         datasets: [
           {
@@ -370,10 +242,8 @@ export class ProjectService {
   }
 
   getMilestones(id: number, milestoneSet?: string): Observable<MilestoneItem[]> {
-    return this.http
-      .get<PaginatedResponse<ApiMilestone> | ApiMilestone[]>(`${UI_CONFIG.api.baseUrl}/milestones/`, {
-        params: new HttpParams().set('project', String(id)).set('page_size', '250').set('type', String(milestoneSet))
-      })
+    return this.projectApi
+      .listMilestones(new HttpParams().set('project', String(id)).set('page_size', '250').set('type', String(milestoneSet)))
       .pipe(
         map((response) => {
           const milestones = this.unwrapResults(response)
@@ -400,7 +270,7 @@ export class ProjectService {
     dates: { startDate?: string; endDate?: string },
     milestoneSet?: string
   ): Observable<MilestoneItem[]> {
-    return this.http.patch(`${UI_CONFIG.api.baseUrl}/milestones/${milestoneId}/`, {
+    return this.projectApi.updateMilestone(milestoneId, {
       ...(dates.startDate ? { start_date: dates.startDate } : {}),
       ...(dates.endDate ? { end_date: dates.endDate } : {})
     }).pipe(
@@ -420,25 +290,12 @@ export class ProjectService {
 
   getCostData(id: number, filters?: CostFilters): Observable<CostData> {
     return forkJoin({
-      project: this.http.get<ApiProject>(`${UI_CONFIG.api.baseUrl}/projects/${id}/`),
-      pspMappings: this.http.get<PaginatedResponse<ApiPspMapping> | ApiPspMapping[]>(`${UI_CONFIG.api.baseUrl}/psp-mappings/`, {
-        params: new HttpParams().set('project', String(id)).set('page_size', '500')
-      }),
-      costProjects: this.http.get<PaginatedResponse<ApiCostProject> | ApiCostProject[]>(`${UI_CONFIG.api.baseUrl}/cost-projects/`, {
-        params: new HttpParams().set('page_size', '500')
-      }),
-      costBreakdowns: this.http.get<PaginatedResponse<ApiCostBreakdown> | ApiCostBreakdown[]>(
-        `${UI_CONFIG.api.baseUrl}/cost-breakdowns/`,
-        {
-          params: new HttpParams().set('page_size', '1000')
-        }
-      ),
-      products: this.http.get<PaginatedResponse<ApiProduct> | ApiProduct[]>(`${UI_CONFIG.api.baseUrl}/products/`, {
-        params: new HttpParams().set('project', String(id)).set('page_size', '500')
-      }),
-      productCosts: this.http.get<PaginatedResponse<ApiProductCost> | ApiProductCost[]>(`${UI_CONFIG.api.baseUrl}/product-costs/`, {
-        params: new HttpParams().set('product__project', String(id)).set('page_size', '500')
-      })
+      project: this.projectApi.getProject(id),
+      pspMappings: this.projectApi.listPspMappings(new HttpParams().set('project', String(id)).set('page_size', '500')),
+      costProjects: this.projectApi.listCostProjects(new HttpParams().set('page_size', '500')),
+      costBreakdowns: this.projectApi.listCostBreakdowns(new HttpParams().set('page_size', '1000')),
+      products: this.projectApi.listProducts(new HttpParams().set('project', String(id)).set('page_size', '500')),
+      productCosts: this.projectApi.listProductCosts(new HttpParams().set('product__project', String(id)).set('page_size', '500'))
     }).pipe(
       map(({ project, pspMappings, costProjects, costBreakdowns, products, productCosts }) => {
         const mappingList = this.unwrapResults(pspMappings);
@@ -597,7 +454,7 @@ export class ProjectService {
       payload['calculation_date'] = data.calculationDate;
     }
 
-    return this.http.patch(`${UI_CONFIG.api.baseUrl}/product-costs/${productId}/`, payload).pipe(
+    return this.projectApi.updateProductCost(productId, payload).pipe(
       switchMap(() => this.getCostData(id, filters)),
       catchError((error: unknown) => {
         this.errorLogger.log(
@@ -613,10 +470,8 @@ export class ProjectService {
   }
 
   saveState(id: number, cards: StateCard[]): Observable<StateCard[]> {
-    return this.http
-      .get<PaginatedResponse<ApiStatus> | ApiStatus[]>(`${UI_CONFIG.api.baseUrl}/statuses/`, {
-        params: new HttpParams().set('project', String(id)).set('page_size', '200')
-      })
+    return this.projectApi
+      .listStatuses(new HttpParams().set('project', String(id)).set('page_size', '200'))
       .pipe(
         switchMap((response) => {
           const existing = this.unwrapResults(response);
@@ -630,10 +485,10 @@ export class ProjectService {
             };
 
             if (existingEntry) {
-              return this.http.patch(`${UI_CONFIG.api.baseUrl}/statuses/${existingEntry.id}/`, payload);
+              return this.projectApi.updateStatus(existingEntry.id, payload);
             }
 
-            return this.http.post(`${UI_CONFIG.api.baseUrl}/statuses/`, payload);
+            return this.projectApi.createStatus(payload);
           });
 
           return requests.length ? forkJoin(requests) : of([]);
@@ -672,8 +527,8 @@ export class ProjectService {
       return this.getProjectDetail(id);
     }
 
-    return this.http
-      .patch(`${UI_CONFIG.api.baseUrl}/projects/${id}/`, {
+    return this.projectApi
+      .updateProject(id, {
         [apiField]: value
       })
       .pipe(
@@ -692,8 +547,8 @@ export class ProjectService {
   }
 
   addPspProject(id: number, name: string): Observable<ProjectSummary> {
-    return this.http
-      .post(`${UI_CONFIG.api.baseUrl}/psp-mappings/`, { project: id, psp_element: name })
+    return this.projectApi
+      .createPspMapping({ project: id, psp_element: name })
       .pipe(
         switchMap(() => this.getProjectDetail(id)),
         catchError((error: unknown) => {
@@ -710,8 +565,8 @@ export class ProjectService {
   }
 
   deletePspProject(id: number, pspId: number): Observable<ProjectSummary> {
-    return this.http
-      .delete(`${UI_CONFIG.api.baseUrl}/psp-mappings/${pspId}/`)
+    return this.projectApi
+      .deletePspMapping(pspId)
       .pipe(
         switchMap(() => this.getProjectDetail(id)),
         catchError((error: unknown) => {
@@ -734,8 +589,8 @@ export class ProjectService {
       params = params.set('type', riskType);
     }
 
-    return this.http
-      .get<PaginatedResponse<ApiRisk> | ApiRisk[]>(`${UI_CONFIG.api.baseUrl}/risks/`, { params })
+    return this.projectApi
+      .listRisks(params)
       .pipe(
         map((response) => {
           const risks = this.unwrapResults(response).map((entry) => this.mapRiskToUi(entry));
@@ -760,7 +615,7 @@ export class ProjectService {
   ): Observable<RiskData> {
     const payload = this.mapRiskPatchToApi(field, value);
 
-    return this.http.patch(`${UI_CONFIG.api.baseUrl}/risks/${riskId}/`, payload).pipe(
+    return this.projectApi.updateRisk(riskId, payload).pipe(
       switchMap(() => this.getRisks(id, riskType)),
       catchError((error: unknown) => {
         this.errorLogger.log(
@@ -794,7 +649,7 @@ export class ProjectService {
       loss_after_action: risk.potentialFinancialLossAfter || null
     };
 
-    return this.http.post(`${UI_CONFIG.api.baseUrl}/risks/`, payload).pipe(
+    return this.projectApi.createRisk(payload).pipe(
       switchMap(() => this.getRisks(id, riskType)),
       catchError((error: unknown) => {
         this.errorLogger.log('error', 'ERR_FETCH_RISKS', 'Failed to add risk', { projectId: id }, error);
@@ -804,7 +659,7 @@ export class ProjectService {
   }
 
   getFiles(id: number): Observable<FileEntry[]> {
-    return this.http.get<ApiFileEntry[]>(`${UI_CONFIG.api.baseUrl}/projects/${id}/files`).pipe(
+    return this.projectApi.listFiles(id).pipe(
       map((files) => files.map((file) => this.mapFileToUi(file, id))),
       catchError((error: unknown) => {
         this.errorLogger.log('error', 'ERR_FETCH_FILES', 'Failed to fetch files', { projectId: id }, error);
@@ -817,7 +672,7 @@ export class ProjectService {
     const data = new FormData();
     data.append('file', file);
 
-    return this.http.post(`${UI_CONFIG.api.baseUrl}/projects/${id}/files`, data).pipe(
+    return this.projectApi.uploadFile(id, data).pipe(
       switchMap(() => this.getFiles(id)),
       catchError((error: unknown) => {
         const httpError = error as HttpErrorResponse;
@@ -835,7 +690,7 @@ export class ProjectService {
   }
 
   deleteFile(id: number, fileId: number): Observable<FileEntry[]> {
-    return this.http.delete(`${UI_CONFIG.api.baseUrl}/projects/${id}/files/${fileId}`).pipe(
+    return this.projectApi.deleteFile(id, fileId).pipe(
       switchMap(() => this.getFiles(id)),
       catchError((error: unknown) => {
         this.errorLogger.log('error', 'ERR_FILE_UPLOAD', 'Failed to delete file', { projectId: id, fileId }, error);
@@ -1039,10 +894,8 @@ export class ProjectService {
   }
 
   private syncPspMappings(projectId: number, next: PspProject[]): Observable<unknown> {
-    return this.http
-      .get<PaginatedResponse<ApiPspMapping> | ApiPspMapping[]>(`${UI_CONFIG.api.baseUrl}/psp-mappings/`, {
-        params: new HttpParams().set('project', String(projectId)).set('page_size', '500')
-      })
+    return this.projectApi
+      .listPspMappings(new HttpParams().set('project', String(projectId)).set('page_size', '500'))
       .pipe(
         switchMap((response) => {
           const current = this.unwrapResults(response);
@@ -1054,14 +907,14 @@ export class ProjectService {
           const toCreate = next.filter((item) => !currentById.has(item.id));
 
           const requests: Array<Observable<unknown>> = [
-            ...toDelete.map((item) => this.http.delete(`${UI_CONFIG.api.baseUrl}/psp-mappings/${item.id}/`)),
+            ...toDelete.map((item) => this.projectApi.deletePspMapping(item.id)),
             ...toUpdate.map((item) =>
-              this.http.patch(`${UI_CONFIG.api.baseUrl}/psp-mappings/${item.id}/`, {
+              this.projectApi.updatePspMapping(item.id, {
                 psp_element: item.name
               })
             ),
             ...toCreate.map((item) =>
-              this.http.post(`${UI_CONFIG.api.baseUrl}/psp-mappings/`, {
+              this.projectApi.createPspMapping({
                 project: projectId,
                 psp_element: item.name
               })

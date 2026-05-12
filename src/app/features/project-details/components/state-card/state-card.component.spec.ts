@@ -60,4 +60,24 @@ describe('StateCardComponent', () => {
 
     expect(cancelSpy).toHaveBeenCalledWith('quality');
   });
+
+  it('applies tier class based on card value', () => {
+    component.card = {
+      id: 'quality',
+      key: 'quality',
+      label: 'Quality',
+      value: 65,
+      previousValue: 65,
+      narrative: 'Stable.'
+    };
+    component.trend = { tier: 'red', direction: 'down', deltaPercent: -5 };
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    const card = element.querySelector('[data-cy="state-card-quality"]');
+    const trend = element.querySelector('[data-cy="state-card-trend-quality"]');
+
+    expect(card?.classList).toContain('tier-yellow');
+    expect(trend?.classList).toContain('tier-yellow');
+  });
 });

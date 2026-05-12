@@ -1,22 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
 import { UI_CONFIG } from '../../ui-config';
+import { AuthApiService } from '../../data/auth-api.service';
 import { AuthUser } from '../models/auth.model';
-
-interface TokenPair {
-  access: string;
-  refresh: string;
-}
-
-interface ApiMeUser {
-  id: number;
-  username: string;
-  full_name?: string;
-  roles?: string;
-}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -26,7 +14,7 @@ export class AuthService {
 
   private loginRequest$?: Observable<string>;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly authApi: AuthApiService) {}
 
   isAuthenticated(): Observable<boolean> {
     return this.ensureAccessToken().pipe(
@@ -39,7 +27,7 @@ export class AuthService {
     const roleOverride = this.getRoleOverride();
 
     return this.ensureAccessToken().pipe(
-      switchMap(() => this.http.get<ApiMeUser>(`${UI_CONFIG.api.baseUrl}/users/me/`)),
+      switchMap(() => this.authApi.fetchMe()),
       map((user) => ({
         id: String(user.id),
         name: user.full_name || user.username,
@@ -91,11 +79,8 @@ export class AuthService {
     // FIXME: Temporary auto-authentication using credentials from env config.
     // Replace with a proper login flow when login infrastructure is ready.
     // See IMPLEMENTATION_NOTES.md for context.
-    this.loginRequest$ = this.http
-      .post<TokenPair>(`${UI_CONFIG.api.baseUrl}/auth/token/`, {
-        username: UI_CONFIG.api.autoAuthUsername,
-        password: UI_CONFIG.api.autoAuthPassword
-      })
+    this.loginRequest$ = this.authApi
+      .requestTokenPair(UI_CONFIG.api.autoAuthUsername, UI_CONFIG.api.autoAuthPassword)
       .pipe(
         tap((tokens) => {
           globalThis.localStorage?.setItem(AuthService.ACCESS_TOKEN_KEY, tokens.access);

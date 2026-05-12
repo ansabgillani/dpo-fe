@@ -25,24 +25,37 @@ export class StateCardComponent {
   isEditing = false;
   draftNarrative = '';
 
-  get tierClass(): string {
-    return `tier-${this.trend.tier}`;
-  }
-
-  get statusLabel(): string {
+  get statusTier(): 'green' | 'yellow' | 'red' | 'gray' {
     if (this.card.value >= 80) {
-      return 'Healthy';
+      return 'green';
     }
 
     if (this.card.value >= 50) {
-      return 'At Risk';
+      return 'yellow';
     }
 
     if (this.card.value > 0) {
-      return 'Unhealthy';
+      return 'red';
     }
 
-    return 'N/A';
+    return 'gray';
+  }
+
+  get statusTierClass(): string {
+    return this.statusTier === 'gray' ? '' : `tier-${this.statusTier}`;
+  }
+
+  get statusLabel(): string {
+    switch (this.statusTier) {
+      case 'green':
+        return 'Healthy';
+      case 'yellow':
+        return 'At Risk';
+      case 'red':
+        return 'Unhealthy';
+      default:
+        return 'N/A';
+    }
   }
 
   get trendIconName(): string {
