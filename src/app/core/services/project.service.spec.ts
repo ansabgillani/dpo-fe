@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { of } from 'rxjs';
 
 import { ErrorLoggerService } from './error-logger.service';
 import { ProjectService } from './project.service';
@@ -130,18 +131,36 @@ describe('ProjectService', () => {
     });
   });
 
-  it('fetches overview chart data from overview-chart endpoint', () => {
+  it('builds overview chart data from the same cost breakdown line chart used by cost tab', () => {
+    jest.spyOn(service, 'getCostData').mockReturnValue(
+      of({
+        breakdown: {
+          lineChart: {
+            budget: [100, 101, 102],
+            actualsAndForecasts: [90, 91, 92],
+            chargingActualsAndForecasts: [-80, -81, -82]
+          }
+        }
+      } as any)
+    );
+
     service.getOverviewChartData(2).subscribe((chartData) => {
       expect(chartData.datasets).toHaveLength(3);
-      expect(chartData.datasets[0].label).toBe('Gross');
-    });
-
-    httpMock.expectOne('http://localhost:3001/api/v1/projects/2/overview-chart').flush({
-      series: [
-        { reportingMonth: '2025-01', gross: 100, net: 90, manpower: 12 },
-        { reportingMonth: '2025-02', gross: 110, net: 95, manpower: 11 }
-      ],
-      totals: { gross: 210, net: 185, manpower: 23 }
+      expect(chartData.datasets[0]).toEqual({
+        label: 'Budget',
+        color: 'rgb(0, 160, 175)',
+        data: [100, 101, 102]
+      });
+      expect(chartData.datasets[1]).toEqual({
+        label: 'Actuals+Forecasts',
+        color: 'rgb(232, 119, 34)',
+        data: [90, 91, 92]
+      });
+      expect(chartData.datasets[2]).toEqual({
+        label: 'Charging Actuals+Forecasts',
+        color: 'rgb(0, 112, 192)',
+        data: [-80, -81, -82]
+      });
     });
   });
 

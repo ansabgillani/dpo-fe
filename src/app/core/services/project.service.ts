@@ -258,23 +258,25 @@ export class ProjectService {
   }
 
   getOverviewChartData(id: number): Observable<OverviewChartData> {
-    return this.projectApi.getProjectOverviewChart(id).pipe(
+    return this.getCostData(id, { breakdownMode: 'project' }).pipe(
       map((costData) => ({
+        // Keep overview line chart in sync with Cost tab breakdown chart.
+        // Both views should visualize the same monthly series.
         datasets: [
           {
-            label: 'Gross',
+            label: 'Budget',
             color: 'rgb(0, 160, 175)',
-            data: costData.series.map((entry) => this.toNumber(entry.gross)),
+            data: costData.breakdown.lineChart.budget,
           },
           {
-            label: 'Net',
+            label: 'Actuals+Forecasts',
             color: 'rgb(232, 119, 34)',
-            data: costData.series.map((entry) => this.toNumber(entry.net)),
+            data: costData.breakdown.lineChart.actualsAndForecasts,
           },
           {
-            label: 'Manpower',
+            label: 'Charging Actuals+Forecasts',
             color: 'rgb(0, 112, 192)',
-            data: costData.series.map((entry) => this.toNumber(entry.manpower)),
+            data: costData.breakdown.lineChart.chargingActualsAndForecasts,
           },
         ],
       })),
