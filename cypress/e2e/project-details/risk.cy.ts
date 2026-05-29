@@ -1,4 +1,4 @@
-import { buildCostBreakdowns, buildStatusTrends, paginated, setupSilentAuth } from '../helpers/v1';
+import { buildCostBreakdowns, buildStatuses, paginated, setupSilentAuth } from '../helpers/v1';
 
 describe('Project Details Risk Tab (Phase 8)', () => {
   const apiProject = {
@@ -13,7 +13,7 @@ describe('Project Details Risk Tab (Phase 8)', () => {
   };
 
   const mappings = [{ id: 101, project: 1, psp_element: 'PSP-1' }];
-  const statuses = buildStatusTrends(1);
+  const statuses = buildStatuses(1);
 
   const costProjects = [
     { id: 1001, fiscal_year: 'FY25', psp_element: 'PSP-1', project_title: 'Imaging Platform Modernization', stand_reporting_period: '2025-01' }
@@ -79,7 +79,7 @@ describe('Project Details Risk Tab (Phase 8)', () => {
     cy.intercept('GET', '**/api/v1/psp-mappings/?page_size=500*', paginated(mappings)).as('getPspMappings');
     cy.intercept('GET', '**/api/v1/psp-mappings/?project=1&page_size=500*', paginated(mappings)).as('getProjectOnePsp');
 
-    cy.intercept('GET', '**/api/v1/projects/1/status-trends', paginated(statuses)).as('getStateOne');
+    cy.intercept('GET', '**/api/v1/statuses/?project=1&page_size=200*', paginated(statuses)).as('getStateOne');
 
     cy.intercept('GET', '**/api/v1/cost-projects/?page_size=2000*', paginated(costProjects)).as('getCostProjects');
     cy.intercept('GET', '**/api/v1/cost-breakdowns/?page_size=1000*', paginated(costBreakdowns)).as('getCostBreakdowns');

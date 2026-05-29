@@ -47,7 +47,7 @@ describe('MilestoneTabComponent', () => {
 
   it('fetches milestone sets and milestones on project change', () => {
     expect(projectService.getMilestoneSets).toHaveBeenCalledTimes(1);
-    expect(projectService.getMilestones).toHaveBeenCalledWith(1, undefined);
+    expect(projectService.getMilestones).toHaveBeenCalledWith(1, 'MP');
     expect(component.milestones).toHaveLength(1);
   });
 

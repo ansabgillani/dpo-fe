@@ -1,4 +1,4 @@
-import { buildCostBreakdowns, buildStatusTrends, paginated, setupSilentAuth } from '../helpers/v1';
+import { buildCostBreakdowns, buildStatuses, paginated, setupSilentAuth } from '../helpers/v1';
 
 describe('Project Details Milestone Tab (Phase 6)', () => {
   const apiProject = {
@@ -12,14 +12,14 @@ describe('Project Details Milestone Tab (Phase 6)', () => {
     is_active: 'true'
   };
 
-  const statuses = buildStatusTrends(1);
+  const statuses = buildStatuses(1);
 
   const mappings = [{ id: 101, project: 1, psp_element: 'PSP-1' }];
 
   const milestones = [
-    { id: 1, mid: 'M001', project: 1, name: 'Architecture Complete', milestone_set: 'MS-2025-A', start_date: '2025-02-01', end_date: '2025-02-18' },
-    { id: 2, mid: 'M002', project: 1, name: 'Pilot Release', milestone_set: 'MS-2025-A', start_date: '2025-04-01', end_date: '2025-04-26' },
-    { id: 3, mid: 'M003', project: 1, name: 'Production Rollout', milestone_set: 'MS-2025-B', start_date: '2025-08-15', end_date: '2025-09-20' }
+    { id: 1, mid: 'M001', project: 1, name: 'Architecture Complete', type: 'MS-2025-A', start_date: '2025-02-01', end_date: '2025-02-18' },
+    { id: 2, mid: 'M002', project: 1, name: 'Pilot Release', type: 'MS-2025-A', start_date: '2025-04-01', end_date: '2025-04-26' },
+    { id: 3, mid: 'M003', project: 1, name: 'Production Rollout', type: 'MS-2025-B', start_date: '2025-08-15', end_date: '2025-09-20' }
   ];
 
   const costProjects = [
@@ -49,14 +49,14 @@ describe('Project Details Milestone Tab (Phase 6)', () => {
     cy.intercept('GET', '**/api/v1/psp-mappings/?page_size=500*', paginated(mappings)).as('getPspMappings');
     cy.intercept('GET', '**/api/v1/psp-mappings/?project=1&page_size=500*', paginated(mappings)).as('getProjectOnePsp');
 
-    cy.intercept('GET', '**/api/v1/projects/1/status-trends', paginated(statuses)).as('getStateOne');
+    cy.intercept('GET', '**/api/v1/statuses/?project=1&page_size=200*', paginated(statuses)).as('getStateOne');
 
     cy.intercept('GET', '**/api/v1/cost-projects/?page_size=2000*', paginated(costProjects)).as('getCostProjects');
     cy.intercept('GET', '**/api/v1/cost-breakdowns/?page_size=1000*', paginated(costBreakdowns)).as('getCostBreakdowns');
     cy.intercept('GET', '**/api/v1/products/?project=1&page_size=500*', paginated([])).as('getProductsOne');
     cy.intercept('GET', '**/api/v1/product-costs/?product__project=1&page_size=500*', paginated([])).as('getProductCostsOne');
 
-    cy.intercept('GET', '**/api/v1/milestones/?page_size=250*', paginated(milestones)).as('getMilestoneSets');
+    cy.intercept('GET', '**/api/v1/filters/milestone-sets', ['MS-2025-A', 'MS-2025-B']).as('getMilestoneSets');
     cy.intercept('GET', '**/api/v1/milestones/?project=1&page_size=250*', paginated(milestones)).as('getMilestones');
   });
 

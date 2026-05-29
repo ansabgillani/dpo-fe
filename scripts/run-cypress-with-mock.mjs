@@ -7,7 +7,8 @@ const POLL_MS = 1000;
 function run(command, args, env, name) {
   const child = spawn(command, args, {
     env,
-    stdio: 'inherit'
+    stdio: 'inherit',
+    shell: true
   });
 
   child.on('error', (error) => {

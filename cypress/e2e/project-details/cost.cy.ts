@@ -1,4 +1,4 @@
-import { buildCostBreakdowns, buildStatusTrends, paginated, setupSilentAuth } from '../helpers/v1';
+import { buildCostBreakdowns, buildStatuses, paginated, setupSilentAuth } from '../helpers/v1';
 
 describe('Project Details Cost Tab (Phase 7)', () => {
   const apiProject = {
@@ -13,7 +13,9 @@ describe('Project Details Cost Tab (Phase 7)', () => {
   };
 
   const mappings = [{ id: 101, project: 1, psp_element: 'PSP-1' }];
-  const statuses = buildStatusTrends(1);
+  const statuses = buildStatuses(1);
+
+  const costBreakdowns = buildCostBreakdowns(1001, 100);
 
   const costProjects = [
     {
@@ -21,11 +23,13 @@ describe('Project Details Cost Tab (Phase 7)', () => {
       fiscal_year: 'FY26',
       psp_element: 'PSP-1',
       project_title: 'Imaging Platform Modernization',
-      stand_reporting_period: '2025-01'
+      category: 'Software',
+      status: 'Actuals',
+      period_index: 7,
+      created: '2025-05-15T10:00:00Z',
+      breakdown: costBreakdowns
     }
   ];
-
-  const costBreakdowns = buildCostBreakdowns(1001, 100);
 
   const products = [
     { id: 501, project: 1, name: 'Product 1' },
@@ -45,7 +49,6 @@ describe('Project Details Cost Tab (Phase 7)', () => {
     cy.wait('@getProjectOnePsp');
     cy.wait('@getStateOne');
     cy.get('[data-cy="tab-nav-cost"]').click({ force: true });
-    cy.wait('@getCostBreakdowns');
     cy.get('[data-cy="cost-tab"]').should('be.visible');
   };
 
@@ -58,10 +61,9 @@ describe('Project Details Cost Tab (Phase 7)', () => {
     cy.intercept('GET', '**/api/v1/psp-mappings/?page_size=500*', paginated(mappings)).as('getPspMappings');
     cy.intercept('GET', '**/api/v1/psp-mappings/?project=1&page_size=500*', paginated(mappings)).as('getProjectOnePsp');
 
-    cy.intercept('GET', '**/api/v1/projects/1/status-trends', paginated(statuses)).as('getStateOne');
+    cy.intercept('GET', '**/api/v1/statuses/?project=1&page_size=200*', paginated(statuses)).as('getStateOne');
 
     cy.intercept('GET', '**/api/v1/cost-projects/?page_size=2000*', paginated(costProjects)).as('getCostProjects');
-    cy.intercept('GET', '**/api/v1/cost-breakdowns/?page_size=1000*', paginated(costBreakdowns)).as('getCostBreakdowns');
     cy.intercept('GET', '**/api/v1/products/?project=1&page_size=500*', paginated(products)).as('getProducts');
     cy.intercept('GET', '**/api/v1/product-costs/?product__project=1&page_size=500*', paginated(productCosts)).as('getProductCosts');
   });
@@ -73,10 +75,6 @@ describe('Project Details Cost Tab (Phase 7)', () => {
   });
 
   it('E2E-051 Skeleton shown during GET cost composition calls', () => {
-    cy.intercept('GET', '**/api/v1/cost-breakdowns/?page_size=1000*', {
-      delay: 2000,
-      body: paginated(costBreakdowns)
-    }).as('slowCost');
 
     cy.visit('/project/1');
     cy.wait('@getProjects');
@@ -86,7 +84,6 @@ describe('Project Details Cost Tab (Phase 7)', () => {
     cy.wait('@getStateOne');
     cy.get('[data-cy="tab-nav-cost"]').click({ force: true });
     cy.get('[data-cy="skeleton-cost"]').should('be.visible');
-    cy.wait('@slowCost');
     cy.get('[data-cy="cost-tab"]').should('be.visible');
   });
 
@@ -140,8 +137,7 @@ describe('Project Details Cost Tab (Phase 7)', () => {
   it('E2E-057 Breakdown Product mode renders product rows with target/actual/date/trend', () => {
     bootCostTab();
     cy.get('[data-cy="cost-breakdown-mode-select"] select').select('Product');
-    cy.wait('@getCostBreakdowns');
-
+    
     cy.contains('Product Cost').should('be.visible');
     cy.get('[data-cy="cost-filter-project"]').should('not.exist');
     cy.get('[data-cy="cost-filter-fy"]').should('not.exist');
@@ -159,9 +155,7 @@ describe('Project Details Cost Tab (Phase 7)', () => {
   it('E2E-058 Switching mode to Project renders line chart and detail table', () => {
     bootCostTab();
     cy.get('[data-cy="cost-breakdown-mode-select"] select').select('Product');
-    cy.wait('@getCostBreakdowns');
     cy.get('[data-cy="cost-breakdown-mode-select"] select').select('project');
-    cy.wait('@getCostBreakdowns');
 
     cy.get('[data-cy="cost-tab"]').should('be.visible');
   });
@@ -169,7 +163,6 @@ describe('Project Details Cost Tab (Phase 7)', () => {
   it('E2E-059 Switching mode back to Product re-renders product rows', () => {
     bootCostTab();
     cy.get('[data-cy="cost-breakdown-mode-select"] select').select('Product');
-    cy.wait('@getCostBreakdowns');
 
     cy.get('[data-cy="cost-breakdown-product"]').should('be.visible');
     cy.get('[data-cy="cost-breakdown-row-901"]').should('be.visible');
@@ -179,7 +172,6 @@ describe('Project Details Cost Tab (Phase 7)', () => {
   it('E2E-060 Editing Target field in Product mode triggers PATCH and refetch', () => {
     bootCostTab();
     cy.get('[data-cy="cost-breakdown-mode-select"] select').select('Product');
-    cy.wait('@getCostBreakdowns');
 
     cy.intercept('PATCH', '**/api/v1/product-costs/901/', {
       id: 901,
@@ -210,7 +202,6 @@ describe('Project Details Cost Tab (Phase 7)', () => {
     cy.get('[data-cy="cost-reporting-period"]').should('be.visible');
 
     cy.get('[data-cy="cost-breakdown-mode-select"] select').select('Product');
-    cy.wait('@getCostBreakdowns');
 
     cy.get('[data-cy="cost-filter-project"]').should('not.exist');
     cy.get('[data-cy="cost-filter-fy"]').should('not.exist');

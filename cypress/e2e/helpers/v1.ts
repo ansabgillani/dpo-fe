@@ -19,36 +19,48 @@ export const setupSilentAuth = (role = 'manager') => {
   }).as('authMe');
 };
 
-export const buildStatusTrends = (_projectId: number) => [
+export const buildStatuses = (projectId: number) => [
   {
+    id: projectId * 100 + 1,
+    project: projectId,
     name: 'Quality',
-    current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: 'Stable quality trend.' },
-    previous: { value: 'Yellow', changed_at: '2026-03-26T08:00:00Z' }
+    value: 'Green',
+    description: 'Stable quality trend.'
   },
   {
+    id: projectId * 100 + 2,
+    project: projectId,
     name: 'Budget',
-    current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: 'Spend in line.' },
-    previous: { value: 'Yellow', changed_at: '2026-03-26T08:00:00Z' }
+    value: 'Green',
+    description: 'Spend in line.'
   },
   {
-    name: 'TargetCost',
-    current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: 'Slightly above target.' },
-    previous: { value: 'Yellow', changed_at: '2026-03-26T08:00:00Z' }
+    id: projectId * 100 + 3,
+    project: projectId,
+    name: 'Target Costs',
+    value: 'Green',
+    description: 'Slightly above target.'
   },
   {
+    id: projectId * 100 + 4,
+    project: projectId,
     name: 'Resources',
-    current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: 'Healthy staffing.' },
-    previous: { value: 'Yellow', changed_at: '2026-03-26T08:00:00Z' }
+    value: 'Green',
+    description: 'Healthy staffing.'
   },
   {
+    id: projectId * 100 + 5,
+    project: projectId,
     name: 'Timeline',
-    current: { value: 'Yellow', changed_at: '2026-04-26T08:00:00Z', description: 'Minor delay.' },
-    previous: { value: 'Red', changed_at: '2026-03-26T08:00:00Z' }
+    value: 'Red',
+    description: 'Minor delay.'
   },
   {
-    name: 'CustomerSatisfaction',
-    current: { value: 'Green', changed_at: '2026-04-26T08:00:00Z', description: 'Improving.' },
-    previous: { value: 'Yellow', changed_at: '2026-03-26T08:00:00Z' }
+    id: projectId * 100 + 6,
+    project: projectId,
+    name: 'Customer perception',
+    value: 'Green',
+    description: 'Improving.'
   }
 ];
 
@@ -60,11 +72,11 @@ export const buildCostBreakdowns = (pspProjectId: number, base = 100, year = 202
     const grossActuals = base + index;
     const grossForecast = base + index + 10;
 
-    return [
+    /*return [
       {
         id: pspProjectId * 1000 + index * 3 + 1,
         psp_project: pspProjectId,
-        type: 'Budget',
+        type: `P${month}`,
         reporting_month: reportingMonth,
         gross: `${grossBudget}`,
         charging_to_bl: `${grossBudget - 10}`,
@@ -92,5 +104,28 @@ export const buildCostBreakdowns = (pspProjectId: number, base = 100, year = 202
         charging_to_bl: `${grossForecast - 10}`,
         net: `${grossForecast - 20}`
       }
-    ];
+    ];*/
+    return Array.from({ length: 12 }, (_, i) => (
+      {
+                    "type": `P${String(i + 1).padStart(2, '0')}`,
+                    "reporting_month": `${String(i + 1).padStart(2, '0')}`,
+                    "gross": "11.30",
+                    "charging_internal": "0.00",
+                    "charging_to_bl": "-10.80",
+                    "net": "0.60",
+                    "adjust_manpower": "0.00",
+                    "ct_costs": "0.00",
+                    "external_material": "0.00",
+                    "external_services": "0.00",
+                    "hc_qt_ehs_costs": "0.00",
+                    "internal_material": "0.00",
+                    "manpower_old_dcc": "0.00",
+                    "me_support": "0.00",
+                    "other_support": "0.00",
+                    "ps_support": "0.00",
+                    "ssme_support": "0.00",
+                    "manpower": "11.30"
+      }
+    ));
+
   }).flat();

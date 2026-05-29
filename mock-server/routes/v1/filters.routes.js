@@ -16,4 +16,21 @@ router.get('/projects', (_req, res) => {
   });
 });
 
+router.get('/milestone-sets', (_req, res) => {
+  const sets = Array.from(
+    new Set(
+      store.milestones
+        .map((milestone) => milestone.type || milestone.milestone_set)
+        .filter(Boolean)
+    )
+  ).sort();
+
+  // Keep a stable fallback so frontend dropdowns always have baseline values.
+  if (sets.length === 0) {
+    return res.json(['BL', 'MP']);
+  }
+
+  res.json(sets);
+});
+
 module.exports = router;

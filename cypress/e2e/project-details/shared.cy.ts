@@ -1,4 +1,4 @@
-import { buildCostBreakdowns, buildStatusTrends, paginated, setupSilentAuth } from '../helpers/v1';
+import { buildCostBreakdowns, buildStatuses, paginated, setupSilentAuth } from '../helpers/v1';
 
 describe('Project Details Shared (Phase 3 + Phase 4)', () => {
   const apiProjects = [
@@ -29,8 +29,8 @@ describe('Project Details Shared (Phase 3 + Phase 4)', () => {
     { id: 201, project: 2, psp_element: 'PSP-11' }
   ];
 
-  const statusesOne = buildStatusTrends(1);
-  const statusesTwo = buildStatusTrends(2);
+  const statusesOne = buildStatuses(1);
+  const statusesTwo = buildStatuses(2);
 
   const costProjects = [
     { id: 1001, fiscal_year: 'FY25', psp_element: 'PSP-1', project_title: 'Imaging Platform Modernization', stand_reporting_period: '2025-01' },
@@ -50,8 +50,8 @@ describe('Project Details Shared (Phase 3 + Phase 4)', () => {
     cy.intercept('GET', '**/api/v1/psp-mappings/?project=1&page_size=500*', paginated([allMappings[0]])).as('getProjectOnePsp');
     cy.intercept('GET', '**/api/v1/psp-mappings/?project=2&page_size=500*', paginated([allMappings[1]])).as('getProjectTwoPsp');
 
-    cy.intercept('GET', '**/api/v1/projects/1/status-trends', paginated(statusesOne)).as('getStateOne');
-    cy.intercept('GET', '**/api/v1/projects/2/status-trends', paginated(statusesTwo)).as('getStateTwo');
+    cy.intercept('GET', '**/api/v1/statuses/?project=1&page_size=200*', paginated(statusesOne)).as('getStateOne');
+    cy.intercept('GET', '**/api/v1/statuses/?project=2&page_size=200*', paginated(statusesTwo)).as('getStateTwo');
 
     cy.intercept('GET', '**/api/v1/cost-projects/?page_size=2000*', paginated(costProjects)).as('getCostProjects');
     cy.intercept('GET', '**/api/v1/cost-breakdowns/?page_size=1000*', paginated(costBreakdowns)).as('getCostBreakdowns');
@@ -87,7 +87,7 @@ describe('Project Details Shared (Phase 3 + Phase 4)', () => {
   });
 
   it('E2E-019 shows skeleton while details loading', () => {
-    cy.intercept('GET', '**/api/v1/projects/2/status-trends', {
+    cy.intercept('GET', '**/api/v1/statuses/?project=2&page_size=200*', {
       delay: 1000,
       body: paginated(statusesTwo)
     }).as('slowStateTwo');
